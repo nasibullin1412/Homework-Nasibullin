@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle"
+    android:id = "@+id/sh_genre_rect">
+    <corners
+        android:radius="@dimen/sh_genre_rect_radius"/>
+    <padding
+        android:left="@dimen/sh_genre_rect_padding_l"
+        android:top="@dimen/sh_genre_rect_padding_t" />
+    <size
+        android:width="@dimen/sh_genre_rect_width"
+        android:height="@dimen/sh_genre_rect_height"/>
+    <solid
+        android:color="@color/custom_grey"/>
+    <stroke
+        android:width="@dimen/sh_genre_margin_stroke_w"
+        android:color="@color/black" />
+</shape>

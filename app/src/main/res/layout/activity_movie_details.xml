@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/img_movie_poster"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/wrath_of_man"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/round_image_style" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_movie_card"
+        android:layout_width="@dimen/card_view_width"
+        android:layout_height="0dp"
+        android:maxWidth="@id/img_movie_poster"
+        android:layout_marginTop="@dimen/card_view_margin_top"
+        app:layout_constrainedWidth="@id/img_movie_poster"
+        app:cardCornerRadius="@dimen/card_view_corner_rad"
+        app:cardElevation="@dimen/card_view_corner_el"
+        app:cardBackgroundColor="@color/custom_grey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/img_movie_poster"
+        >
+
+        <TextView
+            android:layout_width="@dimen/sh_genre_rect_width"
+            android:layout_height="@dimen/sh_genre_rect_height"
+            android:layout_marginLeft="@dimen/sh_genre_margin_left"
+            android:layout_marginTop="@dimen/sh_genre_margin_top"
+            android:background="@drawable/sh_genre_rectangle"
+            android:text="@string/str_movie_genre"
+            android:textSize="@dimen/sh_genre_text_size"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            />
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

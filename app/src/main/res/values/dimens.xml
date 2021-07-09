@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="img_corner_radius">10dp</dimen>
+
+
+    <dimen name="card_view_margin_top">224dp</dimen>
+    <dimen name="card_view_width">362dp</dimen>
+    <dimen name="card_view_corner_rad">30dp</dimen>
+    <dimen name="card_view_corner_el">30dp</dimen>
+
+
+    <dimen name="sh_genre_margin_left">20dp</dimen>
+    <dimen name="sh_genre_margin_top">32dp</dimen>
+    <dimen name="sh_genre_rect_radius">10dp</dimen>
+    <dimen name="sh_genre_rect_padding_l">9dp</dimen>
+    <dimen name="sh_genre_rect_padding_t">2dp</dimen>
+    <dimen name="sh_genre_rect_width">58dp</dimen>
+    <dimen name="sh_genre_rect_height">17dp</dimen>
+    <dimen name="sh_genre_margin_stroke_w">1dp</dimen>
+
+
+
+</resources>
