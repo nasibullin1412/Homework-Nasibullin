@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid
+        android:color="@color/custom_movie_card" />
+    <corners
+        android:topLeftRadius="@dimen/card_view_corner_rad"
+        android:topRightRadius="@dimen/card_view_corner_rad" />
+</shape>

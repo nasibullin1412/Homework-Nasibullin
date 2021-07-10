@@ -5,6 +5,8 @@
 
     <dimen name="card_view_margin_top">224dp</dimen>
     <dimen name="card_view_width">362dp</dimen>
+    <!-- From figma-->
+    <dimen name="card_view_min_heigh">646dp</dimen>
     <dimen name="card_view_corner_rad">30dp</dimen>
     <dimen name="card_view_corner_el">30dp</dimen>
 
@@ -48,5 +50,8 @@
     <dimen name="movie_description_margin_top">128dp</dimen>
     <dimen name="movie_description_margin_left">20dp</dimen>
     <dimen name="movie_description_margin_right">8dp</dimen>
+
+    <dimen name="bottom_nav_height">48dp</dimen>
+    <dimen name="tab_indicator_height">8dp</dimen>
 
 </resources>

@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="custom_movie_card">#F1F1F1</color>
     <color name="custom_text">#000000</color>
+    <color name="custom_bottom_bar">#020202</color>
 </resources>

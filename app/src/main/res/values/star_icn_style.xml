@@ -3,11 +3,11 @@
     <style name="FillStarIcnStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:src">"@drawable/ic__color"</item>
+        <item name="android:src">@drawable/ic__color</item>
     </style>
     <style name="UnpaintedStarIcnStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:src">"@drawable/ic__color_w"</item>
+        <item name="android:src">@drawable/ic__color_w</item>
     </style>
 </resources>
