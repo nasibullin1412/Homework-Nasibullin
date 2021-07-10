@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="sh_genre_text_size">10sp</dimen>
+    <dimen name="release_date_text_size">12sp</dimen>
+    <dimen name="movie_name_text_size">20sp</dimen>
+    <dimen name="age_category_text_size">14sp</dimen>
+    <dimen name="movie_description_text_size">14sp</dimen>
 </resources>

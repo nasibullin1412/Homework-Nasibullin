@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">My Application</string>
     <string name="str_movie_genre">thrillers</string>
+    <string name="str_release_date">22.04.2021</string>
+    <string name="str_movie_name">Wrath of Man</string>
+    <string name="str_age_category">R</string>
+    <string name="str_movie_description">
+        H is a mysterious and cold-looking gentleman, but inside him a thirst for justice burns. In pursuit of his motives, he infiltrates a cash collection company to find accomplices in a series of multimillion-dollar robberies that shook Los Angeles. In this confusing game, everyone has a role to play, but everyone is under suspicion.
+    </string>
+    <string name="str_fill_rating_star">Filled rating star</string>
+    <string name="str_unpainted_rating_star">Unpainted rating star</string>
 </resources>

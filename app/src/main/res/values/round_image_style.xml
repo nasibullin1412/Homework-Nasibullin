@@ -3,6 +3,6 @@
     <style name="round_image_style" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/img_corner_radius</item>
-        <item name="color">@color/custom_grey</item>
+        <item name="color">@color/custom_movie_card</item>
     </style>
 </resources>

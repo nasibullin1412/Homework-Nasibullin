@@ -20,4 +20,33 @@
 
 
 
+    <dimen name="release_date_width">61dp</dimen>
+    <dimen name="release_date_height">14dp</dimen>
+    <dimen name="release_date_margin_top">33dp</dimen>
+    <dimen name="release_date_margin_left">92dp</dimen>
+
+    <dimen name="movie_name_width">182dp</dimen>
+    <dimen name="movie_name_height">22dp</dimen>
+    <dimen name="movie_name_margin_top">64dp</dimen>
+    <dimen name="movie_name_margin_left">22dp</dimen>
+
+    <dimen name="sh_age_category_margin_left">296dp</dimen>
+    <dimen name="sh_age_category_margin_top">39dp</dimen>
+    <dimen name="sh_age_category_oval_radius">10dp</dimen>
+    <dimen name="sh_age_category_oval_padding_l">0dp</dimen>
+    <dimen name="sh_age_category_oval_padding_t">10dp</dimen>
+    <dimen name="sh_age_category_oval_width">42dp</dimen>
+    <dimen name="sh_age_category_oval_height">42dp</dimen>
+    <dimen name="sh_age_category_margin_stroke_w">2dp</dimen>
+
+    <dimen name="star_width">90dp</dimen>
+    <dimen name="star_height">15dp</dimen>
+    <dimen name="star_layout_margin_top">96dp</dimen>
+    <dimen name="star_layout_margin_left">22dp</dimen>
+    <dimen name="star_margin_left">2dp</dimen>
+
+    <dimen name="movie_description_margin_top">128dp</dimen>
+    <dimen name="movie_description_margin_left">20dp</dimen>
+    <dimen name="movie_description_margin_right">8dp</dimen>
+
 </resources>
