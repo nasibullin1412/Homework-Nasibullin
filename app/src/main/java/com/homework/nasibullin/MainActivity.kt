@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
      * */
     private fun setCorrectShapeToCardView()
     {
-        val cardView: CardView = findViewById(R.id.cv_movie_card)
+        val cardView: CardView = findViewById(R.id.cvMovieCard)
         cardView.setBackgroundResource(R.drawable.sh_card_view_back)
     }
 
