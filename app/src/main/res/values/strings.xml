@@ -9,4 +9,8 @@
     </string>
     <string name="str_fill_rating_star">Filled rating star</string>
     <string name="str_unpainted_rating_star">Unpainted rating star</string>
+    <string name="str_first_actor_name">Jason Statham</string>
+    <string name="str_second_actor_name">Holt McCallany</string>
+    <string name="str_third_actor_name">Josh Hartnett</string>
+    <string name="str_actor_img_description">Actor img</string>
 </resources>

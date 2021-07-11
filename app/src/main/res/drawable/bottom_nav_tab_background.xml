@@ -4,7 +4,7 @@
         <layer-list>
             <item android:gravity="bottom">
                 <shape android:shape="rectangle">
-                    <size android:height="@dimen/tab_indicator_height" />
+                    <size android:height="@dimen/bottom_nav_tab_indicator_height" />
                     <solid android:color="@color/custom_bottom_bar" />
                 </shape>
             </item>

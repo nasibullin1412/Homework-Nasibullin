@@ -8,7 +8,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_details)
+        this.setCorrectShapeToCardView()
+    }
+
+    private fun setCorrectShapeToCardView()
+    {
         val cardView: CardView = findViewById(R.id.cv_movie_card)
         cardView.setBackgroundResource(R.drawable.sh_card_view_back)
     }
+
 }

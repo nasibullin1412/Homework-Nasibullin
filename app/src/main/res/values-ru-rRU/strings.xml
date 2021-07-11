@@ -13,4 +13,8 @@
     </string>
     <string name="str_fill_rating_star">Закрашенная звезда рейтинга</string>
     <string name="str_unpainted_rating_star">Незакрашенная звезда рейтинга</string>
+    <string name="str_first_actor_name">Джейсон Стэйтем</string>
+    <string name="str_second_actor_name">Холт Маккэлани</string>
+    <string name="str_third_actor_name">Джош Харнет</string>
+    <string name="str_actor_img_description">Фото актёра</string>
 </resources>
