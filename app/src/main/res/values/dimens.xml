@@ -68,5 +68,6 @@
     <dimen name="actor_item_height">226dp</dimen>
     <dimen name="actor_item_width">150dp</dimen>
     <dimen name="actor_item_text_margin_top">12dp</dimen>
+    <dimen name="actor_item_margin_left">10dp</dimen>
 
 </resources>
