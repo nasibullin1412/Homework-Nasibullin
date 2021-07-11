@@ -29,7 +29,7 @@
             android:id="@+id/cv_movie_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="@dimen/card_view_min_heigh"
+            android:minHeight="@dimen/card_view_min_height"
             app:layout_constrainedWidth="@id/img_movie_poster"
             tools:cardCornerRadius="@dimen/card_view_corner_rad"
             tools:cardElevation="@dimen/card_view_corner_el"
@@ -39,9 +39,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/img_movie_poster"
             >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/card_view_min_height">
 
             <TextView
-                android:layout_width="@dimen/sh_genre_rect_width"
+                android:id="@+id/tvGenre"
+                android:layout_width="wrap_content"
+                android:minWidth="@dimen/sh_genre_rect_width"
                 android:layout_height="@dimen/sh_genre_rect_height"
                 android:layout_marginStart="@dimen/sh_genre_margin_left"
                 android:layout_marginTop="@dimen/sh_genre_margin_top"
@@ -54,6 +60,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 />
             <TextView
+                android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/release_date_margin_left"
@@ -62,10 +69,14 @@
                 android:textSize="@dimen/release_date_text_size"
                 android:textColor="@color/custom_text"
                 android:fontFamily="@font/release_date_font"
+                app:layout_constraintStart_toEndOf="@id/tvGenre"
+                app:layout_constraintTop_toTopOf="parent"
                 />
             <TextView
+                android:id="@+id/tvMovieName"
                 android:layout_width="@dimen/movie_name_width"
-                android:layout_height="@dimen/movie_name_height"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/movie_name_height"
                 android:layout_marginStart="@dimen/movie_name_margin_left"
                 android:layout_marginTop="@dimen/movie_name_margin_top"
                 android:text="@string/str_movie_name"
@@ -73,9 +84,12 @@
                 android:textColor="@color/custom_text"
                 android:textStyle="bold"
                 android:fontFamily="@font/movie_name_font"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 />
 
             <TextView
+                android:id="@+id/tvAgeCategory"
                 android:layout_width="@dimen/sh_age_category_oval_width"
                 android:layout_height="@dimen/sh_age_category_oval_height"
                 android:layout_marginStart="@dimen/sh_age_category_margin_left"
@@ -90,12 +104,15 @@
                 app:layout_constraintTop_toTopOf="parent"
                 />
             <LinearLayout
+                android:id="@+id/llRatingStar"
                 android:layout_width="@dimen/star_width"
                 android:layout_height="@dimen/star_height"
                 android:layout_marginTop="@dimen/star_layout_margin_top"
                 android:layout_marginStart="@dimen/star_layout_margin_left"
                 android:orientation="horizontal"
-                android:background="@color/custom_movie_card">
+                android:background="@color/custom_movie_card"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvMovieName">
                 <ImageView
                     style="@style/FillStarIcnStyle"
                     android:contentDescription="@string/str_fill_rating_star"
@@ -122,7 +139,11 @@
                     />
             </LinearLayout>
 
+
+
+
             <TextView
+                android:id="@+id/tvMovieDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/movie_description_margin_left"
@@ -131,20 +152,48 @@
                 android:text="@string/str_movie_description"
                 android:textSize="@dimen/movie_description_text_size"
                 android:fontFamily="@font/movie_description_font"
-                android:textColor="@color/custom_text"/>
+                android:textColor="@color/custom_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llRatingStar"/>
+                
+                <TextView
+                    android:id="@+id/tvActorListName"
+                    android:layout_width="@dimen/actor_list_name_width"
+                    android:layout_height="@dimen/actor_list_name_height"
+                    android:layout_marginStart="@dimen/actor_list_name_margin_left"
+                    android:layout_marginTop="@dimen/actor_list_name_margin_top"
+                    android:fontFamily="@font/actors_list_name_font"
+                    android:text="@string/str_actors_list_name"
+                    android:textSize="@dimen/actors_list_name_text_size"
+                    android:textColor="@color/custom_text"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMovieDescription"/>
 
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvActorsList"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/actor_item_height"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/actor_list_margin_top"
+                android:layout_marginStart="@dimen/actor_list_margin_left"
+                android:layout_marginBottom="@dimen/actor_list_margin_bottom"
+                app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_bar"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvActorListName" />
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottom_navigation_bar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/bottom_nav_height"
-                android:layout_gravity="bottom"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:labelVisibilityMode="unlabeled"
                 app:itemIconTint="@drawable/bottom_nav_view_color"
                 app:itemBackground="@drawable/bottom_nav_tab_background"
-
                 app:menu="@menu/bottom_navigation_menu"
                 />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
     </androidx.core.widget.NestedScrollView>
 

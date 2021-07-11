@@ -17,4 +17,5 @@
     <string name="str_second_actor_name">Холт Маккэлани</string>
     <string name="str_third_actor_name">Джош Харнет</string>
     <string name="str_actor_img_description">Фото актёра</string>
+    <string name="str_actors_list_name">Актёры</string>
 </resources>

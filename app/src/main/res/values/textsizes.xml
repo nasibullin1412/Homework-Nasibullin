@@ -6,4 +6,5 @@
     <dimen name="age_category_text_size">14sp</dimen>
     <dimen name="movie_description_text_size">14sp</dimen>
     <dimen name="actor_name_text_size">14sp</dimen>
+    <dimen name="actors_list_name_text_size">16sp</dimen>
 </resources>

@@ -13,4 +13,5 @@
     <string name="str_second_actor_name">Holt McCallany</string>
     <string name="str_third_actor_name">Josh Hartnett</string>
     <string name="str_actor_img_description">Actor img</string>
+    <string name="str_actors_list_name">Actors</string>
 </resources>

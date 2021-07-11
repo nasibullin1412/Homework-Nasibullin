@@ -6,7 +6,7 @@
     <dimen name="card_view_margin_top">224dp</dimen>
     <dimen name="card_view_width">362dp</dimen>
     <!-- From figma-->
-    <dimen name="card_view_min_heigh">646dp</dimen>
+    <dimen name="card_view_min_height">646dp</dimen>
     <dimen name="card_view_corner_rad">30dp</dimen>
     <dimen name="card_view_corner_el">30dp</dimen>
 
@@ -25,7 +25,7 @@
     <dimen name="release_date_width">61dp</dimen>
     <dimen name="release_date_height">14dp</dimen>
     <dimen name="release_date_margin_top">33dp</dimen>
-    <dimen name="release_date_margin_left">92dp</dimen>
+    <dimen name="release_date_margin_left">16dp</dimen>
 
     <dimen name="movie_name_width">182dp</dimen>
     <dimen name="movie_name_height">22dp</dimen>
@@ -43,16 +43,27 @@
 
     <dimen name="star_width">90dp</dimen>
     <dimen name="star_height">15dp</dimen>
-    <dimen name="star_layout_margin_top">96dp</dimen>
+    <dimen name="star_layout_margin_top">8dp</dimen>
     <dimen name="star_layout_margin_left">22dp</dimen>
     <dimen name="star_margin_left">2dp</dimen>
 
-    <dimen name="movie_description_margin_top">128dp</dimen>
+    <dimen name="movie_description_margin_top">20dp</dimen>
     <dimen name="movie_description_margin_left">20dp</dimen>
     <dimen name="movie_description_margin_right">8dp</dimen>
 
     <dimen name="bottom_nav_height">48dp</dimen>
     <dimen name="bottom_nav_tab_indicator_height">8dp</dimen>
+
+    <dimen name="actor_list_name_height">18dp</dimen>
+    <dimen name="actor_list_name_width">58dp</dimen>
+    <dimen name="actor_list_name_margin_top">35dp</dimen>
+    <dimen name="actor_list_name_margin_left">22dp</dimen>
+
+    <dimen name="actor_list_margin_left">22dp</dimen>
+    <dimen name="actor_list_margin_top">16dp</dimen>
+    <dimen name="actor_list_margin_bottom">46dp</dimen>
+
+
 
     <dimen name="actor_item_height">226dp</dimen>
     <dimen name="actor_item_width">150dp</dimen>
