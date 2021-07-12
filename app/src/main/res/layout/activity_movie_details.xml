@@ -18,7 +18,7 @@
 
     <!--
      Nested Scroll View is used since the exact content and amount of information in the movie
-     card is not constant and can change. Also, this view helps to place data on the screen of any device.
+     card is not constant and can change. Also, this view helps to place data on the screen of any device
      -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="@dimen/card_view_width"
