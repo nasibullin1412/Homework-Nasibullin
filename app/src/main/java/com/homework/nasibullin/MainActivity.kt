@@ -7,11 +7,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var cardView: CardView
+    private lateinit var recycler: RecyclerView
+    private lateinit var adapter: ActorAdapter
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_details)
-        this.setCorrectShapeToCardView()
-        this.prepareRecycleView()
+        init()
+    }
+
+    private fun init(){
+        setCorrectShapeToCardView()
+        prepareRecycleView()
     }
 
     /*
@@ -19,7 +29,7 @@ class MainActivity : AppCompatActivity() {
      * */
     private fun setCorrectShapeToCardView()
     {
-        val cardView: CardView = findViewById(R.id.cvMovieCard)
+        cardView = findViewById(R.id.cvMovieCard)
         cardView.setBackgroundResource(R.drawable.sh_card_view_back)
     }
 
@@ -27,9 +37,9 @@ class MainActivity : AppCompatActivity() {
     * Card view initialization and launch function
     * */
     private fun prepareRecycleView(){
-        val recycler = findViewById<RecyclerView>(R.id.rvActorsList)
-        val actors = prepareActors()
-        val adapter = ActorAdapter(this, actors)
+        recycler = findViewById(R.id.rvActorsList)
+        val actors: List<Actor> = prepareActors()
+        adapter = ActorAdapter(this, actors)
         recycler.adapter = adapter
         recycler.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
     }
