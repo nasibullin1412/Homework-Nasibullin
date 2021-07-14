@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Моё приложение</string>
+    <string name="str_movie_genre">боевики</string>
+    <string name="str_release_date">22.04.2021</string>
+    <string name="str_movie_name">Гнев человеческий</string>
+    <string name="str_age_category">18+</string>
+    <string name="str_movie_description">
+        Эйч — загадочный и холодный на вид джентльмен, но внутри него пылает жажда справедливости.
+        Преследуя свои мотивы, он внедряется в инкассаторскую компанию, чтобы выйти на соучастников серии многомиллионных ограблений,
+        потрясших Лос-Анджелес. В этой запутанной игре у каждого своя роль, но под подозрением оказываются все
+        . Виновных же обязательно постигнет гнев человеческий.
+    </string>
+    <string name="str_fill_rating_star">Закрашенная звезда рейтинга</string>
+    <string name="str_unpainted_rating_star">Незакрашенная звезда рейтинга</string>
+    <string name="str_first_actor_name">Джейсон Стэйтем</string>
+    <string name="str_second_actor_name">Холт Маккэлани</string>
+    <string name="str_third_actor_name">Джош Харнет</string>
+    <string name="str_actor_img_description">Фото актёра</string>
+    <string name="str_actors_list_name">Актёры</string>
+</resources>
