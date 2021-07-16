@@ -3,12 +3,15 @@ package com.homework.nasibullin
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.GridLayout
 import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
 private const val LEFT_RIGHT_OFFSET = 6
+private const val ERROR_MESSAGE =  "Error"
 class MainActivity : AppCompatActivity(), OnClickListenerInterface {
 
     /*private lateinit var cardView: CardView
@@ -18,6 +21,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
     private lateinit var movieGenreRecycler: RecyclerView
     private lateinit var movieRecycler: RecyclerView
     private lateinit var genreAdapter: GenreAdapter
+    private lateinit var movieAdapter: MovieAdapter
     private lateinit var onClickListenerHandler: View.OnClickListener
     private lateinit var movieGenres: List<GenreDto>
     private lateinit var genreModel: GenreModel
@@ -33,11 +37,11 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.list_of_movies)
+        setContentView(R.layout.activity_movie_details)
 
 
-        initDataSource()
-        setupViews()
+        //initDataSource()
+        //setupViews()
 
 
     }
@@ -52,7 +56,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
 
     private fun setupViews() {
         prepareMovieGenreRecycleView()
-
+        prepareMovieRecycleView()
     }
 
     private fun getMovieAt(position: Int): MovieDto? {
@@ -70,15 +74,24 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
         genreAdapter = GenreAdapter(this)
         genreAdapter.initOnClickInterface(this)
         genreAdapter.submitList(genreModel.getGenres())
-        val itemDecarator = GenreItemDecarator(leftRight=LEFT_RIGHT_OFFSET)
-        movieGenreRecycler.addItemDecoration(itemDecarator)
+        val itemDecorator = GenreItemDecoration(leftRight=LEFT_RIGHT_OFFSET)
+        movieGenreRecycler.addItemDecoration(itemDecorator)
         movieGenreRecycler.adapter = genreAdapter
         movieGenreRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
     }
 
-    private fun getToastMessage(position: Int) = getMovieAt(position)?.title?.let {
-        "Error"
+    private fun prepareMovieRecycleView(){
+        movieRecycler = findViewById(R.id.rvMovieList)
+        movieAdapter = MovieAdapter(this)
+        movieAdapter.initOnClickInterface(this)
+        movieAdapter.submitList(movieModel.getMovies())
+        val itemDecorator = MovieItemDecoration(leftRight = LEFT_RIGHT_OFFSET)
+        movieRecycler.addItemDecoration(itemDecorator)
+        movieRecycler.adapter = movieAdapter
+        movieGenreRecycler.layoutManager = GridLayoutManager(this, 2, RecyclerView.VERTICAL, false)
+
     }
+
 
 
 
@@ -87,7 +100,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
 
     private fun showToast(message: String?) {
         when {
-            message.isNullOrEmpty() -> { showToast("Error") }
+            message.isNullOrEmpty() -> { showToast(ERROR_MESSAGE) }
             else -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }

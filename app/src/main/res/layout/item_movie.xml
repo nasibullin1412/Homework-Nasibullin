@@ -16,6 +16,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/round_image_style" />
 
+
+
+
+
     <TextView
         android:id="@+id/tvListMovieName"
         android:layout_width="match_parent"
@@ -25,7 +29,6 @@
         android:layout_marginTop="@dimen/tv_list_movie_name_margin_top"
         tools:text="@string/str_movie_name"
         android:textSize="@dimen/list_movie_name_movie_text_size"
-        android:textStyle="bold"
         android:fontFamily="@font/movie_name_font"
         android:textColor="@color/custom_text"
         android:maxLines="@dimen/tv_list_movie_name_max_line"
@@ -67,7 +70,7 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
-        android:id="@+id/tvAgeCategory"
+        android:id="@+id/tvListAgeCategory"
         android:layout_width="@dimen/tv_list_age_category_width"
         android:layout_height="@dimen/tv_list_age_category_height"
         android:background="@drawable/sh_age_category_sm"
