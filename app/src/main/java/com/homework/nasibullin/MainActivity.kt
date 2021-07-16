@@ -8,18 +8,44 @@ import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var cardView: CardView
+    /*private lateinit var cardView: CardView
     private lateinit var recycler: RecyclerView
-    private lateinit var adapter: ActorAdapter
+    private lateinit var adapter: ActorAdapter*/
+
+    private lateinit var movieGenreRecycler: RecyclerView
+    private lateinit var movieRecycler: RecyclerView
+    private lateinit var genreAdapter: GenreAdapter
+
+    private val leftRightOffset: Int = 6
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_movie_details)
+        setContentView(R.layout.list_of_movies)
         init()
     }
 
-    private fun init(){
+    private fun init() {
+        prepareMovieGenreRecycleView()
+        //prepareMovieRecycleView()
+    }
+
+    private fun prepareMovieGenreRecycleView(){
+        movieGenreRecycler = findViewById(R.id.rvMovieGenreList)
+        val moviesGenreDataSourceImpl = MovieGenreSourceImpl()
+        val movieGenres: List<GenreDto> = moviesGenreDataSourceImpl.getGenre()
+        genreAdapter = GenreAdapter(this)
+        genreAdapter.submitList(movieGenres)
+        val itemDecarator = GenreItemDecarator(leftRight=leftRightOffset)
+        movieGenreRecycler.addItemDecoration(itemDecarator)
+        movieGenreRecycler.adapter = genreAdapter
+        movieGenreRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+    }
+
+/*
+* Lesson 3 code
+* */
+    /*private fun init(){
         setCorrectShapeToCardView()
         prepareRecycleView()
     }
@@ -53,6 +79,6 @@ class MainActivity : AppCompatActivity() {
             Actor(R.drawable.holt__mc_callany, R.string.str_second_actor_name),
             Actor(R.drawable.josh_hartnett, R.string.str_third_actor_name)
         )
-    }
+    }*/
 
 }

@@ -7,4 +7,8 @@
     <dimen name="movie_description_text_size">14sp</dimen>
     <dimen name="actor_name_text_size">14sp</dimen>
     <dimen name="actors_list_name_text_size">16sp</dimen>
+    <dimen name="page_name_list_movie_text_size">16sp</dimen>
+    <dimen name="list_movie_name_movie_text_size">14sp</dimen>
+    <dimen name="list_movie_description_movie_text_size">12sp</dimen>
+    <dimen name="list_age_category_text_size">7sp</dimen>
 </resources>

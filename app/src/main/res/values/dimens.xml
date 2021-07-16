@@ -78,4 +78,50 @@
     <dimen name="actor_item_text_margin_top">12dp</dimen>
     <dimen name="actor_item_margin_left">10dp</dimen>
 
+
+    <dimen name="list_of_guideline_left">20dp</dimen>
+
+
+    <dimen name="page_name_margin_top">73dp</dimen>
+
+
+    <dimen name="rv_film_list_min_height">16dp</dimen>
+    <dimen name="rv_film_list_margin_top">15dp</dimen>
+    <dimen name="rv_film_list_padding_end">20dp</dimen>
+
+
+    <dimen name="tv_list_movie_name_max_width">150dp</dimen>
+    <dimen name="tv_list_movie_name_margin_start">3dp</dimen>
+    <dimen name="tv_list_movie_name_margin_top">3dp</dimen>
+    <dimen name="tv_list_movie_name_max_line">1</dimen>
+
+
+    <dimen name="tv_list_movie_description_margin_start">3dp</dimen>
+    <dimen name="tv_list_movie_description_margin_top">10dp</dimen>
+    <dimen name="tv_list_movie_description_max_line">6</dimen>
+
+
+    <dimen name="rb_movie_star_height">13dp</dimen>
+    <dimen name="rb_movie_star_step_size">1</dimen>
+    <dimen name="rb_movie_star_num_stars">5</dimen>
+    <dimen name="rb_movie_star_l_margin_l">3dp</dimen>
+    <dimen name="rb_movie_star_l_margin_t">15dp</dimen>
+    <dimen name="rb_movie_star_l_margin_b">2dp</dimen>
+    <dimen name="rb_movie_star_min_height">15dp</dimen>
+    <dimen name="rb_movie_star_max_height">15dp</dimen>
+
+
+    <dimen name="sm_sh_age_category_padding_t">5dp</dimen>
+
+    <dimen name="tv_list_age_category_width">20dp</dimen>
+    <dimen name="tv_list_age_category_height">20dp</dimen>
+    <dimen name="tv_list_age_category_l_margin_b">2dp</dimen>
+    <dimen name="tv_list_age_category_l_margin_e">2dp</dimen>
+
+    <dimen name="search_menu_max_height">72dp</dimen>
+    <dimen name="search_menu_margin_top">24dp</dimen>
+    <dimen name="search_menu_margin_l">20dp</dimen>
+    <dimen name="search_menu_margin_r">20dp</dimen>
+
+
 </resources>

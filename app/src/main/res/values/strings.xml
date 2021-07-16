@@ -14,4 +14,5 @@
     <string name="str_third_actor_name">Josh Hartnett</string>
     <string name="str_actor_img_description">Actor img</string>
     <string name="str_actors_list_name">Actors</string>
+    <string name="page_name_list_movie">Popular now</string>
 </resources>

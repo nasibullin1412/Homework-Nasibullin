@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="film_genre_style">
+        <item name = "android:layout_width">wrap_content</item>
+        <item name = "android:layout_height">@dimen/sh_genre_rect_height</item>
+        <item name = "android:background">@drawable/sh_genre_rectangle</item>
+        <item name = "android:textSize">@dimen/sh_genre_text_size</item>
+        <item name = "android:textColor">@color/custom_text</item>
+        <item name = "android:fontFamily">@font/roboto</item>
+    </style>
+    <style name="ImageRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/rb_custom_icons</item>
+        <item name="android:minHeight">@dimen/rb_movie_star_min_height</item>
+        <item name="android:maxHeight">@dimen/rb_movie_star_max_height</item>
+    </style>
+    <style name="BottomNavigationBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/bottom_nav_height</item>
+
+
+    </style>
+</resources>

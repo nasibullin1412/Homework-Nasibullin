@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/custom_movie_card">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgListMoviePoster"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:src="@drawable/poster"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/round_image_style" />
+
+    <TextView
+        android:id="@+id/tvListMovieName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxWidth="@dimen/tv_list_movie_name_max_width"
+        android:layout_marginStart="@dimen/tv_list_movie_name_margin_start"
+        android:layout_marginTop="@dimen/tv_list_movie_name_margin_top"
+        tools:text="@string/str_movie_name"
+        android:textSize="@dimen/list_movie_name_movie_text_size"
+        android:textStyle="bold"
+        android:fontFamily="@font/movie_name_font"
+        android:textColor="@color/custom_text"
+        android:maxLines="@dimen/tv_list_movie_name_max_line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgListMoviePoster"
+        />
+
+    <TextView
+        android:id="@+id/tvListMovieDescription"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:maxWidth="@dimen/tv_list_movie_name_max_width"
+        android:layout_marginStart="@dimen/tv_list_movie_description_margin_start"
+        android:layout_marginEnd="@dimen/movie_description_margin_right"
+        android:layout_marginTop="@dimen/tv_list_movie_description_margin_top"
+        tools:text="@string/str_movie_description"
+        android:textSize="@dimen/list_movie_description_movie_text_size"
+        android:fontFamily="@font/movie_description_font"
+        android:textColor="@color/custom_text"
+        android:maxLines="@dimen/tv_list_movie_description_max_line"
+        android:ellipsize="end"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvListMovieName"
+        />
+
+    <RatingBar
+        android:id="@+id/rbMovieStar"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/rb_movie_star_height"
+        android:stepSize="@dimen/rb_movie_star_step_size"
+        tools:rating="2"
+        android:numStars="@dimen/rb_movie_star_num_stars"
+        android:layout_marginStart="@dimen/rb_movie_star_l_margin_l"
+        android:layout_marginTop="@dimen/rb_movie_star_l_margin_t"
+        android:layout_marginBottom="@dimen/rb_movie_star_l_margin_b"
+        style="@style/ImageRatingBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvListMovieDescription"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvAgeCategory"
+        android:layout_width="@dimen/tv_list_age_category_width"
+        android:layout_height="@dimen/tv_list_age_category_height"
+        android:background="@drawable/sh_age_category_sm"
+        android:textAlignment="center"
+        android:layout_marginBottom="@dimen/tv_list_age_category_l_margin_b"
+        android:layout_marginEnd="@dimen/tv_list_age_category_l_margin_e"
+        tools:text="@string/str_age_category"
+        android:textSize="@dimen/list_age_category_text_size"
+        android:textColor="@color/custom_text"
+        android:fontFamily="@font/roboto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

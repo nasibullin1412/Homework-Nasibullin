@@ -7,7 +7,8 @@
         android:radius="@dimen/sh_genre_rect_radius"/>
     <padding
         android:left="@dimen/sh_genre_rect_padding_l"
-        android:top="@dimen/sh_genre_rect_padding_t" />
+        android:top="@dimen/sh_genre_rect_padding_t"
+        android:right="@dimen/sh_genre_rect_padding_l"/>
     <size
         android:width="@dimen/sh_genre_rect_width"
         android:height="@dimen/sh_genre_rect_height"/>
