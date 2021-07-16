@@ -2,11 +2,14 @@ package com.homework.nasibullin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.cardview.widget.CardView
+import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class MainActivity : AppCompatActivity() {
+
+private const val LEFT_RIGHT_OFFSET = 6
+class MainActivity : AppCompatActivity(), OnClickListenerInterface {
 
     /*private lateinit var cardView: CardView
     private lateinit var recycler: RecyclerView
@@ -15,31 +18,78 @@ class MainActivity : AppCompatActivity() {
     private lateinit var movieGenreRecycler: RecyclerView
     private lateinit var movieRecycler: RecyclerView
     private lateinit var genreAdapter: GenreAdapter
+    private lateinit var onClickListenerHandler: View.OnClickListener
+    private lateinit var movieGenres: List<GenreDto>
+    private lateinit var genreModel: GenreModel
+    private lateinit var movieModel: MovieModel
 
-    private val leftRightOffset: Int = 6
 
+
+
+
+    override fun onClick(title: String) {
+        showToast(title)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.list_of_movies)
-        init()
+
+
+        initDataSource()
+        setupViews()
+
+
     }
 
-    private fun init() {
-        prepareMovieGenreRecycleView()
-        //prepareMovieRecycleView()
+
+
+
+    private fun initDataSource(){
+        movieModel = MovieModel(MoviesDataSourceImpl())
+        genreModel = GenreModel(MovieGenreSourceImpl())
     }
+
+    private fun setupViews() {
+        prepareMovieGenreRecycleView()
+
+    }
+
+    private fun getMovieAt(position: Int): MovieDto? {
+        val movies = movieModel.getMovies()
+        return when {
+            movies.isEmpty() -> null
+            position >= movies.size -> null
+            else -> movies[position]
+        }
+    }
+
 
     private fun prepareMovieGenreRecycleView(){
         movieGenreRecycler = findViewById(R.id.rvMovieGenreList)
-        val moviesGenreDataSourceImpl = MovieGenreSourceImpl()
-        val movieGenres: List<GenreDto> = moviesGenreDataSourceImpl.getGenre()
         genreAdapter = GenreAdapter(this)
-        genreAdapter.submitList(movieGenres)
-        val itemDecarator = GenreItemDecarator(leftRight=leftRightOffset)
+        genreAdapter.initOnClickInterface(this)
+        genreAdapter.submitList(genreModel.getGenres())
+        val itemDecarator = GenreItemDecarator(leftRight=LEFT_RIGHT_OFFSET)
         movieGenreRecycler.addItemDecoration(itemDecarator)
         movieGenreRecycler.adapter = genreAdapter
         movieGenreRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+    }
+
+    private fun getToastMessage(position: Int) = getMovieAt(position)?.title?.let {
+        "Error"
+    }
+
+
+
+
+
+
+    private fun showToast(message: String?) {
+        when {
+            message.isNullOrEmpty() -> { showToast("Error") }
+            else -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        }
     }
 
 /*
