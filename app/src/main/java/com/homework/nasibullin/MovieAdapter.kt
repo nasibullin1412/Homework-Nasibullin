@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import java.lang.StringBuilder
 
 /*
 * Class Adapter to genre list
@@ -56,7 +57,10 @@ class MovieAdapter(
             }
             tvMovieName.text = movie.title
             tvMovieRating.rating = movie.rateScore.toFloat()
-            tvAgeCategory.text = movie.ageRestriction.toString()
+            tvAgeCategory.text = StringBuilder().also {
+                it.append(movie.ageRestriction.toString())
+                it.append("+")
+            }
             tvMovieDescription.text = movie.description
 
         }
