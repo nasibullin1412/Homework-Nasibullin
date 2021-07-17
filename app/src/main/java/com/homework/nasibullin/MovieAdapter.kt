@@ -13,7 +13,7 @@ import coil.load
 import java.lang.StringBuilder
 
 /*
-* Class Adapter to genre list
+* Class Adapter to movie list
 */
 class MovieAdapter(
     context: Context

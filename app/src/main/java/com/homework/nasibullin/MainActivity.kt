@@ -10,9 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
-private const val LEFT_RIGHT_OFFSET = 6
+private const val GENRE_LEFT_RIGHT_OFFSET = 6
+private const val MOVIE_RIGHT_OFFSET = 20
+private const val MOVIE_TOP_BOTTOM_OFFSET = 50
 private const val ERROR_MESSAGE =  "Error"
-private const val MOVIES_INITIAL_POSITION =  0
 private const val PORTRAIT_ORIENTATION_SPAN_NUMBER = 2
 private const val LANDSCAPE_ORIENTATION_SPAN_NUMBER = 3
 class MainActivity : AppCompatActivity(), OnClickListenerInterface {
@@ -31,7 +32,9 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
 
 
 
-
+    /*
+    * implementation of item listener action
+    * */
     override fun onClick(title: String) {
         showToast(title)
     }
@@ -39,29 +42,27 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.list_of_movies)
-
-
         initDataSource()
         setupViews()
-
-
     }
 
-
-
-
+    /*
+    * Init data models
+    * */
     private fun initDataSource(){
         movieModel = MovieModel(MoviesDataSourceImpl())
         genreModel = GenreModel(MovieGenreSourceImpl())
     }
+
 
     private fun setupViews() {
         prepareMovieGenreRecycleView()
         prepareMovieRecycleView()
     }
 
-
-
+    /*
+    * Get device orientation
+     */
     private val Context.orientation:Boolean
         get() {
             return when(resources.configuration.orientation){
@@ -72,23 +73,29 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
             }
         }
 
+    /*
+    * Movie genre recycle view with ListAdapter
+    * */
     private fun prepareMovieGenreRecycleView(){
         movieGenreRecycler = findViewById(R.id.rvMovieGenreList)
         genreAdapter = GenreAdapter(this)
         genreAdapter.initOnClickInterface(this)
         genreAdapter.submitList(genreModel.getGenres())
-        val itemDecorator = GenreItemDecoration(leftRight=LEFT_RIGHT_OFFSET)
+        val itemDecorator = GenreItemDecoration(leftRight= GENRE_LEFT_RIGHT_OFFSET)
         movieGenreRecycler.addItemDecoration(itemDecorator)
         movieGenreRecycler.adapter = genreAdapter
         movieGenreRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
     }
 
+    /*
+    * Movie recycle view with ListAdapter
+    * */
     private fun prepareMovieRecycleView(){
         movieRecycler = findViewById(R.id.rvMovieList)
         movieAdapter = MovieAdapter(this)
         movieAdapter.initOnClickInterface(this)
         movieAdapter.submitList(movieModel.getMovies())
-        val itemDecorator = MovieItemDecoration(topBottom =50,  leftRight = 20)
+        val itemDecorator = MovieItemDecoration(topBottom= MOVIE_TOP_BOTTOM_OFFSET, right= MOVIE_RIGHT_OFFSET)
         movieRecycler.addItemDecoration(itemDecorator)
         movieRecycler.adapter = movieAdapter
         movieRecycler.layoutManager = GridLayoutManager(this,
@@ -98,6 +105,9 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
 
     }
 
+    /*
+    * Show toast with genre or film title
+    * */
     private fun showToast(message: String?) {
         when {
             message.isNullOrEmpty() -> { showToast(ERROR_MESSAGE) }
