@@ -14,7 +14,6 @@ class GenreItemDecoration(private val topBottom: Int = 0, private val leftRight:
         super.getItemOffsets(outRect, view, parent, state)
         outRect.bottom = topBottom
         outRect.top = leftRight
-        outRect.right = leftRight
-        outRect.left = leftRight
+        outRect.right = 2*leftRight
     }
 }

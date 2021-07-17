@@ -42,7 +42,7 @@
     <dimen name="sh_age_category_oval_padding_t">10dp</dimen>
     <dimen name="sh_age_category_oval_width">42dp</dimen>
     <dimen name="sh_age_category_oval_height">42dp</dimen>
-    <dimen name="sh_age_category_margin_stroke_w">2dp</dimen>
+    <dimen name="sh_age_category_margin_stroke_w">1dp</dimen>
 
     <!-- film star category params -->
     <dimen name="star_width">90dp</dimen>
