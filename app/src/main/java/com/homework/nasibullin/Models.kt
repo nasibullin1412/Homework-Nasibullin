@@ -8,6 +8,7 @@ class MovieModel (
 ) {
 
     fun getMovies() = moviesDataSource.getMovies()
+
 }
 
 /*

@@ -1,5 +1,6 @@
 package com.homework.nasibullin
 
 interface OnClickListenerInterface {
-    fun onClick(title: String)
+    fun onGenreClick(title: String)
+    fun onMovieClick(title: String)
 }

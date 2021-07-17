@@ -3,8 +3,8 @@ package com.homework.nasibullin
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.DisplayMetrics
-import android.widget.TextView
+import android.os.PersistableBundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,11 +13,13 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 private const val GENRE_LEFT_RIGHT_OFFSET = 6
-private const val MOVIE_RIGHT_OFFSET = 20
 private const val MOVIE_TOP_BOTTOM_OFFSET = 50
 private const val ERROR_MESSAGE =  "Error"
 private const val PORTRAIT_ORIENTATION_SPAN_NUMBER = 2
 private const val LANDSCAPE_ORIENTATION_SPAN_NUMBER = 3
+private const val ALL_GENRE = "все"
+private const val GENRE_KEY = "currentGenre"
+private const val MIN_OFFSET = 20
 class MainActivity : AppCompatActivity(), OnClickListenerInterface {
 
     /*private lateinit var cardView: CardView
@@ -30,31 +32,54 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
     private lateinit var movieAdapter: MovieAdapter
     private lateinit var genreModel: GenreModel
     private lateinit var movieModel: MovieModel
+    private lateinit var movieCollection: Collection<MovieDto>
+    private lateinit var genreCollection: Collection<GenreDto>
+    private var currentGenre: String = ALL_GENRE
     private var movieItemWidth: Int = 0
     private var movieItemMargin: Int = 0
+
 
 
     /*
     * implementation of item listener action
     * */
-    override fun onClick(title: String) {
+    override fun onGenreClick(title: String) {
+        showToast(title)
+        getMoviesByGenre(title)
+    }
+
+    /*
+     * implementation of item listener action
+     * */
+    override fun onMovieClick(title: String) {
         showToast(title)
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.list_of_movies)
+        currentGenre = savedInstanceState?.getString(GENRE_KEY) ?: ALL_GENRE
         initDataSource()
         setupViews()
-        showToast(screenWidth.toString())
+
     }
 
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(GENRE_KEY, currentGenre)
+    }
+
+
     /*
-    * Init data models
+    * Init data models and collections
     * */
     private fun initDataSource() {
         movieModel = MovieModel(MoviesDataSourceImpl())
+        initMovieCollection()
         genreModel = GenreModel(MovieGenreSourceImpl())
+        genreCollection = genreModel.getGenres()
     }
 
 
@@ -67,6 +92,24 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
         calculateValues()
         prepareMovieGenreRecycleView()
         prepareMovieRecycleView()
+    }
+
+
+    private fun getMoviesByGenre(genre:String){
+        movieCollection = movieModel.getMovies()
+        if (genre != ALL_GENRE) {
+            movieCollection = movieModel.getMovies().filter { it.genre == genre }
+        }
+        movieAdapter.submitList(movieCollection.toList())
+        currentGenre = genre
+    }
+
+    private fun initMovieCollection(){
+        movieCollection = if (currentGenre == ALL_GENRE){
+            movieModel.getMovies()
+        } else{
+            movieModel.getMovies().filter { it.genre == currentGenre }
+        }
     }
 
     /*
@@ -103,7 +146,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
         movieRecycler = findViewById(R.id.rvMovieList)
         movieAdapter = MovieAdapter(this)
         movieAdapter.initOnClickInterface(this)
-        movieAdapter.submitList(movieModel.getMovies())
+        movieAdapter.submitList(movieCollection.toList())
         val itemDecorator = MovieItemDecoration(
             topBottom = MOVIE_TOP_BOTTOM_OFFSET,
             right = calculateOffset(),
@@ -137,7 +180,8 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
         }
         val density = resources.displayMetrics.density
         offset = (offset.toFloat()/density).toInt()
-        return offset
+
+        return if (offset < MIN_OFFSET) MIN_OFFSET else offset
     }
 
 

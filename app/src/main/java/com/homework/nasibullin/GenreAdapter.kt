@@ -5,9 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-
 
 
 /*
@@ -15,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 */
 class GenreAdapter(
         context: Context
-) : ListAdapter<GenreDto, GenreAdapter.GenreViewHolder>(GenreCallback()) {
+) : ListAdapter<GenreDto, GenreViewHolder>(GenreCallback()) {
 
 
 
@@ -33,21 +30,12 @@ class GenreAdapter(
 
     override fun onBindViewHolder(holder: GenreViewHolder, position: Int) {
         holder.itemView.setOnClickListener(View.OnClickListener {
-            listener.onClick(getItem(position).title) // Trigger the call back
+            listener.onGenreClick(getItem(position).title) // Trigger the call back
         })
         holder.bind(getItem(position))
     }
 
 
 
-    class GenreViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        // Do once
-        private val tvGenre: TextView = view.findViewById(R.id.tvListGenre)
 
-
-        // Do every time
-        fun bind(genre: GenreDto) {
-            tvGenre.text = genre.title
-        }
-    }
 }
