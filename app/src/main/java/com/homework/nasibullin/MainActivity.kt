@@ -4,19 +4,17 @@ import android.content.Context
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.*
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 
 
 private const val LEFT_RIGHT_OFFSET = 6
 private const val ERROR_MESSAGE =  "Error"
 private const val MOVIES_INITIAL_POSITION =  0
-private const val VERTICAL_ORIENTATION_SPAN_NUMBER = 2
-private const val HORIZONTAL_ORIENTATION_SPAN_NUMBER = 3
+private const val PORTRAIT_ORIENTATION_SPAN_NUMBER = 2
+private const val LANDSCAPE_ORIENTATION_SPAN_NUMBER = 3
 class MainActivity : AppCompatActivity(), OnClickListenerInterface {
 
     /*private lateinit var cardView: CardView
@@ -27,8 +25,6 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
     private lateinit var movieRecycler: RecyclerView
     private lateinit var genreAdapter: GenreAdapter
     private lateinit var movieAdapter: MovieAdapter
-    private lateinit var onClickListenerHandler: View.OnClickListener
-    private lateinit var movieGenres: List<GenreDto>
     private lateinit var genreModel: GenreModel
     private lateinit var movieModel: MovieModel
 
@@ -64,23 +60,15 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
         prepareMovieRecycleView()
     }
 
-    private fun getMovieAt(position: Int): MovieDto? {
-        val movies = movieModel.getMovies()
-        return when {
-            movies.isEmpty() -> null
-            position >= movies.size -> null
-            else -> movies[position]
-        }
-    }
 
 
-    val Context.orientation:String
+    private val Context.orientation:Boolean
         get() {
             return when(resources.configuration.orientation){
-                Configuration.ORIENTATION_PORTRAIT -> "Portrait"
-                Configuration.ORIENTATION_LANDSCAPE -> "Landscape"
-                Configuration.ORIENTATION_UNDEFINED -> "Undefined"
-                else -> "Error"
+                Configuration.ORIENTATION_PORTRAIT -> true
+                Configuration.ORIENTATION_LANDSCAPE -> false
+                Configuration.ORIENTATION_UNDEFINED -> true
+                else -> error("Error orientation")
             }
         }
 
@@ -100,21 +88,15 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
         movieAdapter = MovieAdapter(this)
         movieAdapter.initOnClickInterface(this)
         movieAdapter.submitList(movieModel.getMovies())
-        val itemDecorator = MovieItemDecoration(leftRight = LEFT_RIGHT_OFFSET)
+        val itemDecorator = MovieItemDecoration(topBottom =50,  leftRight = 20)
         movieRecycler.addItemDecoration(itemDecorator)
         movieRecycler.adapter = movieAdapter
         movieRecycler.layoutManager = GridLayoutManager(this,
-            if (orientation == "Portrait")  VERTICAL_ORIENTATION_SPAN_NUMBER else HORIZONTAL_ORIENTATION_SPAN_NUMBER,
+            if (orientation)  PORTRAIT_ORIENTATION_SPAN_NUMBER else LANDSCAPE_ORIENTATION_SPAN_NUMBER,
             RecyclerView.VERTICAL,
             false)
 
     }
-
-
-
-
-
-
 
     private fun showToast(message: String?) {
         when {

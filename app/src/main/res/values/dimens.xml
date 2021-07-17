@@ -88,7 +88,7 @@
     <dimen name="rv_film_list_min_height">16dp</dimen>
     <dimen name="rv_film_list_margin_top">15dp</dimen>
     <dimen name="rv_film_list_padding_end">20dp</dimen>
-    <dimen name="rv_film_list_padding_bottom">150dp</dimen>
+    <dimen name="rv_film_list_padding_bottom">200dp</dimen>
 
 
     <dimen name="tv_list_movie_name_max_width">150dp</dimen>

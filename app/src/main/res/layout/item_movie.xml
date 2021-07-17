@@ -5,10 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/custom_movie_card"
-    android:layout_marginBottom="56dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp">
+    >
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgListMoviePoster"
