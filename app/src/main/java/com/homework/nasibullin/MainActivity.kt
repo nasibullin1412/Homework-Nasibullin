@@ -1,17 +1,22 @@
 package com.homework.nasibullin
 
+import android.content.Context
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.GridLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 
 
 private const val LEFT_RIGHT_OFFSET = 6
 private const val ERROR_MESSAGE =  "Error"
+private const val MOVIES_INITIAL_POSITION =  0
+private const val VERTICAL_ORIENTATION_SPAN_NUMBER = 2
+private const val HORIZONTAL_ORIENTATION_SPAN_NUMBER = 3
 class MainActivity : AppCompatActivity(), OnClickListenerInterface {
 
     /*private lateinit var cardView: CardView
@@ -37,11 +42,11 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_movie_details)
+        setContentView(R.layout.list_of_movies)
 
 
-        //initDataSource()
-        //setupViews()
+        initDataSource()
+        setupViews()
 
 
     }
@@ -69,6 +74,16 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
     }
 
 
+    val Context.orientation:String
+        get() {
+            return when(resources.configuration.orientation){
+                Configuration.ORIENTATION_PORTRAIT -> "Portrait"
+                Configuration.ORIENTATION_LANDSCAPE -> "Landscape"
+                Configuration.ORIENTATION_UNDEFINED -> "Undefined"
+                else -> "Error"
+            }
+        }
+
     private fun prepareMovieGenreRecycleView(){
         movieGenreRecycler = findViewById(R.id.rvMovieGenreList)
         genreAdapter = GenreAdapter(this)
@@ -88,7 +103,10 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
         val itemDecorator = MovieItemDecoration(leftRight = LEFT_RIGHT_OFFSET)
         movieRecycler.addItemDecoration(itemDecorator)
         movieRecycler.adapter = movieAdapter
-        movieGenreRecycler.layoutManager = GridLayoutManager(this, 2, RecyclerView.VERTICAL, false)
+        movieRecycler.layoutManager = GridLayoutManager(this,
+            if (orientation == "Portrait")  VERTICAL_ORIENTATION_SPAN_NUMBER else HORIZONTAL_ORIENTATION_SPAN_NUMBER,
+            RecyclerView.VERTICAL,
+            false)
 
     }
 

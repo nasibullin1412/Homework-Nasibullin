@@ -88,6 +88,7 @@
     <dimen name="rv_film_list_min_height">16dp</dimen>
     <dimen name="rv_film_list_margin_top">15dp</dimen>
     <dimen name="rv_film_list_padding_end">20dp</dimen>
+    <dimen name="rv_film_list_padding_bottom">150dp</dimen>
 
 
     <dimen name="tv_list_movie_name_max_width">150dp</dimen>
@@ -98,7 +99,8 @@
 
     <dimen name="tv_list_movie_description_margin_start">3dp</dimen>
     <dimen name="tv_list_movie_description_margin_top">10dp</dimen>
-    <dimen name="tv_list_movie_description_max_line">6</dimen>
+    <dimen name="tv_list_movie_description_width">146dp</dimen>
+    <dimen name="tv_list_movie_description_min_height">84dp</dimen>
 
 
     <dimen name="rb_movie_star_height">13dp</dimen>
@@ -122,6 +124,10 @@
     <dimen name="search_menu_margin_top">24dp</dimen>
     <dimen name="search_menu_margin_l">20dp</dimen>
     <dimen name="search_menu_margin_r">20dp</dimen>
+
+
+    <dimen name="img_movie_poster_width">150dp</dimen>
+    <dimen name="img_movie_poster_height">216dp</dimen>
 
 
 </resources>

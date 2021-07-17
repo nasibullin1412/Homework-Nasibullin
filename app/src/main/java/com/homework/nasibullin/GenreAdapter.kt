@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
 
@@ -36,7 +35,7 @@ class GenreAdapter(
         holder.itemView.setOnClickListener(View.OnClickListener {
             listener.onClick(getItem(position).title) // Trigger the call back
         })
-        holder.bind(getItem(position), position)
+        holder.bind(getItem(position))
     }
 
 
@@ -47,7 +46,7 @@ class GenreAdapter(
 
 
         // Do every time
-        fun bind(genre: GenreDto, position: Int) {
+        fun bind(genre: GenreDto) {
             tvGenre.text = genre.title
         }
     }
