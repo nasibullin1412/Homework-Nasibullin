@@ -209,7 +209,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
         movieItemWidth = resources.getDimension(R.dimen.img_movie_poster_width).toInt()
     }
 
-    /**
+    /*
     * Show toast with genre or film title
     * */
     private fun showToast(message: String?) {
