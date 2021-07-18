@@ -32,7 +32,7 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     rateScore = 4,
                     ageRestriction = 12,
                     imageUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/fq3DSw74fAodrbLiSv0BW1Ya4Ae.jpg",
-                    genre = "мелодрамы"
+                    genre = "драмы"
             ),
             MovieDto(
                     title = "Сага о Дэнни Эрнандесе",

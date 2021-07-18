@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minWidth="150dp"
+    android:background="@color/custom_movie_card"
+    >
+
+    <!-- movie poster-->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgEmptyListMovie"
+        android:layout_width="@dimen/img_movie_poster_width"
+        android:layout_height="@dimen/img_movie_poster_height"
+        app:shapeAppearanceOverlay="@style/round_image_style"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+         />
+
+    <!-- movie name-->
+    <TextView
+        android:id="@+id/tvEmptyListMovie"
+        android:layout_width="@dimen/tv_list_movie_description_width"
+        android:layout_height="wrap_content"
+        android:maxWidth="@dimen/tv_list_movie_name_max_width"
+        android:minHeight="@dimen/tv_list_movie_description_min_height"
+        android:layout_marginStart="@dimen/tv_list_movie_description_margin_start"
+        android:layout_marginEnd="@dimen/movie_description_margin_right"
+        android:layout_marginTop="@dimen/tv_list_movie_description_margin_top"
+        android:textSize="@dimen/list_movie_description_movie_text_size"
+        android:fontFamily="@font/movie_description_font"
+        android:textColor="@color/custom_text"
+        android:maxLines="6"
+        android:ellipsize="end"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgEmptyListMovie"
+        />
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
     private var currentGenre: String = ALL_GENRE
     private var movieItemWidth: Int = 0
     private var movieItemMargin: Int = 0
+    private lateinit var emptyListViewHolder: EmptyListViewHolder
 
 
 
@@ -89,6 +90,8 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
         }
 
     private fun setupViews() {
+        emptyListViewHolder = EmptyListViewHolder(this.layoutInflater.inflate(R.layout.empty_list_movie,
+            findViewById<RecyclerView>(R.id.rvMovieGenreList), false))
         calculateValues()
         prepareMovieGenreRecycleView()
         prepareMovieRecycleView()
@@ -101,6 +104,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
             movieCollection = movieModel.getMovies().filter { it.genre == genre }
         }
         movieAdapter.submitList(movieCollection.toList())
+        emptyListViewHolder.bind(if (movieCollection.isEmpty()) 0 else 1)
         currentGenre = genre
     }
 
@@ -144,7 +148,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
     * */
     private fun prepareMovieRecycleView() {
         movieRecycler = findViewById(R.id.rvMovieList)
-        movieAdapter = MovieAdapter(this)
+        movieAdapter = MovieAdapter(this, emptyListViewHolder)
         movieAdapter.initOnClickInterface(this)
         movieAdapter.submitList(movieCollection.toList())
         val itemDecorator = MovieItemDecoration(
