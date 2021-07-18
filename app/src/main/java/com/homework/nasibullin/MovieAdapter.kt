@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
 
-/*
+/**
 * Class Adapter to movie list
 */
 private const val TYPE_EMPTY = 0

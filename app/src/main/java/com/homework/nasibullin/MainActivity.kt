@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
 
 
 
-    /*
+    /**
     * implementation of item listener action
     * */
     override fun onGenreClick(title: String) {
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
         getMoviesByGenre(title)
     }
 
-    /*
+    /**
      * implementation of item listener action
      * */
     override fun onMovieClick(title: String) {
@@ -66,14 +66,16 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
 
     }
 
-
+    /**
+    * keep user genre selection when flipping screen
+    * */
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(GENRE_KEY, currentGenre)
     }
 
 
-    /*
+    /**
     * Init data models and collections
     * */
     private fun initDataSource() {
@@ -84,11 +86,17 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
     }
 
 
+    /**
+    *  Get screen width to make margin between elements relative to the screen width
+    * */
     private val screenWidth: Int
         get() {
             return windowManager.defaultDisplay.width
         }
 
+    /**
+     *  prepare genre and movie recycle views
+     * */
     private fun setupViews() {
         emptyListViewHolder = EmptyListViewHolder(this.layoutInflater.inflate(R.layout.empty_list_movie,
             findViewById<RecyclerView>(R.id.rvMovieGenreList), false))
@@ -97,7 +105,9 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
         prepareMovieRecycleView()
     }
 
-
+    /**
+     *  filter of movie list by genre of movie
+     * */
     private fun getMoviesByGenre(genre:String){
         movieCollection = movieModel.getMovies()
         if (genre != ALL_GENRE) {
@@ -108,6 +118,9 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
         currentGenre = genre
     }
 
+    /**
+     * init Movie collection by all movie list or by genre if init after screen flip
+     */
     private fun initMovieCollection(){
         movieCollection = if (currentGenre == ALL_GENRE){
             movieModel.getMovies()
@@ -116,7 +129,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
         }
     }
 
-    /*
+    /**
     * Get device orientation
      */
     private val Context.orientation: Boolean
@@ -129,7 +142,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
             }
         }
 
-    /*
+    /**
     * Movie genre recycle view with ListAdapter
     * */
     private fun prepareMovieGenreRecycleView() {
@@ -143,7 +156,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
         movieGenreRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
     }
 
-    /*
+    /**
     * Movie recycle view with ListAdapter
     * */
     private fun prepareMovieRecycleView() {
@@ -167,13 +180,13 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
 
     }
 
-    /*
+    /**
     * Get number of span depending on orientation
     * */
     private fun getSpanNumber(): Int =
         if (orientation) PORTRAIT_ORIENTATION_SPAN_NUMBER else LANDSCAPE_ORIENTATION_SPAN_NUMBER
 
-    /*
+    /**
     * Calculate offset item movies depending on orientation
     * */
     private fun calculateOffset(): Int {
@@ -188,7 +201,9 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
         return if (offset < MIN_OFFSET) MIN_OFFSET else offset
     }
 
-
+    /**
+     * get movie item margin and item width in px
+     */
     private fun calculateValues() {
         movieItemMargin = resources.getDimension(R.dimen.list_of_guideline_left).toInt()
         movieItemWidth = resources.getDimension(R.dimen.img_movie_poster_width).toInt()

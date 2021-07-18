@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 
 
-/*
+/**
 * Class Adapter to genre list
 */
 class GenreAdapter(

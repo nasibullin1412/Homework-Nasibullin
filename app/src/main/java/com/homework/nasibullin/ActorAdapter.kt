@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 
-/*
+/**
 * Class Adapter to Actor list
 */
 class ActorAdapter(

@@ -4,7 +4,7 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-/*
+/**
 * Item decoration for Genre Recycle View
 * */
 

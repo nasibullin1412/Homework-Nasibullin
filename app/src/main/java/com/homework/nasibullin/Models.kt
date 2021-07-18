@@ -1,6 +1,6 @@
 package com.homework.nasibullin
 
-/*
+/**
 * model of movie data
 * */
 class MovieModel (
@@ -11,7 +11,7 @@ class MovieModel (
 
 }
 
-/*
+/**
 * model of genre data
 * */
 

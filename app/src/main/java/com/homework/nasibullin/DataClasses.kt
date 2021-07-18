@@ -5,7 +5,7 @@ data class Actor(
     val nameResName: Int
 )
 
-/*
+/**
 * class describing movie data in the popular movie list
 * */
 data class MovieDto(
@@ -17,7 +17,7 @@ data class MovieDto(
         val genre: String
 )
 
-/*
+/**
 * class describing genre data in the movies genre list
 * */
 data class GenreDto(
