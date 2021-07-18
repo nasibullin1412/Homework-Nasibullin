@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
             movieCollection = movieModel.getMovies().filter { it.genre == genre }
         }
         movieAdapter.submitList(movieCollection.toList())
-        emptyListViewHolder.bind(if (movieCollection.isEmpty()) 0 else 1)
+        emptyListViewHolder.bind(movieCollection.size)
         currentGenre = genre
     }
 
