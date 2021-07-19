@@ -11,16 +11,15 @@ import androidx.recyclerview.widget.ListAdapter
 * Class Adapter to genre list
 */
 class GenreAdapter(
-        context: Context
 ) : ListAdapter<GenreDto, GenreViewHolder>(GenreCallback()) {
 
 
 
 
-    private var inflater: LayoutInflater = LayoutInflater.from(context)
     private lateinit var listener: OnClickListenerInterface
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenreViewHolder {
+        val inflater: LayoutInflater = LayoutInflater.from(parent.context)
         return GenreViewHolder(inflater.inflate(R.layout.genre_list_item, parent, false))
     }
 

@@ -13,15 +13,14 @@ import androidx.recyclerview.widget.RecyclerView
 private const val TYPE_EMPTY = 0
 private const val TYPE_MOVIE = 1
 class MovieAdapter(
-    context: Context,
     private var emptyListViewHolder: EmptyListViewHolder
 ) : ListAdapter<MovieDto, RecyclerView.ViewHolder>(MovieCallback()) {
 
 
-    private var inflater: LayoutInflater = LayoutInflater.from(context)
     private lateinit var listener: OnClickListenerInterface
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater: LayoutInflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             TYPE_EMPTY -> emptyListViewHolder
             else -> MovieViewHolder(inflater.inflate(R.layout.item_movie, parent, false))

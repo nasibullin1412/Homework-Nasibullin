@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
     * */
     private fun prepareMovieGenreRecycleView() {
         movieGenreRecycler = findViewById(R.id.rvMovieGenreList)
-        genreAdapter = GenreAdapter(this)
+        genreAdapter = GenreAdapter()
         genreAdapter.initOnClickInterface(this)
         genreAdapter.submitList(genreModel.getGenres())
         val itemDecorator = GenreItemDecoration(leftRight = GENRE_LEFT_RIGHT_OFFSET)
@@ -161,7 +161,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerInterface {
     * */
     private fun prepareMovieRecycleView() {
         movieRecycler = findViewById(R.id.rvMovieList)
-        movieAdapter = MovieAdapter(this, emptyListViewHolder)
+        movieAdapter = MovieAdapter(emptyListViewHolder)
         movieAdapter.initOnClickInterface(this)
         movieAdapter.submitList(movieCollection.toList())
         val itemDecorator = MovieItemDecoration(

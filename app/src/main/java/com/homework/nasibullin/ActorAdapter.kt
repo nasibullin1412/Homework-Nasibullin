@@ -14,13 +14,12 @@ import androidx.recyclerview.widget.RecyclerView
 * Class Adapter to Actor list
 */
 class ActorAdapter(
-    context: Context,
     private val actors: List<Actor>
 ) : RecyclerView.Adapter<ActorAdapter.ViewHolder>() {
 
-    private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val inflater: LayoutInflater = LayoutInflater.from(parent.context)
         return ViewHolder(inflater.inflate(R.layout.item_actor, parent, false))
     }
 
