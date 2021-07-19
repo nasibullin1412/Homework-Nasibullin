@@ -67,17 +67,14 @@
                      of the movie
                 -->
                 <TextView
+                    style="@style/film_genre_style"
                     android:id="@+id/tvGenre"
-                    android:layout_width="wrap_content"
-                    android:minWidth="@dimen/sh_genre_rect_width"
-                    android:layout_height="@dimen/sh_genre_rect_height"
                     android:layout_marginStart="@dimen/sh_genre_margin_left"
                     android:layout_marginTop="@dimen/sh_genre_margin_top"
-                    android:background="@drawable/sh_genre_rectangle"
-                    android:text="@string/str_movie_genre"
                     android:textSize="@dimen/sh_genre_text_size"
-                    android:textColor="@color/custom_text"
-                    android:fontFamily="@font/roboto"
+
+                    tools:text="@string/str_movie_genre"
+
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     />
@@ -124,7 +121,7 @@
                     A view in the form of a oval that contains information about movie age rating
                 -->
                 <TextView
-                    android:id="@+id/tvAgeCategory"
+                    android:id="@+id/tvListAgeCategory"
                     android:layout_width="@dimen/sh_age_category_oval_width"
                     android:layout_height="@dimen/sh_age_category_oval_height"
                     android:layout_marginStart="@dimen/sh_age_category_margin_left"
@@ -203,18 +200,18 @@
                     The view that contains the actors list name
                 -->
                 <TextView
-                        android:id="@+id/tvActorListName"
-                        android:layout_width="@dimen/actor_list_name_width"
-                        android:layout_height="@dimen/actor_list_name_height"
-                        android:layout_marginStart="@dimen/actor_list_name_margin_left"
-                        android:layout_marginTop="@dimen/actor_list_name_margin_top"
-                        android:fontFamily="@font/actors_list_name_font"
-                        android:text="@string/str_actors_list_name"
-                        android:textSize="@dimen/actors_list_name_text_size"
-                        android:textColor="@color/custom_text"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvMovieDescription"/>
+                    android:id="@+id/tvActorListName"
+                    android:layout_width="@dimen/actor_list_name_width"
+                    android:layout_height="@dimen/actor_list_name_height"
+                    android:layout_marginStart="@dimen/actor_list_name_margin_left"
+                    android:layout_marginTop="@dimen/actor_list_name_margin_top"
+                    android:fontFamily="@font/actors_list_name_font"
+                    android:text="@string/str_actors_list_name"
+                    android:textSize="@dimen/actors_list_name_text_size"
+                    android:textColor="@color/custom_text"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMovieDescription"/>
 
                 <!--
                     Recycling view to display a list of movie actors
@@ -237,8 +234,8 @@
     </androidx.core.widget.NestedScrollView>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_bar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_nav_height"
+        style="@style/BottomNavigationBar"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
