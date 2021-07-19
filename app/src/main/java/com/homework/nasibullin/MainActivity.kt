@@ -3,13 +3,23 @@ package com.homework.nasibullin
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.homework.nasibullin.adapters.GenreAdapter
+import com.homework.nasibullin.adapters.MovieAdapter
+import com.homework.nasibullin.dataclasses.GenreDto
+import com.homework.nasibullin.dataclasses.MovieDto
+import com.homework.nasibullin.datasourceimpl.MovieGenreSourceImpl
+import com.homework.nasibullin.datasourceimpl.MoviesDataSourceImpl
+import com.homework.nasibullin.decorations.GenreItemDecoration
+import com.homework.nasibullin.decorations.MovieItemDecoration
+import com.homework.nasibullin.holders.EmptyListViewHolder
+import com.homework.nasibullin.interfaces.OnClickListenerInterface
+import com.homework.nasibullin.models.GenreModel
+import com.homework.nasibullin.models.MovieModel
 
 
 private const val GENRE_LEFT_RIGHT_OFFSET = 6

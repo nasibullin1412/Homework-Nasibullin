@@ -1,7 +1,5 @@
-package com.homework.nasibullin
+package com.homework.nasibullin.adapters
 
-import android.content.Context
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.homework.nasibullin.R
+import com.homework.nasibullin.dataclasses.Actor
 
 /**
 * Class Adapter to Actor list

@@ -1,4 +1,4 @@
-package com.homework.nasibullin
+package com.homework.nasibullin.decorations
 
 import android.graphics.Rect
 import android.view.View

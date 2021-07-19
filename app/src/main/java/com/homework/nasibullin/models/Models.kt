@@ -1,4 +1,8 @@
-package com.homework.nasibullin
+package com.homework.nasibullin.models
+
+
+import com.homework.nasibullin.datasources.MoviesDataSource
+import com.homework.nasibullin.datasources.MoviesGenreDataSource
 
 /**
 * model of movie data

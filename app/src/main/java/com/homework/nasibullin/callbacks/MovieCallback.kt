@@ -1,6 +1,7 @@
-package com.homework.nasibullin
+package com.homework.nasibullin.callbacks
 
 import androidx.recyclerview.widget.DiffUtil
+import com.homework.nasibullin.dataclasses.MovieDto
 
 /**
 * Callback to base class for presenting List data in a MovieRecyclerView,

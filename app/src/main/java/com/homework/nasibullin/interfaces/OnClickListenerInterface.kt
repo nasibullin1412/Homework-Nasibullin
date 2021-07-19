@@ -1,4 +1,4 @@
-package com.homework.nasibullin
+package com.homework.nasibullin.interfaces
 
 interface OnClickListenerInterface {
     fun onGenreClick(title: String)

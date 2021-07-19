@@ -1,4 +1,4 @@
-package com.homework.nasibullin
+package com.homework.nasibullin.dataclasses
 
 data class Actor(
     val avatarRes: Int,

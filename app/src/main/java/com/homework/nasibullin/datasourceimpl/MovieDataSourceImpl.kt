@@ -1,4 +1,8 @@
-package com.homework.nasibullin
+package com.homework.nasibullin.datasourceimpl
+
+
+import com.homework.nasibullin.dataclasses.MovieDto
+import com.homework.nasibullin.datasources.MoviesDataSource
 
 class MoviesDataSourceImpl : MoviesDataSource {
     override fun getMovies() = listOf(

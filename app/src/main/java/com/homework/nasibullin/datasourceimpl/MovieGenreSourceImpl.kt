@@ -1,6 +1,8 @@
-package com.homework.nasibullin
+package com.homework.nasibullin.datasourceimpl
 
-import java.util.*
+
+import com.homework.nasibullin.dataclasses.GenreDto
+import com.homework.nasibullin.datasources.MoviesGenreDataSource
 
 
 class MovieGenreSourceImpl: MoviesGenreDataSource {
