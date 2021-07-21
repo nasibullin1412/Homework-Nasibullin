@@ -187,17 +187,5 @@
 
 
     </androidx.core.widget.NestedScrollView>
-    <!-- bottom navigation view-->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation_bar"
-        style="@style/BottomNavigationBar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:labelVisibilityMode="unlabeled"
-        app:itemIconTint="@drawable/bottom_nav_view_color"
-        app:itemBackground="@drawable/bottom_nav_tab_background"
-        app:menu="@menu/bottom_navigation_menu"
-        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
