@@ -21,6 +21,7 @@ import com.homework.nasibullin.datasourceimpl.MoviesDataSourceImpl
 import com.homework.nasibullin.decorations.GenreItemDecoration
 import com.homework.nasibullin.decorations.MovieItemDecoration
 import com.homework.nasibullin.holders.EmptyListViewHolder
+import com.homework.nasibullin.interfaces.MainFragmentClickListener
 import com.homework.nasibullin.interfaces.OnClickListenerInterface
 import com.homework.nasibullin.models.GenreModel
 import com.homework.nasibullin.models.MovieModel
@@ -47,6 +48,7 @@ class MainFragment : Fragment(), OnClickListenerInterface {
     private var movieItemMargin: Int = 0
     private lateinit var emptyListViewHolder: EmptyListViewHolder
     private lateinit var mainFragmentView: View
+    private var mainFragmentClickListener: MainFragmentClickListener? = null
 
 
 
@@ -63,6 +65,19 @@ class MainFragment : Fragment(), OnClickListenerInterface {
         return mainFragmentView
     }
 
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is MainFragmentClickListener){
+            mainFragmentClickListener = context
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        mainFragmentClickListener = null
+    }
+
     /**
      * implementation of item listener action
      * */
@@ -74,14 +89,9 @@ class MainFragment : Fragment(), OnClickListenerInterface {
     /**
      * implementation of item listener action
      * */
-    override fun onMovieClick(title: String) {
-        showToast(title)
-        childFragmentManager.beginTransaction()
-                .replace(R.id.clListMovie, MovieDetailsFragment())
-                .addToBackStack("kek")
-                .commit()
-
-
+    override fun onMovieClick(movieDto: MovieDto) {
+        showToast(movieDto.title)
+        mainFragmentClickListener?.onMovieItemClicked(movieDto)
     }
 
     /**

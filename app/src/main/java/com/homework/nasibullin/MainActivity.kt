@@ -7,12 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.homework.nasibullin.dataclasses.MovieDto
 import com.homework.nasibullin.fragments.MainFragment
 import com.homework.nasibullin.fragments.MovieDetailsFragment
 import com.homework.nasibullin.fragments.ProfileFragment
+import com.homework.nasibullin.interfaces.MainFragmentClickListener
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainFragmentClickListener {
 
     private lateinit var mainFragment: MainFragment
     private lateinit var movieDetailsFragment: MovieDetailsFragment
@@ -35,6 +37,16 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    private fun changeBottomItemWithoutAction(){
+        actionBottomFlag = false
+        bottomNavigationView.selectedItemId = if (bottomNavigationView.selectedItemId == R.id.nav_profile) {
+            R.id.nav_home
+        } else {
+            R.id.nav_profile
+        }
+    }
+
+
     override fun onBackPressed() {
 
         val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
@@ -42,11 +54,8 @@ class MainActivity : AppCompatActivity() {
         if (fragment != null && supportFragmentManager.fragments.size != 1) {
             fragmentTransaction.remove(fragment)
             fragmentTransaction.commit()
-            actionBottomFlag = false
-            bottomNavigationView.selectedItemId = if (bottomNavigationView.selectedItemId == R.id.nav_profile) {
-                R.id.nav_home
-            } else {
-                R.id.nav_profile
+            if (fragment.tag != MOVIE_DETAIL_FRAGMENT_TAG) {
+               changeBottomItemWithoutAction()
             }
         } else {
             super.onBackPressed()
@@ -83,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun addFragment(tag: String) {
+    private fun addFragment(tag: String, movieDto: MovieDto?=null) {
 
         checkFragmentRepeat(tag)
 
@@ -106,6 +115,10 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
                 .add(R.id.clFragmentContainer, fragment, tag)
                 .commit()
+    }
+
+    override fun onMovieItemClicked(movieDto: MovieDto) {
+        addFragment(MOVIE_DETAIL_FRAGMENT_TAG, movieDto=movieDto)
     }
 
 }

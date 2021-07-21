@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.homework.nasibullin.R
 import com.homework.nasibullin.adapters.ActorAdapter
 import com.homework.nasibullin.dataclasses.Actor
+import com.homework.nasibullin.dataclasses.MovieDto
+import com.homework.nasibullin.interfaces.MainFragmentClickListener
 
 class MovieDetailsFragment: Fragment() {
     private lateinit var cardView: CardView
@@ -33,17 +35,17 @@ class MovieDetailsFragment: Fragment() {
         prepareRecycleView()
     }
 
-    /*
-* This function gives the correct shape (with top-right and top-left radius) to card view
-* */
+    /**
+    * This function gives the correct shape (with top-right and top-left radius) to card view
+    * */
     private fun setCorrectShapeToCardView() {
         cardView = movieDetailsView.findViewById(R.id.cvMovieCard) ?: throw IllegalArgumentException("CardView required")
         cardView.setBackgroundResource(R.drawable.sh_card_view_back)
     }
 
-    /*
-* Card view initialization and launch function
-* */
+    /**
+    * Card view initialization and launch function
+    * */
     private fun prepareRecycleView() {
         recycler = movieDetailsView.findViewById(R.id.rvActorsList) ?: throw IllegalArgumentException("CardView required")
         val actors: List<Actor> = prepareActors()
@@ -52,9 +54,9 @@ class MovieDetailsFragment: Fragment() {
         recycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
     }
 
-    /*
-* Data initialization function to create a recycle view
-* */
+    /**
+    * Data initialization function to create a recycle view
+    * */
     private fun prepareActors(): List<Actor> {
         return listOf(
                 Actor(R.drawable.jason_statham, R.string.str_first_actor_name),
