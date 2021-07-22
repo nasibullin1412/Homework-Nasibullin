@@ -105,7 +105,7 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     )
             ),
             MovieDto(
-                    title = "Сага о Дэнни Эрнандесе",
+                    title = "Сага о Дэнни",
                     description = "Tekashi69 или Сикснайн — знаменитый бруклинский рэпер с радужными волосами — прогремел синглом «Gummo», коллабом с Ники Минаж, а также многочисленными преступлениями.",
                     rateScore = 2,
                     ageRestriction = 18,

@@ -25,7 +25,6 @@ import java.lang.StringBuilder
 
 class MovieDetailsFragment: Fragment() {
     private lateinit var cardView: CardView
-    private lateinit var movieDetailsView: View
     private lateinit var title:String
     private lateinit var actorAdapter: ActorAdapter
     private lateinit var actorRecycler: RecyclerView
@@ -49,10 +48,14 @@ class MovieDetailsFragment: Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        movieDetailsView = inflater.inflate(R.layout.activity_movie_details, container, false)
+        val movieDetailsView = inflater.inflate(R.layout.activity_movie_details, container, false)
         title = arguments?.getString(KEY_ARGUMENT) ?: throw IllegalArgumentException("Title required")
-        init()
         return movieDetailsView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        init()
     }
 
     private fun init() {
@@ -63,23 +66,23 @@ class MovieDetailsFragment: Fragment() {
     }
 
     private fun setUpView(){
-        movieDetailsView.findViewById<ImageView>(R.id.imgMoviePoster).load(movie?.posterUrl)
-        movieDetailsView.findViewById<TextView>(R.id.tvGenre)?.apply {
+        view?.findViewById<ImageView>(R.id.imgMoviePoster)?.load(movie?.posterUrl)
+        view?.findViewById<TextView>(R.id.tvGenre)?.apply {
             text = movie?.genre
         }
-        movieDetailsView.findViewById<RatingBar>(R.id.rbMovieDetailStar)?.apply{
+        view?.findViewById<RatingBar>(R.id.rbMovieDetailStar)?.apply{
             rating = movie?.rateScore?.toFloat() ?: throw IllegalArgumentException("Rating required")
         }
-        movieDetailsView.findViewById<TextView>(R.id.tvMovieName)?.apply {
+        view?.findViewById<TextView>(R.id.tvMovieName)?.apply {
             text = movie?.title
         }
-        movieDetailsView.findViewById<TextView>(R.id.tvAgeCategory)?.apply {
+        view?.findViewById<TextView>(R.id.tvAgeCategory)?.apply {
             text = StringBuilder().also {
                 it.append(movie?.ageRestriction.toString())
                 it.append("+")
             }
         }
-        movieDetailsView.findViewById<TextView>(R.id.tvMovieDescription)?.apply {
+        view?.findViewById<TextView>(R.id.tvMovieDescription)?.apply {
             text = movie?.description
         }
 
@@ -94,7 +97,7 @@ class MovieDetailsFragment: Fragment() {
     * This function gives the correct shape (with top-right and top-left radius) to card view
     * */
     private fun setCorrectShapeToCardView() {
-        cardView = movieDetailsView.findViewById(R.id.cvMovieCard) ?: throw IllegalArgumentException("CardView required")
+        cardView = view?.findViewById(R.id.cvMovieCard) ?: throw IllegalArgumentException("CardView required")
         cardView.setBackgroundResource(R.drawable.sh_card_view_back)
     }
 
@@ -102,7 +105,7 @@ class MovieDetailsFragment: Fragment() {
     * Card view initialization and launch function
     * */
     private fun prepareRecycleView() {
-        actorRecycler = movieDetailsView.findViewById(R.id.rvActorsList)
+        actorRecycler = view?.findViewById(R.id.rvActorsList) ?: throw IllegalArgumentException("CrvActorList required")
         actorAdapter = ActorAdapter()
         actorAdapter.submitList(movie?.actors)
         val itemDecorator = ActorItemDecoration(leftRight = 12)

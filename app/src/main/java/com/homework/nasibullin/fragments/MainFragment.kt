@@ -31,8 +31,8 @@ private const val MOVIE_TOP_BOTTOM_OFFSET = 50
 private const val ERROR_MESSAGE =  "Error"
 private const val PORTRAIT_ORIENTATION_SPAN_NUMBER = 2
 private const val LANDSCAPE_ORIENTATION_SPAN_NUMBER = 3
-private const val ALL_GENRE = "все"
-private const val GENRE_KEY = "currentGenre"
+
+
 private const val MIN_OFFSET = 20
 class MainFragment : Fragment(), OnClickListenerInterface {
     private lateinit var movieGenreRecycler: RecyclerView
@@ -47,11 +47,21 @@ class MainFragment : Fragment(), OnClickListenerInterface {
     private var movieItemWidth: Int = 0
     private var movieItemMargin: Int = 0
     private lateinit var emptyListViewHolder: EmptyListViewHolder
-    private lateinit var mainFragmentView: View
     private var mainFragmentClickListener: MainFragmentClickListener? = null
 
 
+        companion object {
+            const val GENRE_KEY = "currentGenre"
+            const val ALL_GENRE = "все"
 
+            fun newInstance(titleGenre: String): MainFragment {
+                val args = Bundle()
+                args.putString(GENRE_KEY, titleGenre)
+                val fragment = MainFragment()
+                fragment.arguments = args
+                return fragment
+            }
+        }
 
 
 
@@ -61,13 +71,18 @@ class MainFragment : Fragment(), OnClickListenerInterface {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        mainFragmentView = inflater.inflate(R.layout.list_of_movies, container, false)
-        currentGenre = savedInstanceState?.getString(GENRE_KEY) ?: ALL_GENRE
-        initDataSource()
-        setupViews()
+        val mainFragmentView = inflater.inflate(R.layout.list_of_movies, container, false)
+        currentGenre = arguments?.getString(GENRE_KEY) ?: ALL_GENRE
+
         return mainFragmentView
     }
 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initDataSource()
+        setupViews()
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -93,6 +108,7 @@ class MainFragment : Fragment(), OnClickListenerInterface {
     override fun onGenreClick(title: String) {
         showToast(title)
         getMoviesByGenre(title)
+        mainFragmentClickListener?.onGenreItemClicked(title)
     }
 
     /**
@@ -136,7 +152,7 @@ class MainFragment : Fragment(), OnClickListenerInterface {
      * */
     private fun setupViews() {
         emptyListViewHolder = EmptyListViewHolder(this.layoutInflater.inflate(R.layout.empty_list_movie,
-                mainFragmentView.findViewById<RecyclerView>(R.id.rvMovieGenreList), false))
+                view?.findViewById<RecyclerView>(R.id.rvMovieGenreList), false))
         calculateValues()
         prepareMovieGenreRecycleView()
         prepareMovieRecycleView()
@@ -183,7 +199,7 @@ class MainFragment : Fragment(), OnClickListenerInterface {
      * Movie genre recycle view with ListAdapter
      * */
     private fun prepareMovieGenreRecycleView() {
-        movieGenreRecycler = mainFragmentView.findViewById(R.id.rvMovieGenreList)
+        movieGenreRecycler = view?.findViewById(R.id.rvMovieGenreList) ?: throw IllegalArgumentException("Recycler required")
         genreAdapter = GenreAdapter()
         genreAdapter.initOnClickInterface(this)
         genreAdapter.submitList(genreModel.getGenres())
@@ -197,7 +213,7 @@ class MainFragment : Fragment(), OnClickListenerInterface {
      * Movie recycle view with ListAdapter
      * */
     private fun prepareMovieRecycleView() {
-        movieRecycler = mainFragmentView.findViewById(R.id.rvMovieList)
+        movieRecycler = view?.findViewById(R.id.rvMovieList)?: throw IllegalArgumentException("Recycler required")
         movieAdapter = MovieAdapter(emptyListViewHolder)
         movieAdapter.initOnClickInterface(this)
         movieAdapter.submitList(movieCollection.toList())

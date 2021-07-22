@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
     private var actionBottomFlag: Boolean = true
     private var currentFragment:String? = null
     private var currentMovieTitle:String? = null
+    private var currentGenre:String? = null
 
 
     companion object {
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
         const val PROFILE_FRAGMENT_TAG = "profileFragment"
         const val CURRENT_FRAGMENT_KEY = "currentFragment"
         const val CURRENT_MOVIE_KEY = "currentMovie"
+        const val CURRENT_MOVIE_GENRE = "currentGenre"
     }
 
 
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
             addFragment(MAIN_FRAGMENT_TAG)
         }
         else{
+            currentGenre = savedInstanceState.getString(CURRENT_MOVIE_GENRE)
             currentFragment = supportFragmentManager.fragments.last().tag
             addFragment(currentFragment ?: MAIN_FRAGMENT_TAG,
                     title = savedInstanceState.getString(CURRENT_MOVIE_KEY))
@@ -118,11 +121,16 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
 
         val fragment: Fragment = when (tag) {
             MAIN_FRAGMENT_TAG -> {
-                MainFragment()
+                MainFragment.newInstance(currentGenre ?: MainFragment.ALL_GENRE)
             }
             MOVIE_DETAIL_FRAGMENT_TAG -> {
-                MovieDetailsFragment.newInstance(currentMovieTitle
-                        ?: throw IllegalArgumentException("Title required"))
+                if (currentMovieTitle != null) {
+                    MovieDetailsFragment.newInstance(currentMovieTitle
+                            ?: throw IllegalArgumentException("Recycler required"))
+                }
+                else{
+                    MainFragment.newInstance(currentGenre ?: MainFragment.ALL_GENRE)
+                }
             }
             PROFILE_FRAGMENT_TAG -> {
                 ProfileFragment()
@@ -145,11 +153,16 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
         super.onSaveInstanceState(outState)
         outState.putString(CURRENT_FRAGMENT_KEY, currentFragment)
         outState.putString(CURRENT_MOVIE_KEY, currentMovieTitle)
+        outState.putString(CURRENT_MOVIE_GENRE, currentGenre)
     }
 
 
     override fun onMovieItemClicked(title: String) {
         addFragment(MOVIE_DETAIL_FRAGMENT_TAG, title = title)
+    }
+
+    override fun onGenreItemClicked(title: String) {
+        currentGenre = title
     }
 }
 
