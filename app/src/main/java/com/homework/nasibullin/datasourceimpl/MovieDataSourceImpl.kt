@@ -1,6 +1,7 @@
 package com.homework.nasibullin.datasourceimpl
 
 
+import com.homework.nasibullin.dataclasses.ActorDto
 import com.homework.nasibullin.dataclasses.MovieDto
 import com.homework.nasibullin.datasources.MoviesDataSource
 
@@ -13,7 +14,22 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     ageRestriction = 18,
                     imageUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/5JP9X5tCZ6qz7DYMabLmrQirlWh.jpg",
                     posterUrl = "https://www.themoviedb.org/t/p/original/xkvPZY81ZliNh33tGsrUPTUFXXA.jpg",
-                    genre = "боевики"
+                    genre = "боевики",
+                    actors = listOf(
+                            ActorDto(
+                                    name = "Джейсон Стэтхем",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/lldeQ91GwIVff43JBrpdbAAeYWj.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Холт МакКэллани",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8NvOcP35qv5UHWEdpqAvQrKnQQz.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Джош Хартнетт",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/dCfu2EN7FjISACcjilaJu7evwEc.jpg"
+                            )
+
+                    )
             ),
             MovieDto(
                     title = "Мортал Комбат",
@@ -22,7 +38,22 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     ageRestriction = 18,
                     imageUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/pMIixvHwsD5RZxbvgsDSNkpKy0R.jpg",
                     posterUrl = "https://www.themoviedb.org/t/p/original/vUswluOoI4N1lomTxnR62QUzbF6.jpg",
-                    genre = "боевики"
+                    genre = "боевики",
+                    actors = listOf(
+                            ActorDto(
+                                    name = "Джейсон Стэтхем",
+                                    avatarUrl = ""
+                            ),
+                            ActorDto(
+                                    name = "",
+                                    avatarUrl = ""
+                            ),
+                            ActorDto(
+                                    name = "",
+                                    avatarUrl = ""
+                            )
+                    )
+
             ),
             MovieDto(
                     title = "Упс... Приплыли!",
@@ -31,7 +62,21 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     ageRestriction = 6,
                     imageUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/546RNYy9Wi5wgboQ7EtD6i0DY5D.jpg",
                     posterUrl ="https://www.themoviedb.org/t/p/original/LhGcIC9Df2tXjtF5bLBb8OVkTw.jpg",
-                    genre = "мультфильмы"
+                    genre = "мультфильмы",
+                    actors = listOf(
+                            ActorDto(
+                                    name = "Джейсон Стэтхем",
+                                    avatarUrl = ""
+                            ),
+                            ActorDto(
+                                    name = "",
+                                    avatarUrl = ""
+                            ),
+                            ActorDto(
+                                    name = "",
+                                    avatarUrl = ""
+                            )
+                    )
             ),
             MovieDto(
                     title = "The Box",
@@ -40,7 +85,21 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     ageRestriction = 12,
                     imageUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/fq3DSw74fAodrbLiSv0BW1Ya4Ae.jpg",
                     posterUrl = "https://www.themoviedb.org/t/p/original/wRAaTBveXfFvCrEvcL3Ep9hMq83.jpg",
-                    genre = "драмы"
+                    genre = "драмы",
+                    actors = listOf(
+                            ActorDto(
+                                    name = "Джейсон Стэтхем",
+                                    avatarUrl = ""
+                            ),
+                            ActorDto(
+                                    name = "",
+                                    avatarUrl = ""
+                            ),
+                            ActorDto(
+                                    name = "",
+                                    avatarUrl = ""
+                            )
+                    )
             ),
             MovieDto(
                     title = "Сага о Дэнни Эрнандесе",
@@ -49,7 +108,21 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     ageRestriction = 18,
                     imageUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/5xXGQLVtTAExHY92DHD9ewGmKxf.jpg",
                     posterUrl ="https://www.themoviedb.org/t/p/original/5xXGQLVtTAExHY92DHD9ewGmKxf.jpg",
-                    genre = "драмы"
+                    genre = "драмы",
+                    actors = listOf(
+                            ActorDto(
+                                    name = "Джейсон Стэтхем",
+                                    avatarUrl = ""
+                            ),
+                            ActorDto(
+                                    name = "",
+                                    avatarUrl = ""
+                            ),
+                            ActorDto(
+                                    name = "",
+                                    avatarUrl = ""
+                            )
+                    )
             ),
             MovieDto(
                     title = "Пчелка Майя",
@@ -58,7 +131,21 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     ageRestriction = 0,
                     imageUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xltjMeLlxywym14NEizl0metO10.jpg",
                     posterUrl ="https://www.themoviedb.org/t/p/original/tMS2qcbhbkFpcwLnbUE9o9IK4HH.jpg",
-                    genre = "мультфильмы"
+                    genre = "мультфильмы",
+                    actors = listOf(
+                            ActorDto(
+                                    name = "Джейсон Стэтхем",
+                                    avatarUrl = ""
+                            ),
+                            ActorDto(
+                                    name = "",
+                                    avatarUrl = ""
+                            ),
+                            ActorDto(
+                                    name = "",
+                                    avatarUrl = ""
+                            )
+                    )
             ),
             MovieDto(
                     title = "Круэлла",
@@ -67,7 +154,21 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     ageRestriction = 12,
                     imageUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/hUfyYGP9Xf6cHF9y44JXJV3NxZM.jpg",
                     posterUrl ="https://www.themoviedb.org/t/p/original/wK9Kd0vyuqgt41AF8CMzMBAw9KJ.jpg",
-                    genre = "фантастика"
+                    genre = "фантастика",
+                    actors = listOf(
+                            ActorDto(
+                                    name = "Джейсон Стэтхем",
+                                    avatarUrl = ""
+                            ),
+                            ActorDto(
+                                    name = "",
+                                    avatarUrl = ""
+                            ),
+                            ActorDto(
+                                    name = "",
+                                    avatarUrl = ""
+                            )
+                    )
             ),
             MovieDto(
                     title = "Чёрная вдова",
@@ -76,7 +177,21 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     ageRestriction = 16,
                     imageUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/mbtN6V6y5kdawvAkzqN4ohi576a.jpg",
                     posterUrl ="https://www.themoviedb.org/t/p/original/dShZ6Y3i1l6S3arJuk3P45eX6T.jpg",
-                    genre = "фантастика"
+                    genre = "фантастика",
+                    actors = listOf(
+                            ActorDto(
+                                    name = "Джейсон Стэтхем",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/lldeQ91GwIVff43JBrpdbAAeYWj.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Холт МакКэллани",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8NvOcP35qv5UHWEdpqAvQrKnQQz.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Джош Хартнетт",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/dCfu2EN7FjISACcjilaJu7evwEc.jpg"
+                            )
+                    )
             )
     )
 }

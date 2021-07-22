@@ -1,8 +1,8 @@
 package com.homework.nasibullin.dataclasses
 
-data class Actor(
-    val avatarRes: Int,
-    val nameResName: Int
+data class ActorDto(
+    val avatarUrl: String,
+    val name: String
 )
 
 /**
@@ -15,7 +15,8 @@ data class MovieDto(
         val ageRestriction: Int,
         val imageUrl: String,
         val posterUrl: String,
-        val genre: String
+        val genre: String,
+        val actors: List<ActorDto>
 )
 
 /**

@@ -14,19 +14,21 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.homework.nasibullin.R
 import com.homework.nasibullin.adapters.ActorAdapter
-import com.homework.nasibullin.dataclasses.Actor
+import com.homework.nasibullin.adapters.GenreAdapter
+import com.homework.nasibullin.dataclasses.ActorDto
 import com.homework.nasibullin.dataclasses.MovieDto
 import com.homework.nasibullin.datasourceimpl.MoviesDataSourceImpl
-import com.homework.nasibullin.interfaces.MainFragmentClickListener
+import com.homework.nasibullin.decorations.ActorItemDecoration
+import com.homework.nasibullin.decorations.GenreItemDecoration
 import com.homework.nasibullin.models.MovieModel
 import java.lang.StringBuilder
 
 class MovieDetailsFragment: Fragment() {
     private lateinit var cardView: CardView
-    private lateinit var recycler: RecyclerView
-    private lateinit var adapter: ActorAdapter
     private lateinit var movieDetailsView: View
     private lateinit var title:String
+    private lateinit var actorAdapter: ActorAdapter
+    private lateinit var actorRecycler: RecyclerView
     private var movie:MovieDto? = null
 
 
@@ -100,22 +102,20 @@ class MovieDetailsFragment: Fragment() {
     * Card view initialization and launch function
     * */
     private fun prepareRecycleView() {
-        recycler = movieDetailsView.findViewById(R.id.rvActorsList) ?: throw IllegalArgumentException("CardView required")
-        val actors: List<Actor> = prepareActors()
-        adapter = ActorAdapter(actors)
-        recycler.adapter = adapter
-        recycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        actorRecycler = movieDetailsView.findViewById(R.id.rvActorsList)
+        actorAdapter = ActorAdapter()
+        actorAdapter.submitList(movie?.actors)
+        val itemDecorator = ActorItemDecoration(leftRight = 12)
+        actorRecycler.addItemDecoration(itemDecorator)
+        actorRecycler.adapter = actorAdapter
+        actorRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
     }
 
     /**
     * Data initialization function to create a recycle view
     * */
-    private fun prepareActors(): List<Actor> {
-        return listOf(
-                Actor(R.drawable.jason_statham, R.string.str_first_actor_name),
-                Actor(R.drawable.holt__mc_callany, R.string.str_second_actor_name),
-                Actor(R.drawable.josh_hartnett, R.string.str_third_actor_name)
-        )
+    private fun prepareActors(): List<ActorDto> {
+        return movie?.actors ?: throw IllegalArgumentException("Actors required")
     }
 
 

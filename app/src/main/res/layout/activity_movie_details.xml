@@ -199,15 +199,15 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvActorsList"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/actor_item_height"
+                    android:layout_height="@dimen/actor_list_layout_height"
                     tools:orientation="horizontal"
                     android:layout_marginTop="@dimen/actor_list_margin_top"
                     android:layout_marginStart="@dimen/actor_list_margin_left"
-                    android:layout_marginBottom="@dimen/actor_list_margin_bottom"
+                    android:paddingEnd="@dimen/actor_list_padding_end"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvActorListName" />
+                    app:layout_constraintTop_toBottomOf="@id/tvActorListName"
+                    tools:ignore="RtlSymmetry" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

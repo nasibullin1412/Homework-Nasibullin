@@ -4,20 +4,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/clActorsListItem"
     android:layout_width="@dimen/actor_item_width"
-    android:layout_height="@dimen/actor_item_height"
+    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     >
 
-    <ImageView
+    <!-- movie poster-->
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivActorImage"
         android:layout_width="match_parent"
         android:layout_height="196dp"
-
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/round_image_style"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/jason_statham"
-        android:contentDescription="@string/str_actor_img_description" />
+        />
 
     <TextView
         android:id="@+id/tvActorName"

@@ -67,9 +67,11 @@
     <dimen name="actor_list_name_margin_left">22dp</dimen>
 
     <!-- actor list params -->
+    <dimen name="actor_list_layout_height">235dp</dimen>
     <dimen name="actor_list_margin_left">22dp</dimen>
     <dimen name="actor_list_margin_top">16dp</dimen>
     <dimen name="actor_list_margin_bottom">46dp</dimen>
+    <dimen name="actor_list_padding_end">15dp</dimen>
 
 
     <!-- actor list item params -->
