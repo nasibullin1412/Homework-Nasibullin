@@ -1,10 +1,14 @@
-package com.homework.nasibullin
+package com.homework.nasibullin.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
+import com.homework.nasibullin.*
+import com.homework.nasibullin.callbacks.GenreCallback
+import com.homework.nasibullin.dataclasses.GenreDto
+import com.homework.nasibullin.holders.GenreViewHolder
+import com.homework.nasibullin.interfaces.OnClickListenerInterface
 
 
 /**

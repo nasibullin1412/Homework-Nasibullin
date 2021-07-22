@@ -1,6 +1,7 @@
-package com.homework.nasibullin
+package com.homework.nasibullin.callbacks
 
 import androidx.recyclerview.widget.DiffUtil
+import com.homework.nasibullin.dataclasses.GenreDto
 
 
 /**

@@ -1,8 +1,10 @@
-package com.homework.nasibullin
+package com.homework.nasibullin.holders
 
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.homework.nasibullin.R
+import com.homework.nasibullin.dataclasses.GenreDto
 
 class GenreViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     // Do once

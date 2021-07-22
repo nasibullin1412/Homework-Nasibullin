@@ -1,10 +1,15 @@
-package com.homework.nasibullin
+package com.homework.nasibullin.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.homework.nasibullin.*
+import com.homework.nasibullin.callbacks.MovieCallback
+import com.homework.nasibullin.dataclasses.MovieDto
+import com.homework.nasibullin.holders.EmptyListViewHolder
+import com.homework.nasibullin.holders.MovieViewHolder
+import com.homework.nasibullin.interfaces.OnClickListenerInterface
 
 
 /**
@@ -32,8 +37,8 @@ class MovieAdapter(
     }
 
     override fun onCurrentListChanged(
-        previousList: MutableList<MovieDto>,
-        currentList: MutableList<MovieDto>
+            previousList: MutableList<MovieDto>,
+            currentList: MutableList<MovieDto>
     ) {
         super.onCurrentListChanged(previousList, currentList)
 

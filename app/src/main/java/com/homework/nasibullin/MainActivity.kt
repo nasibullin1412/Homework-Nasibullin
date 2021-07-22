@@ -1,265 +1,192 @@
 package com.homework.nasibullin
 
-import android.content.Context
-import android.content.res.Configuration
+
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
-import android.widget.Toast
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.homework.nasibullin.fragments.MainFragment
+import com.homework.nasibullin.fragments.MovieDetailsFragment
+import com.homework.nasibullin.fragments.ProfileFragment
+import com.homework.nasibullin.interfaces.MainFragmentClickListener
 
 
-private const val GENRE_LEFT_RIGHT_OFFSET = 6
-private const val MOVIE_TOP_BOTTOM_OFFSET = 50
-private const val ERROR_MESSAGE =  "Error"
-private const val PORTRAIT_ORIENTATION_SPAN_NUMBER = 2
-private const val LANDSCAPE_ORIENTATION_SPAN_NUMBER = 3
-private const val ALL_GENRE = "все"
-private const val GENRE_KEY = "currentGenre"
-private const val MIN_OFFSET = 20
-class MainActivity : AppCompatActivity(), OnClickListenerInterface {
+class MainActivity : AppCompatActivity(), MainFragmentClickListener {
 
-    /*private lateinit var cardView: CardView
-    private lateinit var recycler: RecyclerView
-    private lateinit var adapter: ActorAdapter*/
-
-    private lateinit var movieGenreRecycler: RecyclerView
-    private lateinit var movieRecycler: RecyclerView
-    private lateinit var genreAdapter: GenreAdapter
-    private lateinit var movieAdapter: MovieAdapter
-    private lateinit var genreModel: GenreModel
-    private lateinit var movieModel: MovieModel
-    private lateinit var movieCollection: Collection<MovieDto>
-    private lateinit var genreCollection: Collection<GenreDto>
-    private var currentGenre: String = ALL_GENRE
-    private var movieItemWidth: Int = 0
-    private var movieItemMargin: Int = 0
-    private lateinit var emptyListViewHolder: EmptyListViewHolder
+    private lateinit var bottomNavigationView: BottomNavigationView
+    private var actionBottomFlag: Boolean = true
+    private var currentFragment:String? = null
+    private var currentMovieTitle:String? = null
+    private var currentGenre:String? = null
 
 
-
-    /**
-    * implementation of item listener action
-    * */
-    override fun onGenreClick(title: String) {
-        showToast(title)
-        getMoviesByGenre(title)
-    }
-
-    /**
-     * implementation of item listener action
-     * */
-    override fun onMovieClick(title: String) {
-        showToast(title)
+    companion object {
+        const val MAIN_FRAGMENT_TAG = "mainFragment"
+        const val MOVIE_DETAIL_FRAGMENT_TAG = "movieDetailFragment"
+        const val PROFILE_FRAGMENT_TAG = "profileFragment"
+        const val CURRENT_FRAGMENT_KEY = "currentFragment"
+        const val CURRENT_MOVIE_KEY = "currentMovie"
+        const val CURRENT_MOVIE_GENRE = "currentGenre"
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.list_of_movies)
-        currentGenre = savedInstanceState?.getString(GENRE_KEY) ?: ALL_GENRE
-        initDataSource()
-        setupViews()
+        setContentView(R.layout.activity_main)
+        if(savedInstanceState == null){
+            addFragment(MAIN_FRAGMENT_TAG)
+        }
+        else{
+            currentGenre = savedInstanceState.getString(CURRENT_MOVIE_GENRE)
+            currentFragment = supportFragmentManager.fragments.last().tag
+            addFragment(currentFragment ?: MAIN_FRAGMENT_TAG,
+                    title = savedInstanceState.getString(CURRENT_MOVIE_KEY))
+        }
 
+        initNavigationListener()
+    }
+
+
+    /**
+     * Change bottom active item without actions. Need when Back pressed
+    so that no action is performed when the button is changed
+     */
+    private fun changeBottomItemWithoutAction() {
+        actionBottomFlag = false
+        bottomNavigationView.selectedItemId = if (bottomNavigationView.selectedItemId == R.id.nav_profile) {
+            R.id.nav_home
+        } else {
+            R.id.nav_profile
+        }
     }
 
     /**
-    * keep user genre selection when flipping screen
-    * */
+     * add fragment navigation on Back pressed
+     */
+    override fun onBackPressed() {
+
+        val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+        val fragment: Fragment? = supportFragmentManager.findFragmentById(R.id.clFragmentContainer)
+        if (fragment != null && supportFragmentManager.fragments.size != 1) {
+            fragmentTransaction.remove(fragment)
+            fragmentTransaction.commit()
+            if (fragment.tag != MOVIE_DETAIL_FRAGMENT_TAG) {
+                changeBottomItemWithoutAction()
+            }
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+
+
+    /**
+     * init bottom navigation listener
+     */
+    private fun initNavigationListener() {
+        bottomNavigationView = findViewById(R.id.bottom_navigation_bar)
+        bottomNavigationView.setOnItemSelectedListener {
+            actionBottom(it)
+        }
+    }
+
+    /**
+     * action which execute
+     */
+    private fun actionBottom(item: MenuItem): Boolean {
+        if (actionBottomFlag) {
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    val fragment: Fragment? = supportFragmentManager.findFragmentById(R.id.clFragmentContainer)
+                    if (fragment?.tag == MOVIE_DETAIL_FRAGMENT_TAG) {
+                        fragmentTransaction.remove(fragment)
+                        fragmentTransaction.commit()
+                    }
+                    addFragment(MAIN_FRAGMENT_TAG)
+                }
+                R.id.nav_profile -> addFragment(PROFILE_FRAGMENT_TAG)
+                else -> return false
+            }
+        } else {
+            actionBottomFlag = true
+        }
+        return true
+    }
+
+    /**
+     * Checking whether a fragment was created with such a tag or not. If yes, then delete the fragment to recreate it
+     */
+    private fun checkFragmentRepeat(tag: String) {
+        val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+        val fragment: Fragment? = supportFragmentManager.findFragmentByTag(tag)
+        if (fragment != null) {
+            fragmentTransaction.remove(fragment)
+            fragmentTransaction.commit()
+        }
+    }
+
+    /**
+     * Adding a new snippet, either when clicking on the item navigation bottom bar, or when clicking on the movie
+     */
+    private fun addFragment(tag: String, title: String? = null) {
+        checkFragmentRepeat(tag)
+
+        currentMovieTitle = title
+
+        val fragment: Fragment = when (tag) {
+            MAIN_FRAGMENT_TAG -> {
+                MainFragment.newInstance(currentGenre ?: MainFragment.ALL_GENRE)
+            }
+            MOVIE_DETAIL_FRAGMENT_TAG -> {
+                if (currentMovieTitle != null) {
+                    MovieDetailsFragment.newInstance(currentMovieTitle
+                            ?: throw IllegalArgumentException("Recycler required"))
+                }
+                else{
+                    MainFragment.newInstance(currentGenre ?: MainFragment.ALL_GENRE)
+                }
+            }
+            PROFILE_FRAGMENT_TAG -> {
+                ProfileFragment()
+            }
+            else -> {
+                MainFragment()
+            }
+        }
+
+       supportFragmentManager.beginTransaction()
+                .add(R.id.clFragmentContainer, fragment, tag)
+                .commit()
+    }
+
+
+    /**
+     * keep user genre selection when flipping screen
+     * */
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(GENRE_KEY, currentGenre)
-    }
-
-
-    /**
-    * Init data models and collections
-    * */
-    private fun initDataSource() {
-        movieModel = MovieModel(MoviesDataSourceImpl())
-        initMovieCollection()
-        genreModel = GenreModel(MovieGenreSourceImpl())
-        genreCollection = genreModel.getGenres()
-    }
-
-
-    /**
-    *  Get screen width to make margin between elements relative to the screen width
-    * */
-    private val screenWidth: Int
-        get() {
-            return windowManager.defaultDisplay.width
-        }
-
-    /**
-     *  prepare genre and movie recycle views
-     * */
-    private fun setupViews() {
-        emptyListViewHolder = EmptyListViewHolder(this.layoutInflater.inflate(R.layout.empty_list_movie,
-            findViewById<RecyclerView>(R.id.rvMovieGenreList), false))
-        calculateValues()
-        prepareMovieGenreRecycleView()
-        prepareMovieRecycleView()
+        outState.putString(CURRENT_FRAGMENT_KEY, currentFragment)
+        outState.putString(CURRENT_MOVIE_KEY, currentMovieTitle)
+        outState.putString(CURRENT_MOVIE_GENRE, currentGenre)
     }
 
     /**
-     *  filter of movie list by genre of movie
-     * */
-    private fun getMoviesByGenre(genre:String){
-        movieCollection = movieModel.getMovies()
-        if (genre != ALL_GENRE) {
-            movieCollection = movieModel.getMovies().filter { it.genre == genre }
-        }
-        movieAdapter.submitList(movieCollection.toList())
-        emptyListViewHolder.bind(movieCollection.size)
-        currentGenre = genre
-    }
-
-    /**
-     * init Movie collection by all movie list or by genre if init after screen flip
+     * Adding a movie detail fragment when clicking on an element
      */
-    private fun initMovieCollection(){
-        movieCollection = if (currentGenre == ALL_GENRE){
-            movieModel.getMovies()
-        } else{
-            movieModel.getMovies().filter { it.genre == currentGenre }
-        }
+    override fun onMovieItemClicked(title: String) {
+        addFragment(MOVIE_DETAIL_FRAGMENT_TAG, title = title)
     }
 
     /**
-    * Get device orientation
+     * Saving a genre when clicking on a genre. Used to save current genre when flipping the screen
      */
-    private val Context.orientation: Boolean
-        get() {
-            return when (resources.configuration.orientation) {
-                Configuration.ORIENTATION_PORTRAIT -> true
-                Configuration.ORIENTATION_LANDSCAPE -> false
-                Configuration.ORIENTATION_UNDEFINED -> true
-                else -> error("Error orientation")
-            }
-        }
-
-    /**
-    * Movie genre recycle view with ListAdapter
-    * */
-    private fun prepareMovieGenreRecycleView() {
-        movieGenreRecycler = findViewById(R.id.rvMovieGenreList)
-        genreAdapter = GenreAdapter()
-        genreAdapter.initOnClickInterface(this)
-        genreAdapter.submitList(genreModel.getGenres())
-        val itemDecorator = GenreItemDecoration(leftRight = GENRE_LEFT_RIGHT_OFFSET)
-        movieGenreRecycler.addItemDecoration(itemDecorator)
-        movieGenreRecycler.adapter = genreAdapter
-        movieGenreRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
-    }
-
-    /**
-    * Movie recycle view with ListAdapter
-    * */
-    private fun prepareMovieRecycleView() {
-        movieRecycler = findViewById(R.id.rvMovieList)
-        movieAdapter = MovieAdapter(emptyListViewHolder)
-        movieAdapter.initOnClickInterface(this)
-        movieAdapter.submitList(movieCollection.toList())
-        val itemDecorator = MovieItemDecoration(
-            topBottom = MOVIE_TOP_BOTTOM_OFFSET,
-            right = calculateOffset(),
-            spanNumber = getSpanNumber() - 1
-        )
-        movieRecycler.addItemDecoration(itemDecorator)
-        movieRecycler.adapter = movieAdapter
-        movieRecycler.layoutManager = GridLayoutManager(
-            this,
-            getSpanNumber(),
-            RecyclerView.VERTICAL,
-            false
-        )
-
-    }
-
-    /**
-    * Get number of span depending on orientation
-    * */
-    private fun getSpanNumber(): Int =
-        if (orientation) PORTRAIT_ORIENTATION_SPAN_NUMBER else LANDSCAPE_ORIENTATION_SPAN_NUMBER
-
-    /**
-    * Calculate offset item movies depending on orientation
-    * */
-    private fun calculateOffset(): Int {
-        var offset: Int = if (orientation) {
-            screenWidth - movieItemWidth * 2 - movieItemMargin * 2
-        } else {
-            (screenWidth - movieItemWidth * 3 - movieItemMargin * 2) / 2
-        }
-        val density = resources.displayMetrics.density
-        offset = (offset.toFloat()/density).toInt()
-
-        return if (offset < MIN_OFFSET) MIN_OFFSET else offset
-    }
-
-    /**
-     * get movie item margin and item width in px
-     */
-    private fun calculateValues() {
-        movieItemMargin = resources.getDimension(R.dimen.list_of_guideline_left).toInt()
-        movieItemWidth = resources.getDimension(R.dimen.img_movie_poster_width).toInt()
-    }
-
-    /*
-    * Show toast with genre or film title
-    * */
-    private fun showToast(message: String?) {
-        when {
-            message.isNullOrEmpty() -> {
-                showToast(ERROR_MESSAGE)
-            }
-            else -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-        }
+    override fun onGenreItemClicked(title: String) {
+        currentGenre = title
     }
 }
 
-
-/*
-* Lesson 3 code
-* */
-        /*private fun init(){
-            setCorrectShapeToCardView()
-            prepareRecycleView()
-        }
-
-        /*
-         * This function gives the correct shape (with top-right and top-left radius) to card view
-         * */
-        private fun setCorrectShapeToCardView()
-        {
-            cardView = findViewById(R.id.cvMovieCard)
-            cardView.setBackgroundResource(R.drawable.sh_card_view_back)
-        }
-
-        /*
-        * Card view initialization and launch function
-        * */
-        private fun prepareRecycleView(){
-            recycler = findViewById(R.id.rvActorsList)
-            val actors: List<Actor> = prepareActors()
-            adapter = ActorAdapter(this, actors)
-            recycler.adapter = adapter
-            recycler.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
-        }
-
-        /*
-        * Data initialization function to create a recycle view
-        * */
-        private fun prepareActors(): List<Actor>{
-            return listOf(
-                Actor(R.drawable.jason_statham, R.string.str_first_actor_name),
-                Actor(R.drawable.holt__mc_callany, R.string.str_second_actor_name),
-                Actor(R.drawable.josh_hartnett, R.string.str_third_actor_name)
-            )
-        }*/
 
 

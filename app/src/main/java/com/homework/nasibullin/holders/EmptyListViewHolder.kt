@@ -1,9 +1,10 @@
-package com.homework.nasibullin
+package com.homework.nasibullin.holders
 
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.homework.nasibullin.R
 
 
 class EmptyListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
