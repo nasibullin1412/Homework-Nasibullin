@@ -12,8 +12,8 @@ class ActorItemDecoration(private val topBottom: Int = 0, private val leftRight:
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
-        outRect.bottom = topBottom
-        outRect.top = leftRight
+        outRect.bottom = 0
+        outRect.top = 0
         outRect.right = 2*leftRight
         outRect.left = 0
     }

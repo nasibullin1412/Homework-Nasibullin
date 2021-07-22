@@ -27,13 +27,14 @@
      -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/card_view_margin_top"
-        app:layout_constraintTop_toTopOf="@+id/imgMoviePoster">
+
+        android:nextFocusUp="@id/cvMovieCard">
 
         <!--
         Card view was used because a large number of views can be conveniently placed on it, and also,
@@ -43,6 +44,7 @@
             android:id="@+id/cvMovieCard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/card_view_margin_top"
             android:minHeight="@dimen/card_view_min_height"
             app:layout_constrainedWidth="@id/imgMoviePoster"
             tools:cardCornerRadius="@dimen/card_view_corner_rad"
@@ -202,10 +204,11 @@
                     android:layout_height="@dimen/actor_list_layout_height"
                     tools:orientation="horizontal"
                     android:layout_marginTop="@dimen/actor_list_margin_top"
+                    android:layout_marginBottom="@dimen/actor_list_margin_bottom"
                     android:layout_marginStart="@dimen/actor_list_margin_left"
-                    android:paddingEnd="@dimen/actor_list_padding_end"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvActorListName"
                     tools:ignore="RtlSymmetry" />
 
