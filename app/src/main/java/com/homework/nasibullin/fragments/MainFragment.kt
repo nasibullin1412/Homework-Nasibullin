@@ -26,11 +26,7 @@ import com.homework.nasibullin.interfaces.OnClickListenerInterface
 import com.homework.nasibullin.models.GenreModel
 import com.homework.nasibullin.models.MovieModel
 
-private const val GENRE_LEFT_RIGHT_OFFSET = 6
-private const val MOVIE_TOP_BOTTOM_OFFSET = 50
-private const val ERROR_MESSAGE =  "Error"
-private const val PORTRAIT_ORIENTATION_SPAN_NUMBER = 2
-private const val LANDSCAPE_ORIENTATION_SPAN_NUMBER = 3
+
 
 
 private const val MIN_OFFSET = 20
@@ -53,7 +49,11 @@ class MainFragment : Fragment(), OnClickListenerInterface {
         companion object {
             const val GENRE_KEY = "currentGenre"
             const val ALL_GENRE = "все"
-
+            const val GENRE_LEFT_RIGHT_OFFSET = 6
+            const val MOVIE_TOP_BOTTOM_OFFSET = 50
+            const val ERROR_MESSAGE =  "Error"
+            const val PORTRAIT_ORIENTATION_SPAN_NUMBER = 2
+            const val LANDSCAPE_ORIENTATION_SPAN_NUMBER = 3
             /**
              * transfer the current genre to work when flipping the screen
              * */

@@ -3,6 +3,7 @@ package com.homework.nasibullin.models
 
 import com.homework.nasibullin.datasources.MoviesDataSource
 import com.homework.nasibullin.datasources.MoviesGenreDataSource
+import com.homework.nasibullin.datasources.UserDataSource
 
 /**
 * model of movie data
@@ -24,4 +25,16 @@ class GenreModel (
 ) {
 
     fun getGenres() = moviesDataSource.getGenre()
+}
+
+
+/**
+ * model of genre data
+ * */
+
+class UserModel (
+        private val userDataSource: UserDataSource
+) {
+
+    fun getUser() = userDataSource.getUser()
 }

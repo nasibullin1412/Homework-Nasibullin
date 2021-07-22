@@ -25,3 +25,14 @@ data class MovieDto(
 data class GenreDto(
     val title: String
 )
+
+/**
+ * user profile data
+ */
+data class UserDto(
+        val name: String,
+        val interests: List<GenreDto>,
+        val password:String,
+        val number:String,
+        val mail:String,
+)
