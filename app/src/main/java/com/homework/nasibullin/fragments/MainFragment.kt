@@ -53,6 +53,9 @@ class MainFragment : Fragment(), OnClickListenerInterface {
 
 
 
+
+
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -78,6 +81,12 @@ class MainFragment : Fragment(), OnClickListenerInterface {
         mainFragmentClickListener = null
     }
 
+
+
+
+
+
+
     /**
      * implementation of item listener action
      * */
@@ -89,9 +98,9 @@ class MainFragment : Fragment(), OnClickListenerInterface {
     /**
      * implementation of item listener action
      * */
-    override fun onMovieClick(movieDto: MovieDto) {
-        showToast(movieDto.title)
-        mainFragmentClickListener?.onMovieItemClicked(movieDto)
+    override fun onMovieClick(title: String) {
+        showToast(title)
+        mainFragmentClickListener?.onMovieItemClicked(title)
     }
 
     /**

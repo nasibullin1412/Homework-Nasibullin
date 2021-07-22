@@ -72,7 +72,15 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
     private fun actionBottom(item: MenuItem): Boolean {
         if (actionBottomFlag){
             when(item.itemId){
-                R.id.nav_home-> addFragment(MAIN_FRAGMENT_TAG)
+                R.id.nav_home-> {
+                    val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    val fragment: Fragment? = supportFragmentManager.findFragmentById(R.id.clFragmentContainer)
+                    if (fragment?.tag == MOVIE_DETAIL_FRAGMENT_TAG) {
+                        fragmentTransaction.remove(fragment)
+                        fragmentTransaction.commit()
+                    }
+                    addFragment(MAIN_FRAGMENT_TAG)
+                }
                 R.id.nav_profile-> addFragment(PROFILE_FRAGMENT_TAG)
                 else -> return false
             }
@@ -92,7 +100,7 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
         }
     }
 
-    private fun addFragment(tag: String, movieDto: MovieDto?=null) {
+    private fun addFragment(tag: String, title: String?=null) {
 
         checkFragmentRepeat(tag)
 
@@ -102,7 +110,7 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
                 MainFragment()
             }
             MOVIE_DETAIL_FRAGMENT_TAG -> {
-                MovieDetailsFragment()
+                MovieDetailsFragment.newInstance(title ?: throw IllegalArgumentException("Title required"))
             }
             PROFILE_FRAGMENT_TAG -> {
                 ProfileFragment()
@@ -117,8 +125,8 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
                 .commit()
     }
 
-    override fun onMovieItemClicked(movieDto: MovieDto) {
-        addFragment(MOVIE_DETAIL_FRAGMENT_TAG, movieDto=movieDto)
+    override fun onMovieItemClicked(title:String) {
+        addFragment(MOVIE_DETAIL_FRAGMENT_TAG, title=title)
     }
 
 }

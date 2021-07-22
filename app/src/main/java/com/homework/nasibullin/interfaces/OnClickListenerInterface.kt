@@ -4,5 +4,5 @@ import com.homework.nasibullin.dataclasses.MovieDto
 
 interface OnClickListenerInterface {
     fun onGenreClick(title: String)
-    fun onMovieClick(movieDto: MovieDto)
+    fun onMovieClick(title: String)
 }

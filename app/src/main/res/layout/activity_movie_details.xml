@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/release_date_margin_left"
                     android:layout_marginTop="@dimen/release_date_margin_top"
-                    android:text="@string/str_release_date"
+                    tools:text="@string/str_release_date"
                     android:textSize="@dimen/release_date_text_size"
                     android:textColor="@color/custom_text"
                     android:fontFamily="@font/release_date_font"
@@ -109,7 +109,7 @@
                     android:minHeight="@dimen/movie_name_height"
                     android:layout_marginStart="@dimen/movie_name_margin_left"
                     android:layout_marginTop="@dimen/movie_name_margin_top"
-                    android:text="@string/str_movie_name"
+                    tools:text="@string/str_movie_name"
                     android:textSize="@dimen/movie_name_text_size"
                     android:textColor="@color/custom_text"
                     android:textStyle="bold"
@@ -122,14 +122,14 @@
                     A view in the form of a oval that contains information about movie age rating
                 -->
                 <TextView
-                    android:id="@+id/tvListAgeCategory"
+                    android:id="@+id/tvAgeCategory"
                     android:layout_width="@dimen/sh_age_category_oval_width"
                     android:layout_height="@dimen/sh_age_category_oval_height"
                     android:layout_marginStart="@dimen/sh_age_category_margin_left"
                     android:layout_marginTop="@dimen/sh_age_category_margin_top"
                     android:background="@drawable/sh_age_category"
                     android:textAlignment="center"
-                    android:text="@string/str_age_category"
+                    tools:text="@string/str_age_category"
                     android:textSize="@dimen/age_category_text_size"
                     android:textColor="@color/custom_text"
                     android:fontFamily="@font/roboto"
@@ -142,41 +142,20 @@
                     The task said not to do it through the Progress bar,
                     so it was done simply through the icons in the linear layout
                 -->
-                <LinearLayout
-                    android:id="@+id/llRatingStar"
-                    android:layout_width="@dimen/star_width"
-                    android:layout_height="@dimen/star_height"
-                    android:layout_marginTop="@dimen/star_layout_margin_top"
-                    android:layout_marginStart="@dimen/star_layout_margin_left"
-                    android:orientation="horizontal"
-                    android:background="@color/custom_movie_card"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvMovieName">
-                    <ImageView
-                        style="@style/FillStarIcnStyle"
-                        android:contentDescription="@string/str_fill_rating_star"
+                    <RatingBar
+                        android:id="@+id/rbMovieDetailStar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="13dp"
+                        android:stepSize="@dimen/rb_movie_star_step_size"
+                        tools:rating="2"
+                        android:numStars="5"
+                        android:layout_marginStart="@dimen/star_layout_margin_left"
+                        android:layout_marginTop="@dimen/star_layout_margin_top"
+                        android:layout_marginBottom="@dimen/rb_movie_star_l_margin_b"
+                        style="@style/ImageRatingBar"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvMovieName"
                         />
-                    <ImageView
-                        style="@style/FillStarIcnStyle"
-                        android:layout_marginStart="@dimen/star_margin_left"
-                        android:contentDescription="@string/str_fill_rating_star"
-                        />
-                    <ImageView
-                        style="@style/FillStarIcnStyle"
-                        android:layout_marginStart="@dimen/star_margin_left"
-                        android:contentDescription="@string/str_fill_rating_star"
-                        />
-                    <ImageView
-                        style="@style/FillStarIcnStyle"
-                        android:layout_marginStart="@dimen/star_margin_left"
-                        android:contentDescription="@string/str_fill_rating_star"
-                        />
-                    <ImageView
-                        style="@style/UnpaintedStarIcnStyle"
-                        android:layout_marginStart="@dimen/star_margin_left"
-                        android:contentDescription="@string/str_unpainted_rating_star"
-                        />
-                </LinearLayout>
 
                 <!--
                     The view that contains the description of the movie. The size of the content can
@@ -189,12 +168,12 @@
                     android:layout_marginStart="@dimen/movie_description_margin_left"
                     android:layout_marginEnd="@dimen/movie_description_margin_right"
                     android:layout_marginTop="@dimen/movie_description_margin_top"
-                    android:text="@string/str_movie_description"
+                    tools:text="@string/str_movie_description"
                     android:textSize="@dimen/movie_description_text_size"
                     android:fontFamily="@font/movie_description_font"
                     android:textColor="@color/custom_text"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/llRatingStar"
+                    app:layout_constraintTop_toBottomOf="@id/rbMovieDetailStar"
                     />
 
                 <!--

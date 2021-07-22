@@ -4,21 +4,43 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.RatingBar
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.homework.nasibullin.R
 import com.homework.nasibullin.adapters.ActorAdapter
 import com.homework.nasibullin.dataclasses.Actor
 import com.homework.nasibullin.dataclasses.MovieDto
+import com.homework.nasibullin.datasourceimpl.MoviesDataSourceImpl
 import com.homework.nasibullin.interfaces.MainFragmentClickListener
+import com.homework.nasibullin.models.MovieModel
+import java.lang.StringBuilder
 
 class MovieDetailsFragment: Fragment() {
     private lateinit var cardView: CardView
     private lateinit var recycler: RecyclerView
     private lateinit var adapter: ActorAdapter
     private lateinit var movieDetailsView: View
+    private lateinit var title:String
+    private var movie:MovieDto? = null
+
+
+
+    companion object {
+        private const val KEY_ARGUMENT = "title"
+        fun newInstance(titleMovie: String): MovieDetailsFragment {
+            val args = Bundle()
+            args.putString(KEY_ARGUMENT, titleMovie)
+            val fragment = MovieDetailsFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -26,14 +48,45 @@ class MovieDetailsFragment: Fragment() {
             savedInstanceState: Bundle?
     ): View {
         movieDetailsView = inflater.inflate(R.layout.activity_movie_details, container, false)
+        title = arguments?.getString(KEY_ARGUMENT) ?: throw IllegalArgumentException("Title required")
         init()
         return movieDetailsView
     }
 
     private fun init() {
         setCorrectShapeToCardView()
+        movie = MovieModel(MoviesDataSourceImpl()).getMovies().first { it.title == title }
+        setUpView()
         prepareRecycleView()
     }
+
+    private fun setUpView(){
+        movieDetailsView.findViewById<ImageView>(R.id.imgMoviePoster).load(movie?.posterUrl)
+        movieDetailsView.findViewById<TextView>(R.id.tvGenre)?.apply {
+            text = movie?.genre
+        }
+        movieDetailsView.findViewById<RatingBar>(R.id.rbMovieDetailStar)?.apply{
+            rating = movie?.rateScore?.toFloat() ?: throw IllegalArgumentException("Rating required")
+        }
+        movieDetailsView.findViewById<TextView>(R.id.tvMovieName)?.apply {
+            text = movie?.title
+        }
+        movieDetailsView.findViewById<TextView>(R.id.tvAgeCategory)?.apply {
+            text = StringBuilder().also {
+                it.append(movie?.ageRestriction.toString())
+                it.append("+")
+            }
+        }
+        movieDetailsView.findViewById<TextView>(R.id.tvMovieDescription)?.apply {
+            text = movie?.description
+        }
+
+
+
+    }
+
+
+
 
     /**
     * This function gives the correct shape (with top-right and top-left radius) to card view

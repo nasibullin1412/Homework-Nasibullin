@@ -57,7 +57,7 @@ class MovieAdapter(
         when (holder) {
             is MovieViewHolder -> {
                 holder.itemView.setOnClickListener() {
-                    listener.onMovieClick(getItem(position))
+                    listener.onMovieClick(getItem(position).title)
                 }
                 holder.bind(getItem(position))
             }

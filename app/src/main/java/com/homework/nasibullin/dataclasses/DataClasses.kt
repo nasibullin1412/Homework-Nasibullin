@@ -14,6 +14,7 @@ data class MovieDto(
         val rateScore: Int,
         val ageRestriction: Int,
         val imageUrl: String,
+        val posterUrl: String,
         val genre: String
 )
 
