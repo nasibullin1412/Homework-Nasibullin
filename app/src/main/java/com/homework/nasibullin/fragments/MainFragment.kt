@@ -54,6 +54,9 @@ class MainFragment : Fragment(), OnClickListenerInterface {
             const val GENRE_KEY = "currentGenre"
             const val ALL_GENRE = "все"
 
+            /**
+             * transfer the current genre to work when flipping the screen
+             * */
             fun newInstance(titleGenre: String): MainFragment {
                 val args = Bundle()
                 args.putString(GENRE_KEY, titleGenre)
@@ -84,6 +87,9 @@ class MainFragment : Fragment(), OnClickListenerInterface {
         setupViews()
     }
 
+    /**
+     * signature of the activity as a listener
+     * */
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is MainFragmentClickListener){

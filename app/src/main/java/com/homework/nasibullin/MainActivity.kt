@@ -49,6 +49,10 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
     }
 
 
+    /**
+     * Change bottom active item without actions. Need when Back pressed
+    so that no action is performed when the button is changed
+     */
     private fun changeBottomItemWithoutAction() {
         actionBottomFlag = false
         bottomNavigationView.selectedItemId = if (bottomNavigationView.selectedItemId == R.id.nav_profile) {
@@ -58,7 +62,9 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
         }
     }
 
-
+    /**
+     * add fragment navigation on Back pressed
+     */
     override fun onBackPressed() {
 
         val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
@@ -76,7 +82,9 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
 
 
 
-
+    /**
+     * init bottom navigation listener
+     */
     private fun initNavigationListener() {
         bottomNavigationView = findViewById(R.id.bottom_navigation_bar)
         bottomNavigationView.setOnItemSelectedListener {
@@ -84,6 +92,9 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
         }
     }
 
+    /**
+     * action which execute
+     */
     private fun actionBottom(item: MenuItem): Boolean {
         if (actionBottomFlag) {
             when (item.itemId) {
@@ -105,6 +116,9 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
         return true
     }
 
+    /**
+     * Checking whether a fragment was created with such a tag or not. If yes, then delete the fragment to recreate it
+     */
     private fun checkFragmentRepeat(tag: String) {
         val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         val fragment: Fragment? = supportFragmentManager.findFragmentByTag(tag)
@@ -114,6 +128,9 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
         }
     }
 
+    /**
+     * Adding a new snippet, either when clicking on the item navigation bottom bar, or when clicking on the movie
+     */
     private fun addFragment(tag: String, title: String? = null) {
         checkFragmentRepeat(tag)
 
@@ -156,11 +173,16 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
         outState.putString(CURRENT_MOVIE_GENRE, currentGenre)
     }
 
-
+    /**
+     * Adding a movie detail fragment when clicking on an element
+     */
     override fun onMovieItemClicked(title: String) {
         addFragment(MOVIE_DETAIL_FRAGMENT_TAG, title = title)
     }
 
+    /**
+     * Saving a genre when clicking on a genre. Used to save current genre when flipping the screen
+     */
     override fun onGenreItemClicked(title: String) {
         currentGenre = title
     }

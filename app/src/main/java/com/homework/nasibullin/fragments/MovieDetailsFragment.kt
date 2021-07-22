@@ -65,6 +65,9 @@ class MovieDetailsFragment: Fragment() {
         prepareRecycleView()
     }
 
+    /**
+     * Filling in the fields of movie details
+     */
     private fun setUpView(){
         view?.findViewById<ImageView>(R.id.imgMoviePoster)?.load(movie?.posterUrl)
         view?.findViewById<TextView>(R.id.tvGenre)?.apply {
