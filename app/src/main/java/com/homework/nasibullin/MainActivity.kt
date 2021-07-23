@@ -1,26 +1,28 @@
 package com.homework.nasibullin
 
-
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.homework.nasibullin.fragments.MIN_OFFSET
 import com.homework.nasibullin.fragments.MainFragment
 import com.homework.nasibullin.fragments.MovieDetailsFragment
 import com.homework.nasibullin.fragments.ProfileFragment
-import com.homework.nasibullin.interfaces.MainFragmentClickListener
+import com.homework.nasibullin.interfaces.MainFragmentCallbacks
 
 
-class MainActivity : AppCompatActivity(), MainFragmentClickListener {
+class MainActivity : AppCompatActivity(), MainFragmentCallbacks {
 
     private lateinit var bottomNavigationView: BottomNavigationView
     private var actionBottomFlag: Boolean = true
     private var currentFragment:String? = null
     private var currentMovieTitle:String? = null
     private var currentGenre:String? = null
-
+    private var movieItemWidth: Int = 0
+    private var movieItemMargin: Int = 0
 
     companion object {
         const val MAIN_FRAGMENT_TAG = "mainFragment"
@@ -29,8 +31,12 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
         const val CURRENT_FRAGMENT_KEY = "currentFragment"
         const val CURRENT_MOVIE_KEY = "currentMovie"
         const val CURRENT_MOVIE_GENRE = "currentGenre"
+        const val GENRE_LEFT_RIGHT_OFFSET = 6
+        const val MOVIE_TOP_BOTTOM_OFFSET = 50
+        const val PORTRAIT_ORIENTATION_SPAN_NUMBER = 2
+        const val LANDSCAPE_ORIENTATION_SPAN_NUMBER = 3
+        const val MIN_OFFSET = 20
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +53,6 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
 
         initNavigationListener()
     }
-
 
     /**
      * Change bottom active item without actions. Need when Back pressed
@@ -79,8 +84,6 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
             super.onBackPressed()
         }
     }
-
-
 
     /**
      * init bottom navigation listener
@@ -162,7 +165,6 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
                 .commit()
     }
 
-
     /**
      * keep user genre selection when flipping screen
      * */
@@ -185,6 +187,50 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
      */
     override fun onGenreItemClicked(title: String) {
         currentGenre = title
+    }
+
+    /**
+     * Get device orientation
+     */
+    private val orientation: Boolean
+        get() {
+            return when (resources.configuration.orientation) {
+                Configuration.ORIENTATION_PORTRAIT -> true
+                Configuration.ORIENTATION_LANDSCAPE -> false
+                Configuration.ORIENTATION_UNDEFINED -> true
+                else -> error("Error orientation")
+            }
+        }
+
+
+
+    /**
+     * Get number of span depending on orientation
+     * */
+    private fun getSpanNumber(): Int =
+            if (orientation) MainFragment.PORTRAIT_ORIENTATION_SPAN_NUMBER else MainFragment.LANDSCAPE_ORIENTATION_SPAN_NUMBER
+
+    /**
+     * Calculate offset item movies depending on orientation
+     * */
+    private fun calculateOffset(): Int {
+        var offset: Int = if (orientation) {
+            screenWidth - movieItemWidth * 2 - movieItemMargin * 2
+        } else {
+            (screenWidth - movieItemWidth * 3 - movieItemMargin * 2) / 2
+        }
+        val density = resources.displayMetrics.density
+        offset = (offset.toFloat()/density).toInt()
+
+        return if (offset < MIN_OFFSET) MIN_OFFSET else offset
+    }
+
+    /**
+     * get movie item margin and item width in px
+     */
+    private fun calculateValues() {
+        movieItemMargin = resources.getDimension(R.dimen.list_of_guideline_left).toInt()
+        movieItemWidth = resources.getDimension(R.dimen.img_movie_poster_width).toInt()
     }
 }
 

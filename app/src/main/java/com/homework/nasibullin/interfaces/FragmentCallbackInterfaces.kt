@@ -1,6 +1,6 @@
 package com.homework.nasibullin.interfaces
 
-interface MainFragmentClickListener
+interface MainFragmentCallbacks
 {
     fun onGenreItemClicked(title: String)
     fun onMovieItemClicked(title: String)

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,13 +14,15 @@ import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.dataclasses.UserDto
 import com.homework.nasibullin.datasourceimpl.UserDataSourceImpl
 import com.homework.nasibullin.decorations.GenreItemDecoration
-import com.homework.nasibullin.interfaces.OnClickListenerInterface
+import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
 import com.homework.nasibullin.models.UserModel
+import general_staffs.ToastWrapper
 
-class ProfileFragment:Fragment(), OnClickListenerInterface {
+class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
     private var user: UserDto? = null
     private lateinit var movieGenreRecycler: RecyclerView
     private lateinit var movieGenreAdapter: GenreAdapter
+    private lateinit var toastWrapper: ToastWrapper
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -42,6 +43,7 @@ class ProfileFragment:Fragment(), OnClickListenerInterface {
     }
 
     private fun setupView(){
+        toastWrapper = ToastWrapper(context)
         view?.findViewById<TextView>(R.id.tvUserName)?.apply {
             text = user?.name
         }
@@ -75,23 +77,9 @@ class ProfileFragment:Fragment(), OnClickListenerInterface {
     }
 
     override fun onGenreClick(title: String) {
-            showToast(title)
+            toastWrapper.showToast(title)
     }
 
-    /**
-     * Show toast with genre or film title
-     * */
-    private fun showToast(message: String?) {
-        when {
-            message.isNullOrEmpty() -> {
-                showToast(MainFragment.ERROR_MESSAGE)
-            }
-            else -> Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-        }
-    }
 
-    override fun onMovieClick(title: String) {
-        return
-    }
 
 }

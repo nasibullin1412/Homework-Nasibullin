@@ -1,6 +1,5 @@
 package com.homework.nasibullin.models
 
-
 import com.homework.nasibullin.datasources.MoviesDataSource
 import com.homework.nasibullin.datasources.MoviesGenreDataSource
 import com.homework.nasibullin.datasources.UserDataSource

@@ -35,7 +35,7 @@
     <dimen name="movie_name_margin_left">22dp</dimen>
 
     <!-- shape of age category params -->
-    <dimen name="sh_age_category_margin_left">296dp</dimen>
+    <dimen name="sh_age_category_margin_right">18dp</dimen>
     <dimen name="sh_age_category_margin_top">39dp</dimen>
     <dimen name="sh_age_category_oval_radius">10dp</dimen>
     <dimen name="sh_age_category_oval_padding_l">0dp</dimen>

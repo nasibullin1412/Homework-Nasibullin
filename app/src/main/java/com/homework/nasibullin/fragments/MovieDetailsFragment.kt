@@ -14,12 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.homework.nasibullin.R
 import com.homework.nasibullin.adapters.ActorAdapter
-import com.homework.nasibullin.adapters.GenreAdapter
 import com.homework.nasibullin.dataclasses.ActorDto
 import com.homework.nasibullin.dataclasses.MovieDto
 import com.homework.nasibullin.datasourceimpl.MoviesDataSourceImpl
 import com.homework.nasibullin.decorations.ActorItemDecoration
-import com.homework.nasibullin.decorations.GenreItemDecoration
 import com.homework.nasibullin.models.MovieModel
 import java.lang.StringBuilder
 
@@ -29,7 +27,6 @@ class MovieDetailsFragment: Fragment() {
     private lateinit var actorAdapter: ActorAdapter
     private lateinit var actorRecycler: RecyclerView
     private var movie:MovieDto? = null
-
 
 
     companion object {
