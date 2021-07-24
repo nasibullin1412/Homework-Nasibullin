@@ -1,6 +1,7 @@
 package com.homework.nasibullin.fragments
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.homework.nasibullin.MainActivity
 import com.homework.nasibullin.R
 import com.homework.nasibullin.adapters.GenreAdapter
 import com.homework.nasibullin.adapters.MovieAdapter
@@ -41,19 +41,27 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     private lateinit var emptyListViewHolder: EmptyListViewHolder
     private var mainFragmentClickListener: MainFragmentCallbacks? = null
     private lateinit var toastWrapper: ToastWrapper
-    private var movieItemRightOffset: Int = 0
+    private var movieItemWidth: Int = 0
+    private var movieItemMargin: Int = 0
+    private var screenWidth: Int = 0
 
 
         companion object {
+            const val GENRE_LEFT_RIGHT_OFFSET = 6
+            const val MOVIE_TOP_BOTTOM_OFFSET = 50
+            const val PORTRAIT_ORIENTATION_SPAN_NUMBER = 2
+            const val LANDSCAPE_ORIENTATION_SPAN_NUMBER = 3
+            const val MIN_OFFSET = 20
             const val GENRE_KEY = "currentGenre"
-            const val MOVIE_ITEM_RIGHT_OFFSET_KEY = "movieItemRightOffset"
             const val ALL_GENRE = "все"
+            const val SCREEN_WIDTH_KEY = "screenWidth"
             /**
              * transfer the current genre to work when flipping the screen
              * */
-            fun newInstance(titleGenre: String): MainFragment {
+            fun newInstance(titleGenre: String, screenWidth:Int): MainFragment {
                 val args = Bundle()
                 args.putString(GENRE_KEY, titleGenre)
+                args.putInt(SCREEN_WIDTH_KEY, screenWidth)
                 val fragment = MainFragment()
                 fragment.arguments = args
                 return fragment
@@ -61,25 +69,22 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         }
 
 
-
-    private fun initValuesFromBundle(){
-        movieItemRightOffset = arguments?.getInt(MOVIE_ITEM_RIGHT_OFFSET_KEY) ?: MainActivity.MIN_OFFSET
-
-    }
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        val mainFragmentView = inflater.inflate(R.layout.list_of_movies, container, false)
-        currentGenre = arguments?.getString(GENRE_KEY) ?: ALL_GENRE
-        return mainFragmentView
+        return inflater.inflate(R.layout.list_of_movies, container, false)
     }
 
+    private fun initValuesFromBundle(){
+        screenWidth = arguments?.getInt(SCREEN_WIDTH_KEY) ?: 0
+        currentGenre = arguments?.getString(GENRE_KEY) ?: ALL_GENRE
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initValuesFromBundle()
         initDataSource()
         setupViews()
     }
@@ -130,13 +135,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     }
 
 
-    /**
-     *  Get screen width to make margin between elements relative to the screen width
-     * */
-    private val screenWidth: Int
-        get() {
-            return 720
-        }
 
     /**
      *  prepare genre and movie recycle views
@@ -183,7 +181,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         genreAdapter = GenreAdapter()
         genreAdapter.initOnClickInterface(this)
         genreAdapter.submitList(genreModel.getGenres())
-        val itemDecorator = GenreItemDecoration(leftRight = MainActivity.GENRE_LEFT_RIGHT_OFFSET)
+        val itemDecorator = GenreItemDecoration(leftRight = GENRE_LEFT_RIGHT_OFFSET)
         movieGenreRecycler.addItemDecoration(itemDecorator)
         movieGenreRecycler.adapter = genreAdapter
         movieGenreRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
@@ -198,8 +196,8 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         movieAdapter.initOnClickInterface(this)
         movieAdapter.submitList(movieCollection.toList())
         val itemDecorator = MovieItemDecoration(
-                topBottom = MainActivity.MOVIE_TOP_BOTTOM_OFFSET,
-                right = movieItemRightOffset,
+                topBottom = MOVIE_TOP_BOTTOM_OFFSET,
+                right = calculateOffset(),
                 spanNumber = getSpanNumber() - 1
         )
         movieRecycler.addItemDecoration(itemDecorator)
@@ -213,6 +211,48 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
 
     }
 
+    /**
+     * Get device orientation
+     */
+    private val orientation: Boolean
+        get() {
+            return when (resources.configuration.orientation) {
+                Configuration.ORIENTATION_PORTRAIT -> true
+                Configuration.ORIENTATION_LANDSCAPE -> false
+                Configuration.ORIENTATION_UNDEFINED -> true
+                else -> error("Error orientation")
+            }
+        }
+
+
+
+    /**
+     * Get number of span depending on orientation
+     * */
+    private fun getSpanNumber(): Int =
+            if (orientation) PORTRAIT_ORIENTATION_SPAN_NUMBER else LANDSCAPE_ORIENTATION_SPAN_NUMBER
+
+    /**
+     * Calculate offset item movies depending on orientation
+     * */
+    private fun calculateOffset(): Int {
+        var offset: Int = if (orientation) {
+            screenWidth - movieItemWidth * 2 - movieItemMargin * 2
+        } else {
+            (screenWidth - movieItemWidth * 3 - movieItemMargin * 2) / 2
+        }
+        val density = resources.displayMetrics.density
+        offset = (offset.toFloat()/density).toInt()
+        return if (offset < MIN_OFFSET) MIN_OFFSET else offset
+    }
+
+    /**
+     * get movie item margin and item width in px
+     */
+    private fun calculateValues() {
+        movieItemMargin = resources.getDimension(R.dimen.list_of_guideline_left).toInt()
+        movieItemWidth = resources.getDimension(R.dimen.img_movie_poster_width).toInt()
+    }
 
 
 }
