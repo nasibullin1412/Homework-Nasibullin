@@ -16,13 +16,12 @@ import com.homework.nasibullin.datasourceimpl.UserDataSourceImpl
 import com.homework.nasibullin.decorations.GenreItemDecoration
 import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
 import com.homework.nasibullin.models.UserModel
-import general_staffs.ToastWrapper
+import com.homework.nasibullin.utils.Utility
 
 class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
     private var user: UserDto? = null
     private lateinit var movieGenreRecycler: RecyclerView
     private lateinit var movieGenreAdapter: GenreAdapter
-    private lateinit var toastWrapper: ToastWrapper
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -43,7 +42,6 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
     }
 
     private fun setupView(){
-        toastWrapper = ToastWrapper(context)
         view?.findViewById<TextView>(R.id.tvUserName)?.apply {
             text = user?.name
         }
@@ -77,7 +75,7 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
     }
 
     override fun onGenreClick(title: String) {
-            toastWrapper.showToast(title)
+            Utility.showToast(title, context)
     }
 
 

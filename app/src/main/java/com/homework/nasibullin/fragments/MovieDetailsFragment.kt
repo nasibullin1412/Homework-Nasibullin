@@ -57,7 +57,7 @@ class MovieDetailsFragment: Fragment() {
 
     private fun init() {
         setCorrectShapeToCardView()
-        movie = MovieModel(MoviesDataSourceImpl()).getMovies().first { it.title == title }
+        movie = MovieModel(MoviesDataSourceImpl()).getFirstMovies().first { it.title == title }
         setUpView()
         prepareRecycleView()
     }
