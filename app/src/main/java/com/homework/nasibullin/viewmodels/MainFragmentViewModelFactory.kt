@@ -2,7 +2,7 @@ package com.homework.nasibullin.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.homework.nasibullin.getmovies.TestGetData
+import com.homework.nasibullin.repo.TestGetData
 
 class MainFragmentViewModelFactory (private val testGetData: TestGetData): ViewModelProvider.Factory  {
 

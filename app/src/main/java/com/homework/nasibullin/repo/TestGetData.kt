@@ -1,4 +1,4 @@
-package com.homework.nasibullin.getmovies
+package com.homework.nasibullin.repo
 
 import com.homework.nasibullin.dataclasses.MovieDto
 import com.homework.nasibullin.datasourceimpl.MoviesDataSourceImpl

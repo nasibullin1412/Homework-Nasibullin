@@ -24,7 +24,7 @@ import com.homework.nasibullin.datasourceimpl.MoviesDataSourceImpl
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.decorations.GenreItemDecoration
 import com.homework.nasibullin.decorations.MovieItemDecoration
-import com.homework.nasibullin.getmovies.TestGetData
+import com.homework.nasibullin.repo.TestGetData
 import com.homework.nasibullin.holders.EmptyListViewHolder
 import com.homework.nasibullin.interfaces.MainFragmentCallbacks
 import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
@@ -147,10 +147,10 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
 
 
     private fun setupObserver(isSwipe:Boolean) {
-        viewModel.updateMovieList(isSwipe)
+        viewModel.getMovieList(isSwipe)
         this.addRepeatingJob(Lifecycle.State.STARTED){
 
-            viewModel.movieList.collect {
+            viewModel.movieListChannel.collect {
                 when (it.status) {
                     Resource.Status.SUCCESS -> {
 
@@ -161,7 +161,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
                             updateMovieData(it.data)
                         }
                     }
-
                     Resource.Status.ERROR -> {
                         Utility.showToast(it.message, context)
                     }
@@ -181,6 +180,8 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
 
         }
     }
+
+
 
 
 
@@ -207,7 +208,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     override fun onGenreClick(title: String) {
         Utility.showToast(title, context)
         getMoviesByGenre(title)
-        mainFragmentClickListener?.onGenreItemClicked(title)
     }
 
     /**
@@ -230,28 +230,13 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
      *  filter of movie list by genre of movie
      * */
     private fun getMoviesByGenre(genre:String){
-        movieCollection = if (genre != ALL_GENRE) {
-            MovieModel(MoviesDataSourceImpl()).getFirstMovies().filter { it.genre == genre }
-        }
-        else{
-            MovieModel(MoviesDataSourceImpl()).getFirstMovies()
-        }
+
+        viewModel.currentGenre = genre
+        movieCollection = viewModel.sortMoviesByGenre(movieCollection.toList())?: movieCollection
         movieAdapter.submitList(movieCollection.toList())
         emptyListViewHolder.bind(movieCollection.size)
         currentGenre = genre
     }
-
-    /**
-     * init Movie collection by all movie list or by genre if init after screen flip
-     */
-    private fun initMovieCollection(){
-        movieCollection = if (currentGenre == ALL_GENRE){
-            MovieModel(MoviesDataSourceImpl()).getFirstMovies()
-        } else{
-            MovieModel(MoviesDataSourceImpl()).getFirstMovies().filter { it.genre == currentGenre }
-        }
-    }
-
 
     /**
      * Movie genre recycle view with ListAdapter
