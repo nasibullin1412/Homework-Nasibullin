@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="64dp"
-                android:text="Константин"
+                tools:text="Константин"
                 android:fontFamily="@font/popular_now_font"
                 android:textColor="@color/custom_text"
                 android:textSize="20sp"
@@ -56,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:text="konst.89@mail.com"
+                tools:text="konst.89@mail.com"
                 android:fontFamily="@font/user_profile_data_font"
                 android:textColor="@color/custom_text"
                 android:textSize="14sp"
@@ -139,7 +139,7 @@
                     android:layout_marginTop="20dp"
                     android:paddingStart="0dp"
                     android:inputType="textPassword"
-                    android:text="lolKek00"
+                    tools:text="lolKek00"
                     android:paddingBottom="6dp"
                     android:background="@drawable/border_bottom"
                     android:hint="Почта"
@@ -179,22 +179,74 @@
                 app:layout_constraintStart_toStartOf="@id/glUserProfileLeft"
                 />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/tilPersonalData"
-                app:layout_constraintStart_toStartOf="@id/glUserProfileLeft"/>
             <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="320dp"
-                android:minHeight="100dp"
+                android:id="@+id/spNotificationAndSounds"
                 style="@style/SpinnerTheme"
-                android:layout_marginTop="12dp"
                 app:layout_constraintTop_toBottomOf="@id/tvSettings"
                 app:layout_constraintStart_toStartOf="@id/glUserProfileLeft"
                 />
+            <Spinner
+                android:id="@+id/spConfidentiality"
+                style="@style/SpinnerTheme"
+                app:layout_constraintTop_toBottomOf="@id/spNotificationAndSounds"
+                app:layout_constraintStart_toStartOf="@id/glUserProfileLeft"
+                />
+            <Spinner
+                android:id="@+id/spTheme"
+                style="@style/SpinnerTheme"
+                app:layout_constraintTop_toBottomOf="@id/spConfidentiality"
+                app:layout_constraintStart_toStartOf="@id/glUserProfileLeft"
+                />
+            <Spinner
+                android:id="@+id/spDataAndMemory"
+                style="@style/SpinnerTheme"
+                app:layout_constraintTop_toBottomOf="@id/spTheme"
+                app:layout_constraintStart_toStartOf="@id/glUserProfileLeft"
+                />
+            <Spinner
+                android:id="@+id/spLanguage"
+                style="@style/SpinnerTheme"
+                app:layout_constraintTop_toBottomOf="@id/spTheme"
+                app:layout_constraintStart_toStartOf="@id/glUserProfileLeft"
+                />
 
+
+            <TextView
+                android:id="@+id/tvAppFeedback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Приложение"
+                android:fontFamily="@font/user_profile_data_font"
+                android:textColor="@color/custom_text"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/spLanguage"
+                app:layout_constraintStart_toStartOf="@id/glUserProfileLeft"
+                />
+
+            <Spinner
+                android:id="@+id/spQuestion"
+                style="@style/SpinnerTheme"
+                app:layout_constraintTop_toBottomOf="@id/tvAppFeedback"
+                app:layout_constraintStart_toStartOf="@id/glUserProfileLeft"
+                />
+            <Spinner
+                android:id="@+id/spProblems"
+                style="@style/SpinnerTheme"
+                app:layout_constraintTop_toBottomOf="@id/spQuestion"
+                app:layout_constraintStart_toStartOf="@id/glUserProfileLeft"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="96dp"
+                android:background="@drawable/logout_button_selector"
+                app:layout_constraintTop_toBottomOf="@id/spProblems"
+                app:layout_constraintStart_toStartOf="@id/glUserProfileLeft"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

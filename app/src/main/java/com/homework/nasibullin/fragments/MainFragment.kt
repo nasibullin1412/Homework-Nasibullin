@@ -176,8 +176,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
 
     private fun setupObserver(isSwipe:Boolean) {
         viewModel.getMovieList(isSwipe)
-        this.addRepeatingJob(Lifecycle.State.STARTED){
-
+        addRepeatingJob(Lifecycle.State.STARTED){
             viewModel.movieListChannel.collect {
                 when (it.status) {
                     Resource.Status.SUCCESS -> {
