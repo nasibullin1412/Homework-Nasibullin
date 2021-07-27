@@ -5,10 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.addRepeatingJob
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -17,8 +21,13 @@ import com.homework.nasibullin.adapters.ActorAdapter
 import com.homework.nasibullin.dataclasses.ActorDto
 import com.homework.nasibullin.dataclasses.MovieDto
 import com.homework.nasibullin.datasourceimpl.MoviesDataSourceImpl
+import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.decorations.ActorItemDecoration
 import com.homework.nasibullin.models.MovieModel
+import com.homework.nasibullin.utils.Utility
+import com.homework.nasibullin.viewmodels.MovieDetailViewModel
+import com.homework.nasibullin.viewmodels.MovieDetailViewModelFactory
+import kotlinx.coroutines.flow.collect
 import java.lang.StringBuilder
 
 class MovieDetailsFragment: Fragment() {
@@ -26,7 +35,7 @@ class MovieDetailsFragment: Fragment() {
     private lateinit var title:String
     private lateinit var actorAdapter: ActorAdapter
     private lateinit var actorRecycler: RecyclerView
-    private var movie:MovieDto? = null
+    private lateinit var viewModel: MovieDetailViewModel
 
 
     companion object {
@@ -57,41 +66,90 @@ class MovieDetailsFragment: Fragment() {
 
     private fun init() {
         setCorrectShapeToCardView()
-        movie = MovieModel(MoviesDataSourceImpl()).getFirstMovies().first { it.title == title }
-        setUpView()
-        prepareRecycleView()
+        viewModel = ViewModelProviders.of(
+                this,
+                MovieDetailViewModelFactory(title))
+                .get(MovieDetailViewModel::class.java)
+        if (viewModel.movie == null && viewModel.movie?.title != title){
+            setupObserver()
+        }
+        else{
+            setupView()
+        }
+    }
+
+    private fun setupObserver(){
+
+        viewModel.getMovie()
+        this.addRepeatingJob(Lifecycle.State.STARTED){
+
+            viewModel.movieChannel.collect {
+                when (it.status) {
+                    Resource.Status.SUCCESS -> {
+
+                        if (it.data == null) {
+                            Utility.showToast(it.message, context)
+
+                        } else{
+                            setupView()
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        Utility.showToast(it.message, context)
+                    }
+
+                    Resource.Status.LOADING -> {
+                        Utility.showToast(it.message, context)
+                    }
+
+                    Resource.Status.FAILURE -> {
+
+                        Utility.showToast(it.message, context)
+
+                    }
+                }
+            }
+
+        }
+
     }
 
     /**
      * Filling in the fields of movie details
      */
-    private fun setUpView(){
-        view?.findViewById<ImageView>(R.id.imgMoviePoster)?.load(movie?.posterUrl)
+    private fun setupView(){
+        view?.findViewById<ProgressBar>(R.id.pbMovieDetail)?.apply {
+            visibility = View.GONE
+        }
+        view?.findViewById<ImageView>(R.id.imgMoviePoster)?.load(viewModel.movie?.posterUrl)
+        view?.findViewById<ImageView>(R.id.imgMoviePoster)?.apply {
+            visibility = View.VISIBLE
+        }
+        view?.findViewById<CardView>(R.id.cvMovieCard)?.apply {
+            visibility = View.VISIBLE
+        }
         view?.findViewById<TextView>(R.id.tvGenre)?.apply {
-            text = movie?.genre
+            text = viewModel.movie?.genre
         }
         view?.findViewById<RatingBar>(R.id.rbMovieDetailStar)?.apply{
-            rating = movie?.rateScore?.toFloat() ?: throw IllegalArgumentException("Rating required")
+            rating = viewModel.movie?.rateScore?.toFloat() ?: throw IllegalArgumentException("Rating required")
         }
         view?.findViewById<TextView>(R.id.tvMovieName)?.apply {
-            text = movie?.title
+            text = viewModel.movie?.title
         }
         view?.findViewById<TextView>(R.id.tvAgeCategory)?.apply {
             text = StringBuilder().also {
-                it.append(movie?.ageRestriction.toString())
+                it.append(viewModel.movie?.ageRestriction.toString())
                 it.append("+")
             }
         }
         view?.findViewById<TextView>(R.id.tvMovieDescription)?.apply {
-            text = movie?.description
+            text = viewModel.movie?.description
         }
-
+        prepareRecycleView()
 
 
     }
-
-
-
 
     /**
     * This function gives the correct shape (with top-right and top-left radius) to card view
@@ -107,19 +165,13 @@ class MovieDetailsFragment: Fragment() {
     private fun prepareRecycleView() {
         actorRecycler = view?.findViewById(R.id.rvActorsList) ?: throw IllegalArgumentException("CrvActorList required")
         actorAdapter = ActorAdapter()
-        actorAdapter.submitList(movie?.actors)
+        actorAdapter.submitList(viewModel.movie?.actors)
         val itemDecorator = ActorItemDecoration(leftRight = 12)
         actorRecycler.addItemDecoration(itemDecorator)
         actorRecycler.adapter = actorAdapter
         actorRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
     }
 
-    /**
-    * Data initialization function to create a recycle view
-    * */
-    private fun prepareActors(): List<ActorDto> {
-        return movie?.actors ?: throw IllegalArgumentException("Actors required")
-    }
 
 
 

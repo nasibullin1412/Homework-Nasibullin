@@ -11,6 +11,7 @@ class MovieModel (
         private val moviesDataSource: MoviesDataSource
 ) {
 
+    fun getAll() = moviesDataSource.getMovies()
     fun getFirstMovies() = moviesDataSource.getMovies().take(4)
     fun getSecondMovies() = moviesDataSource.getMovies().slice(4..7)
 

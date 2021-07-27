@@ -8,14 +8,24 @@
     android:background="@color/custom_background"
     >
 
+    <ProgressBar
+        android:id="@+id/pbMovieDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint= "@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
     <!-- Image of movie poster with rounded corners-->
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgMoviePoster"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/wrath_of_man"
+        tools:src="@drawable/wrath_of_man"
         android:scaleType="centerCrop"
-
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -33,7 +43,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical"
-
         android:nextFocusUp="@id/cvMovieCard">
 
         <!--
@@ -46,6 +55,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/card_view_margin_top"
             android:minHeight="@dimen/card_view_min_height"
+            android:visibility="invisible"
             app:layout_constrainedWidth="@id/imgMoviePoster"
             tools:cardCornerRadius="@dimen/card_view_corner_rad"
             tools:cardElevation="@dimen/card_view_corner_el"
@@ -54,6 +64,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/imgMoviePoster"
+
             >
             <!--
                 Used to enable relative positioning of views relative to each other.

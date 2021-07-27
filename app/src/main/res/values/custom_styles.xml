@@ -25,4 +25,7 @@
         <item name="endIconTint">@color/black</item>
         <item name="paddingStart">0dp</item>
     </style>
+    <style name="SpinnerTheme" parent="android:Widget.Spinner">
+        <item name="android:background">@drawable/bg_spinner</item>
+    </style>
 </resources>

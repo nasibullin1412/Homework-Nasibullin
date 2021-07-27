@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity(), MainFragmentCallbacks {
         checkFragmentRepeat(tag)
         val fragment: Fragment = when (tag) {
             MAIN_FRAGMENT_TAG -> {
-                MainFragment.newInstance(currentGenre ?: MainFragment.ALL_GENRE, screenWidth)
+                MainFragment.newInstance(screenWidth)
             }
             MOVIE_DETAIL_FRAGMENT_TAG -> {
                 if (currentMovieTitle != null) {
@@ -151,7 +151,7 @@ class MainActivity : AppCompatActivity(), MainFragmentCallbacks {
                             ?: throw IllegalArgumentException("Recycler required"))
                 }
                 else{
-                    MainFragment.newInstance(currentGenre ?: MainFragment.ALL_GENRE, screenWidth)
+                    MainFragment.newInstance(screenWidth)
                 }
             }
             PROFILE_FRAGMENT_TAG -> {

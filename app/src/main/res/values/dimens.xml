@@ -131,5 +131,11 @@
     <dimen name="img_movie_poster_width">150dp</dimen>
     <dimen name="img_movie_poster_height">216dp</dimen>
 
+    <dimen name="avatar_icn_bottom">20dp</dimen>
+    <dimen name="avatar_icn_left">20dp</dimen>
+    <dimen name="avatar_icn_right">20dp</dimen>
+    <dimen name="avatar_icn_top">20dp</dimen>
+
+
 
 </resources>

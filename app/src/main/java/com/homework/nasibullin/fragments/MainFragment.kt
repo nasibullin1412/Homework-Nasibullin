@@ -20,7 +20,6 @@ import com.homework.nasibullin.adapters.MovieAdapter
 import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.dataclasses.MovieDto
 import com.homework.nasibullin.datasourceimpl.MovieGenreSourceImpl
-import com.homework.nasibullin.datasourceimpl.MoviesDataSourceImpl
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.decorations.GenreItemDecoration
 import com.homework.nasibullin.decorations.MovieItemDecoration
@@ -30,7 +29,6 @@ import com.homework.nasibullin.interfaces.MainFragmentCallbacks
 import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
 import com.homework.nasibullin.interfaces.OnMovieItemClickedCallback
 import com.homework.nasibullin.models.GenreModel
-import com.homework.nasibullin.models.MovieModel
 import com.homework.nasibullin.utils.Utility
 import com.homework.nasibullin.viewmodels.MainFragmentViewModel
 import com.homework.nasibullin.viewmodels.MainFragmentViewModelFactory
@@ -48,7 +46,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     private lateinit var swipeRefreshLayout:SwipeRefreshLayout
     private lateinit var emptyListViewHolder: EmptyListViewHolder
     private lateinit var viewModel: MainFragmentViewModel
-    private var currentGenre: String = ALL_GENRE
     private var mainFragmentClickListener: MainFragmentCallbacks? = null
     private var movieItemWidth: Int = 0
     private var movieItemMargin: Int = 0
@@ -61,7 +58,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
             const val PORTRAIT_ORIENTATION_SPAN_NUMBER = 2
             const val LANDSCAPE_ORIENTATION_SPAN_NUMBER = 3
             const val MIN_OFFSET = 20
-            const val GENRE_KEY = "currentGenre"
             const val ALL_GENRE = "все"
             const val SCREEN_WIDTH_KEY = "screenWidth"
             const val TEST_ERROR_MOVIE_LIST = "TEST_ERROR_MOVIE_LIST"
@@ -69,9 +65,8 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
             /**
              * transfer the current genre to work when flipping the screen
              * */
-            fun newInstance(titleGenre: String, screenWidth:Int): MainFragment {
+            fun newInstance(screenWidth:Int): MainFragment {
                 val args = Bundle()
-                args.putString(GENRE_KEY, titleGenre)
                 args.putInt(SCREEN_WIDTH_KEY, screenWidth)
                 val fragment = MainFragment()
                 fragment.arguments = args
@@ -99,7 +94,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
 
     private fun initValuesFromBundle(){
         screenWidth = arguments?.getInt(SCREEN_WIDTH_KEY) ?: 0
-        currentGenre = arguments?.getString(GENRE_KEY) ?: ALL_GENRE
     }
 
 
@@ -131,12 +125,46 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
      * */
     private fun setupViews() {
         emptyListViewHolder = EmptyListViewHolder(this.layoutInflater.inflate(R.layout.empty_list_movie,
-            view?.findViewById<RecyclerView>(R.id.rvMovieGenreList), false))
+                view?.findViewById<RecyclerView>(R.id.rvMovieGenreList), false))
         calculateValues()
         prepareMovieGenreRecycleView()
         prepareMovieRecycleView()
+        createAdapterObserver()
     }
 
+
+    private fun createAdapterObserver()= movieAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+        override fun onChanged() {
+            super.onChanged()
+            movieRecycler.scrollToPosition(0)
+        }
+
+        override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+            super.onItemRangeRemoved(positionStart, itemCount)
+            movieRecycler.scrollToPosition(0)
+        }
+
+        override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+            super.onItemRangeMoved(fromPosition, toPosition, itemCount)
+            movieRecycler.scrollToPosition(0)
+        }
+
+        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+            super.onItemRangeInserted(positionStart, itemCount)
+            movieRecycler.scrollToPosition(0)
+        }
+
+        override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+            super.onItemRangeChanged(positionStart, itemCount)
+            movieRecycler.scrollToPosition(0)
+        }
+
+        override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
+            super.onItemRangeChanged(positionStart, itemCount, payload)
+            movieRecycler.scrollToPosition(0)
+        }
+    }
+    )
 
     private fun handleSwipe(){
         swipeRefreshLayout = view?.findViewById(R.id.srlMovieList) ?: throw IllegalArgumentException("swipeRefresh required")
@@ -220,9 +248,11 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
 
 
     private fun updateMovieData(movieList: List<MovieDto>){
+        movieRecycler.scrollToPosition(0)
         movieCollection = movieList
         movieAdapter.submitList(movieCollection.toList())
         emptyListViewHolder.bind(movieCollection.size)
+
     }
 
 
@@ -232,10 +262,9 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     private fun getMoviesByGenre(genre:String){
 
         viewModel.currentGenre = genre
-        movieCollection = viewModel.sortMoviesByGenre(movieCollection.toList())?: movieCollection
+        movieCollection = viewModel.filterMoviesByGenre()?: movieCollection
         movieAdapter.submitList(movieCollection.toList())
         emptyListViewHolder.bind(movieCollection.size)
-        currentGenre = genre
     }
 
     /**
@@ -249,6 +278,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         val itemDecorator = GenreItemDecoration(leftRight = GENRE_LEFT_RIGHT_OFFSET)
         movieGenreRecycler.addItemDecoration(itemDecorator)
         movieGenreRecycler.adapter = genreAdapter
+
         movieGenreRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
     }
 
