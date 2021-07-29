@@ -60,8 +60,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
             const val MIN_OFFSET = 20
             const val ALL_GENRE = "все"
             const val SCREEN_WIDTH_KEY = "screenWidth"
-            const val TEST_ERROR_MOVIE_LIST = "TEST_ERROR_MOVIE_LIST"
-            const val ERROR_MOVIE_LIST = "ERROR_MOVIE_LIST"
             /**
              * transfer the current genre to work when flipping the screen
              * */
@@ -137,31 +135,37 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         override fun onChanged() {
             super.onChanged()
             movieRecycler.scrollToPosition(0)
+            emptyListViewHolder.bind(movieCollection.size)
         }
 
         override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
             super.onItemRangeRemoved(positionStart, itemCount)
             movieRecycler.scrollToPosition(0)
+            emptyListViewHolder.bind(movieCollection.size)
         }
 
         override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
             super.onItemRangeMoved(fromPosition, toPosition, itemCount)
             movieRecycler.scrollToPosition(0)
+            emptyListViewHolder.bind(movieCollection.size)
         }
 
         override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
             super.onItemRangeInserted(positionStart, itemCount)
             movieRecycler.scrollToPosition(0)
+            emptyListViewHolder.bind(movieCollection.size)
         }
 
         override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
             super.onItemRangeChanged(positionStart, itemCount)
             movieRecycler.scrollToPosition(0)
+            emptyListViewHolder.bind(movieCollection.size)
         }
 
         override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
             super.onItemRangeChanged(positionStart, itemCount, payload)
             movieRecycler.scrollToPosition(0)
+            emptyListViewHolder.bind(movieCollection.size)
         }
     }
     )
@@ -250,7 +254,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         movieRecycler.scrollToPosition(0)
         movieCollection = movieList
         movieAdapter.submitList(movieCollection.toList())
-        emptyListViewHolder.bind(movieCollection.size)
+
 
     }
 
@@ -261,9 +265,8 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     private fun getMoviesByGenre(genre:String){
 
         viewModel.currentGenre = genre
-        movieCollection = viewModel.filterMoviesByGenre()?: movieCollection
+        movieCollection = viewModel.filterMoviesByGenre()?: emptyList()
         movieAdapter.submitList(movieCollection.toList())
-        emptyListViewHolder.bind(movieCollection.size)
     }
 
     /**

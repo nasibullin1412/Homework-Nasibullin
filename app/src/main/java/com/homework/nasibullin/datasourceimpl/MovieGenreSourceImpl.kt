@@ -20,7 +20,7 @@ class MovieGenreSourceImpl: MoviesGenreDataSource {
                         "комедии"
             ),
             GenreDto(
-                        "артхаус"
+                        "ужасы"
             ),
             GenreDto(
                         "мелодрамы"

@@ -12,8 +12,8 @@ class MovieModel (
 ) {
 
     fun getAll() = moviesDataSource.getMovies()
-    fun getFirstMovies() = moviesDataSource.getMovies().take(4)
-    fun getSecondMovies() = moviesDataSource.getMovies().slice(4..7)
+    fun getFirstMovies() = moviesDataSource.getMovies().take(8)
+    fun getSecondMovies() = moviesDataSource.getMovies().slice(8..15)
     fun getError() = moviesDataSource.getMovies().slice(100..150)
 
 }

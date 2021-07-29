@@ -184,13 +184,6 @@ class MainActivity : AppCompatActivity(), MainFragmentCallbacks {
         addFragment(MOVIE_DETAIL_FRAGMENT_TAG)
     }
 
-    /**
-     * Saving a genre when clicking on a genre. Used to save current genre when flipping the screen
-     */
-    override fun onGenreItemClicked(title: String) {
-        currentGenre = title
-        addFragment(MAIN_FRAGMENT_TAG)
-    }
 
 }
 

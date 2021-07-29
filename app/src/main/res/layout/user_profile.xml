@@ -206,6 +206,7 @@
             <Spinner
                 android:id="@+id/spLanguage"
                 style="@style/SpinnerTheme"
+
                 app:layout_constraintTop_toBottomOf="@id/spTheme"
                 app:layout_constraintStart_toStartOf="@id/glUserProfileLeft"
                 />
@@ -233,6 +234,7 @@
             <Spinner
                 android:id="@+id/spProblems"
                 style="@style/SpinnerTheme"
+
                 app:layout_constraintTop_toBottomOf="@id/spQuestion"
                 app:layout_constraintStart_toStartOf="@id/glUserProfileLeft"
                 />

@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +19,7 @@ import com.homework.nasibullin.decorations.GenreItemDecoration
 import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
 import com.homework.nasibullin.models.UserModel
 import com.homework.nasibullin.utils.Utility
+
 
 class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
     private var user: UserDto? = null
@@ -61,6 +64,7 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
             text = user?.password
         }
         setupGenreRecycleView(user?.interests)
+
     }
 
     private fun setupGenreRecycleView(interests: List<GenreDto>?){
