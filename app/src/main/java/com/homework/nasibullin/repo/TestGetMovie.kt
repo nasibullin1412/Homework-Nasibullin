@@ -11,6 +11,11 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 object TestGetMovie {
+
+    /**
+     * emulation of downloading movie details from the server. A delay of 2 seconds has been simulated
+     * @param title is title of movie which needs to be downloaded
+     */
     suspend fun testGetMovie(title: String): Flow<Resource<MovieDto>> {
         delay(2000)
         return flow {

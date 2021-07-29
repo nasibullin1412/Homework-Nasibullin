@@ -78,6 +78,9 @@ class MovieDetailsFragment: Fragment() {
         }
     }
 
+    /**
+     * observer, which async wait of movie details loaded
+     */
     private fun setupObserver(){
 
         viewModel.getMovie()
@@ -160,8 +163,8 @@ class MovieDetailsFragment: Fragment() {
     }
 
     /**
-    * Card view initialization and launch function
-    * */
+     * Actor recycle view with ListAdapter
+     * */
     private fun prepareRecycleView() {
         actorRecycler = view?.findViewById(R.id.rvActorsList) ?: throw IllegalArgumentException("CrvActorList required")
         actorAdapter = ActorAdapter()

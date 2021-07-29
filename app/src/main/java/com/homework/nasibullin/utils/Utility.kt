@@ -7,7 +7,9 @@ import android.widget.Toast
 object Utility {
     private const val ERROR_MESSAGE =  "Error"
 
-
+    /**
+     * toast with null string handling
+     */
     fun showToast(message: String?, context:Context?) {
         when {
             message.isNullOrEmpty() -> {

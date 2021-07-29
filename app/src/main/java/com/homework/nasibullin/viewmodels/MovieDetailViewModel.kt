@@ -15,7 +15,9 @@ class MovieDetailViewModel (private val title: String) : ViewModel() {
     var movie: MovieDto? = null
     private val _movieChannel = Channel<Resource<MovieDto>>(Channel.BUFFERED)
     val movieChannel = _movieChannel.receiveAsFlow()
-
+    /**
+     * asynchronous request to take data about movie details
+     */
     fun getMovie(){
         viewModelScope.launch {
             TestGetMovie.testGetMovie(title)

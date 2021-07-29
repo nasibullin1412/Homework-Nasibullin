@@ -44,6 +44,9 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
         user = UserModel(UserDataSourceImpl()).getUser()
     }
 
+    /**
+     * Filling in the fields of profile details
+     */
     private fun setupView(){
         view?.findViewById<TextView>(R.id.tvUserName)?.apply {
             text = user?.name
@@ -67,6 +70,10 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
 
     }
 
+    /**
+     * Genre recycle view with ListAdapter
+     *
+     */
     private fun setupGenreRecycleView(interests: List<GenreDto>?){
         movieGenreRecycler = view?.findViewById(R.id.rvUserGenreList) ?: throw IllegalArgumentException("Recycler required")
         movieGenreAdapter = GenreAdapter()
@@ -78,6 +85,10 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
         movieGenreRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
     }
 
+    /**
+     * on genre item click listener.
+     * @param title is genre which was selected
+     */
     override fun onGenreClick(title: String) {
             Utility.showToast(title, context)
     }

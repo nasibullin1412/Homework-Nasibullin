@@ -20,7 +20,9 @@ class MainFragmentViewModel (private val testGetData: TestGetData) : ViewModel()
     var currentGenre: String = MainFragment.ALL_GENRE
 
 
-
+    /**
+     * fetching local movie list data
+     */
     private suspend fun initMovieList() {
         testGetData.testGetLocalData(numberOfVariant)
                 .catch { e ->
@@ -32,6 +34,9 @@ class MainFragmentViewModel (private val testGetData: TestGetData) : ViewModel()
                 }
     }
 
+    /**
+     * fetching update movie list data on server
+     */
     private suspend fun updateMovieList(){
         numberOfVariant++
         testGetData.testGetRemoteData(numberOfVariant)
@@ -44,6 +49,10 @@ class MainFragmentViewModel (private val testGetData: TestGetData) : ViewModel()
                 }
     }
 
+    /**
+     * asynchronous request to take data about the list of movies
+     * @param isSwipe: false, when need to init data, true, when need to update data
+     */
     fun getMovieList(isSwipe: Boolean){
         viewModelScope.launch {
             if (!isSwipe) {
@@ -55,10 +64,16 @@ class MainFragmentViewModel (private val testGetData: TestGetData) : ViewModel()
         }
     }
 
+    /**
+     * filter movies by genre after update
+     */
     private fun filterMoviesByGenre(resource: Resource<List<MovieDto>>): Resource<List<MovieDto>> {
         return Resource(resource.status, filterMoviesByGenre(), resource.message)
     }
 
+    /**
+     * filter movies by genre
+     */
     fun filterMoviesByGenre(): List<MovieDto>? {
         return if (currentGenre != MainFragment.ALL_GENRE) {
             currentMovieList?.filter { it.genre == currentGenre }

@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity(), MainFragmentCallbacks {
 
     /**
      *  Get screen width to make margin between elements relative to the screen width
+     *  @return screen width
      * */
     private val screenWidth: Int
     get() = windowManager.defaultDisplay.width
@@ -52,6 +53,9 @@ class MainActivity : AppCompatActivity(), MainFragmentCallbacks {
         }
     }
 
+    /**
+     * show last fragment after screen flipping
+     */
     private fun showLastFragment(){
         supportFragmentManager.beginTransaction()
             .show(supportFragmentManager.fragments.last())
@@ -61,7 +65,7 @@ class MainActivity : AppCompatActivity(), MainFragmentCallbacks {
 
     /**
      * Change bottom active item without actions. Need when Back pressed
-    so that no action is performed when the button is changed
+        so that no action is performed when the button is changed
      */
     private fun changeBottomItemWithoutAction() {
         actionBottomFlag = false
@@ -102,6 +106,7 @@ class MainActivity : AppCompatActivity(), MainFragmentCallbacks {
 
     /**
      * action which execute
+     * @param item of bottom bar, which was pressed
      */
     private fun actionBottom(item: MenuItem): Boolean {
         if (actionBottomFlag) {
@@ -126,6 +131,7 @@ class MainActivity : AppCompatActivity(), MainFragmentCallbacks {
 
     /**
      * Checking whether a fragment was created with such a tag or not. If yes, then delete the fragment to recreate it
+     * @param tag of fragment, which need to check
      */
     private fun checkFragmentRepeat(tag: String) {
         val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
@@ -138,6 +144,7 @@ class MainActivity : AppCompatActivity(), MainFragmentCallbacks {
 
     /**
      * Adding a new snippet, either when clicking on the item navigation bottom bar, or when clicking on the movie
+     * @param tag of fragment which need to add
      */
     private fun addFragment(tag: String) {
         checkFragmentRepeat(tag)
@@ -173,11 +180,11 @@ class MainActivity : AppCompatActivity(), MainFragmentCallbacks {
         super.onSaveInstanceState(outState)
         outState.putString(CURRENT_FRAGMENT_KEY, currentFragment)
         outState.putString(CURRENT_MOVIE_KEY, currentMovieTitle)
-        outState.putString(CURRENT_MOVIE_GENRE, currentGenre)
     }
 
     /**
      * Adding a movie detail fragment when clicking on an element
+     * @param title of the movie the details of which want to show
      */
     override fun onMovieItemClicked(title: String) {
         currentMovieTitle = title

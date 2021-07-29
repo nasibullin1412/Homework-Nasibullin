@@ -13,7 +13,7 @@ import com.homework.nasibullin.interfaces.OnMovieItemClickedCallback
 
 
 /**
-* Class Adapter to movie list
+* Class Adapter to movie list.
 */
 private const val TYPE_EMPTY = 0
 private const val TYPE_MOVIE = 1

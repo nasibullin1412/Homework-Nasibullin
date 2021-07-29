@@ -61,7 +61,9 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
             const val ALL_GENRE = "все"
             const val SCREEN_WIDTH_KEY = "screenWidth"
             /**
-             * transfer the current genre to work when flipping the screen
+             * put to bundle width of screen
+             * @param screenWidth current screen width in px
+             * @return MainFragment type fragment
              * */
             fun newInstance(screenWidth:Int): MainFragment {
                 val args = Bundle()
@@ -130,7 +132,9 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         createAdapterObserver()
     }
 
-
+    /**
+     * adapter observer, do actions after changes in recycle view
+     */
     private fun createAdapterObserver()= movieAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
         override fun onChanged() {
             super.onChanged()
@@ -170,6 +174,9 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     }
     )
 
+    /**
+     * setup on refresh listener
+     */
     private fun handleSwipe(){
         swipeRefreshLayout = view?.findViewById(R.id.srlMovieList) ?: throw IllegalArgumentException("swipeRefresh required")
         swipeRefreshLayout.setOnRefreshListener {
@@ -177,7 +184,10 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         }
     }
 
-
+    /**
+     * observer, which async wait of data update
+     * @param isSwipe: false, when need to init data, true, when need to update data
+     */
     private fun setupObserver(isSwipe:Boolean) {
         viewModel.getMovieList(isSwipe)
         addRepeatingJob(Lifecycle.State.STARTED){
@@ -235,6 +245,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
 
     /**
      * implementation of item listener action
+     * @param title selected genre
      * */
     override fun onGenreClick(title: String) {
         Utility.showToast(title, context)
@@ -243,24 +254,26 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
 
     /**
      * implementation of item listener action
+     * @param title of selected movie
      * */
     override fun onMovieClick(title: String) {
         Utility.showToast(title, context)
         mainFragmentClickListener?.onMovieItemClicked(title)
     }
 
-
+    /**
+     * update current movie data
+     * @param movieList is list of new films,
+     */
     private fun updateMovieData(movieList: List<MovieDto>){
-        movieRecycler.scrollToPosition(0)
         movieCollection = movieList
         movieAdapter.submitList(movieCollection.toList())
-
-
     }
 
 
     /**
      *  filter of movie list by genre of movie
+     *  @param genre is genre by which to filter films
      * */
     private fun getMoviesByGenre(genre:String){
 

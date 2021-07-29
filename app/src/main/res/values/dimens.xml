@@ -144,5 +144,6 @@
 
     <dimen name="user_profile_rv_min_height">16dp</dimen>
     <dimen name="user_profile_rv_margin_top">14dp</dimen>
+    <dimen name="user_profile_interests_margin_top">57dp</dimen>
 
 </resources>
