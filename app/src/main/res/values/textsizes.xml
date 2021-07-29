@@ -11,4 +11,7 @@
     <dimen name="list_movie_name_movie_text_size">14sp</dimen>
     <dimen name="list_movie_description_movie_text_size">12sp</dimen>
     <dimen name="list_age_category_text_size">7sp</dimen>
+    <dimen name="user_top_name_text_size">20sp</dimen>
+    <dimen name="user_top_mail_text_size">14sp</dimen>
+    <dimen name="user_profile_headers_text_size">16sp</dimen>
 </resources>

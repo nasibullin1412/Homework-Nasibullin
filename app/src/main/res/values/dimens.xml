@@ -136,6 +136,13 @@
     <dimen name="avatar_icn_right">20dp</dimen>
     <dimen name="avatar_icn_top">20dp</dimen>
 
+    <dimen name="user_profile_padding">20dp</dimen>
+    <dimen name="user_profile_top_name_margin">64dp</dimen>
+    <dimen name="user_profile_top_mail_margin">2dp</dimen>
+    <dimen name="user_profile_icon_size">72dp</dimen>
+    <dimen name="user_profile_icon_margin_top">48dp</dimen>
 
+    <dimen name="user_profile_rv_min_height">16dp</dimen>
+    <dimen name="user_profile_rv_margin_top">14dp</dimen>
 
 </resources>
