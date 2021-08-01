@@ -6,11 +6,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.homework.nasibullin.R
 import com.homework.nasibullin.callbacks.ActorCallback
-import com.homework.nasibullin.callbacks.GenreCallback
 import com.homework.nasibullin.dataclasses.ActorDto
-import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.holders.ActorViewHolder
-import com.homework.nasibullin.holders.GenreViewHolder
 
 /**
 * Class Adapter to Actor list

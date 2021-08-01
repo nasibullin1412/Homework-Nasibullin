@@ -4,8 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,10 +16,12 @@ import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.dataclasses.UserDto
 import com.homework.nasibullin.datasourceimpl.UserDataSourceImpl
 import com.homework.nasibullin.decorations.GenreItemDecoration
-import com.homework.nasibullin.interfaces.OnClickListenerInterface
+import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
 import com.homework.nasibullin.models.UserModel
+import com.homework.nasibullin.utils.Utility
 
-class ProfileFragment:Fragment(), OnClickListenerInterface {
+
+class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
     private var user: UserDto? = null
     private lateinit var movieGenreRecycler: RecyclerView
     private lateinit var movieGenreAdapter: GenreAdapter
@@ -41,6 +44,9 @@ class ProfileFragment:Fragment(), OnClickListenerInterface {
         user = UserModel(UserDataSourceImpl()).getUser()
     }
 
+    /**
+     * Filling in the fields of profile details
+     */
     private fun setupView(){
         view?.findViewById<TextView>(R.id.tvUserName)?.apply {
             text = user?.name
@@ -61,8 +67,13 @@ class ProfileFragment:Fragment(), OnClickListenerInterface {
             text = user?.password
         }
         setupGenreRecycleView(user?.interests)
+
     }
 
+    /**
+     * Genre recycle view with ListAdapter
+     *
+     */
     private fun setupGenreRecycleView(interests: List<GenreDto>?){
         movieGenreRecycler = view?.findViewById(R.id.rvUserGenreList) ?: throw IllegalArgumentException("Recycler required")
         movieGenreAdapter = GenreAdapter()
@@ -74,24 +85,14 @@ class ProfileFragment:Fragment(), OnClickListenerInterface {
         movieGenreRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
     }
 
-    override fun onGenreClick(title: String) {
-            showToast(title)
-    }
-
     /**
-     * Show toast with genre or film title
-     * */
-    private fun showToast(message: String?) {
-        when {
-            message.isNullOrEmpty() -> {
-                showToast(MainFragment.ERROR_MESSAGE)
-            }
-            else -> Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-        }
+     * on genre item click listener.
+     * @param title is genre which was selected
+     */
+    override fun onGenreClick(title: String) {
+            Utility.showToast(title, context)
     }
 
-    override fun onMovieClick(title: String) {
-        return
-    }
+
 
 }

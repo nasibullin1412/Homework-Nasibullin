@@ -187,6 +187,239 @@ class MoviesDataSourceImpl : MoviesDataSource {
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/x87wtRVVvsOG7hkfJlzNkkfXQCN.jpg"
                             )
                     )
+            ),
+            MovieDto(
+                    title = "Судная ночь навсегда",
+                    description = "Этим летом все правила будут нарушены. Группа мародеров решает, что ежегодная Судная ночь не должна заканчиваться с наступлением утра," +
+                            " а может продолжаться бесконечно. Никто больше не будет в безопасности.",
+                    rateScore = 4,
+                    ageRestriction = 18,
+                    imageUrl = "https://www.themoviedb.org/t/p/original/zEKa7Gfrr94V76w1A83khcML4Df.jpg",
+                    posterUrl = "https://www.themoviedb.org/t/p/original/kGUcCqsENSDI1oU3wU3bVVVf8v7.jpg",
+                    genre = "боевики",
+                    actors = listOf(
+                            ActorDto(
+                                    name = "Джош Лукас",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/aHYyysVwQ7D0iYLjlUgiknBQGwW.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Анна де Лагуэра",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/nVhTkLBwZu4zOzYbnW9mtmHQfyg.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Тенорч Хуерта",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/5qoAmQpcPCjf4Pd6aTZOeINGYzk.jpg"
+                            )
+                    )
+            ),
+            MovieDto(
+                    title = "Война будущего",
+                    description = "В будущем идёт разрушительный конфликт с инопланетной расой. В попытке переломить ход войны учёные начинают призывать в свою армию солдат из прошлого.",
+                    rateScore = 5,
+                    ageRestriction = 12,
+                    imageUrl = "https://www.themoviedb.org/t/p/original/jdzuxuA05lW4DzedZqa43SYhaZ.jpg",
+                    posterUrl = "https://www.themoviedb.org/t/p/original/ceiwpwT6bxuAKtK6suPUDbuWEHK.jpg",
+                    genre = "фантастика",
+                    actors = listOf(
+                            ActorDto(
+                                    name = "Крис Пратт",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/gXKyT1YU5RWWPaE1je3ht58eUZr.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Ивонна Старковски",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/wio1VaQDOggDfPOTJf2vxGfooxZ.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Джордж Симмонс",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/7kIiPojgSVNRXb5z0hiijcD5LJ6.jpg"
+                            )
+                    )
+            ),
+            MovieDto(
+                    title = "Тихое место 2",
+                    description = "474 дня прошло после нападения на Землю охотящихся на звук существ, семья Эбботт продолжает бороться за жизнь в полной тишине." +
+                            " Столкнувшись со смертельной угрозой в собственном доме, они вынуждены отправиться во внешний мир, где находят убежище и старого знакомого семьи.",
+                    rateScore = 3,
+                    ageRestriction = 16,
+                    imageUrl = "https://www.themoviedb.org/t/p/original/sdOTD3C9h4Etl6rYrtYLAJOuUWN.jpg",
+                    posterUrl = "https://www.themoviedb.org/t/p/original/uX4SrYuSaJAYsnFDZExyzjp4pZo.jpg",
+                    genre = "ужасы",
+                    actors = listOf(
+                            ActorDto(
+                                    name = "Эмили Блант",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/nPJXaRMvu1vh3COG16GzmdsBySQ.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Киллиан Мёрфи",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/i8dOTC0w6V274ev5iAAvo4Ahhpr.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Милисенд Симонс",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/vn7hejb0IRFvSrZxpxqY9RbBxMe.jpg"
+                            )
+                    )
+            ),
+            MovieDto(
+                    title = "Довод",
+                    description = "После теракта в киевском оперном театре агент ЦРУ объединяется с британской разведкой, " +
+                            "чтобы противостоять русскому олигарху, который сколотил состояние на торговле оружием. ",
+                    rateScore = 4,
+                    ageRestriction = 16,
+                    imageUrl = "https://www.themoviedb.org/t/p/original/m96dj44zZJ8TxpaMZDJv63TldZh.jpg",
+                    posterUrl = "https://www.themoviedb.org/t/p/original/epoids15egPuq933RvT0Y34L478.jpg",
+                    genre = "фантастика",
+                    actors = listOf(
+                            ActorDto(
+                                    name = "Джон Вашингтон",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/eWNCcG4DqqhFKtWP56Ds8MiKPXB.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Роберт Паттинсон",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8A4PS5iG7GWEAVFftyqMZKl3qcr.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Элизабет Дебики",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/sJxj44aKdY0pjSIgnxBgMWLrQmw.jpg"
+                            )
+                    )
+            ),
+            MovieDto(
+                    title = "Кролик Питер 2",
+                    description = "Продолжение истории маленького и непоседливого кролика по имени Питер." +
+                            " Беатрис, Томас и крольчата, наконец, находят общий язык и начинают спокойную и размеренную жизнь за городом.",
+                    rateScore = 4,
+                    ageRestriction = 0,
+                    imageUrl = "https://www.themoviedb.org/t/p/original/gGQEXTCU5IawU6929RGBHXRWXjZ.jpg",
+                    posterUrl = "https://www.themoviedb.org/t/p/original/tIJQQPCDUzTzBh1ltiIJeKotYAR.jpg",
+                    genre = "комедии",
+                    actors = listOf(
+                            ActorDto(
+                                    name = "Джеймс Корден",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xGB0gfZ48M27gQjjL7inJIh1Pqj.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Рози Бёрн",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/4oQWCLK7gd6RNKF0WJipJo7TyFP.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Домлан Глисон",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/uDbwncuKlqL0fAuucXSvgakJDrc.jpg"
+                            )
+                    )
+            ),
+            MovieDto(
+                    title = "Лука",
+                    description = "В прекрасном приморском городке на Итальянской Ривьере мальчик Лука проводит незабываемое лето, наполненное мороженым, пастой и бесконечными поездками на скутере. Вместе с ним эти приключения переживает его новый лучший друг, который на самом деле – морское чудовище из другого мира.",
+                    rateScore = 4,
+                    ageRestriction = 6,
+                    imageUrl = "https://www.themoviedb.org/t/p/original/8tABCBpzu3mZbzMB3sRzMEHEvJi.jpg",
+                    posterUrl="https://www.themoviedb.org/t/p/original/tiVmLZ6bTPH0bWTs13amLZhKL4o.jpg",
+                    genre = "мультфильмы",
+                    actors = listOf(ActorDto(
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/oNLhzkZXNw1RNihne9P5q57cRcd.jpg",
+                                     name = "Джейкоб Трамбле"
+                            ),
+                            ActorDto(
+                                    name = "Эмма Берман",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/r3QkZtW6Iaq56ziZqvPXAQLOcTr.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Джек Дилан ГрейзерДомлан Глисон",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/cZdGLa78UP7VzMgNbDRnoaSkZm1.jpg"
+                            )
+                    )
+            ),
+            MovieDto(
+                    title = "Майор Гром: Чумной Доктор",
+                    description = "Майор полиции Игорь Гром известен всему Санкт-Петербургу своим пробивным характером и непримиримой позицией по отношению к преступникам всех мастей. Неимоверная сила, аналитический склад ума и неподкупность – всё это делает майора Грома идеальным полицейским, не знающим преград. Но всё резко меняется с появлением человека в маске Чумного Доктора.",
+                    rateScore = 3,
+                    ageRestriction = 12,
+                    imageUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/wnesEmcq7xdw1Rm1Bn6XEFTkenR.jpg",
+                    posterUrl = "https://www.themoviedb.org/t/p/original/4e3hHuXbg1Gh9xuz045bRoImArR.jpg",
+                    genre = "фантастика",
+                    actors = listOf(
+                            ActorDto(
+                                    name = "Тихон Жизневский",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/nWM4bvQk5Pq74uu3r2wLawOHMJr.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Любовь Аксёнова",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/yOQX4JPwX1uhMyVT1jJigAk7iUr.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Алексей Маклаков",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/u1i5aLdon5fHggZVcIL1VkytqBN.jpg"
+                            )
+                    )
+            ),
+            MovieDto(
+                    title = "Годзилла против Конга",
+                    description = "Человечество стало виной тому, что Годзилла и Конг вынуждены сойтись в неравной схватке. Организация «Монарх», отслеживающая жизнь монстров на земле, отправляет экспедицию в неизведанные земли острова Черепа, где надеется раскрыть тайну происхождения титанов.",
+                    rateScore = 5,
+                    ageRestriction = 12,
+                    imageUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/pgqgaUx1cJb5oZQQ5v0tNARCeBp.jpg",
+                    posterUrl = "https://www.themoviedb.org/t/p/original/rvaOf23XpF3Bbkxis6aTRPwUdJ2.jpg",
+                    genre = "фантастика",
+                    actors = listOf(
+                            ActorDto(
+                                    name = "Александр Скарсгард",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/hIuDik6KDmHLrqZWxBVdXzUw1kq.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Милли Бобби Браун",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/yzfxLMcBMusKzZp9f1Z9Ags8WML.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Ребекка Холл",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/cVZaQrUY7F5khCBYdKDlEppHnQi.jpg"
+                            )
+                    )
+            ),
+            MovieDto(
+                    title = "Монстрические питомцы",
+                    description = "В новом фильме любимый монструозный щенок Дракулы страдает от нехватки внимания со стороны хозяина, слишком занятого делами отеля, а ведь в Пёсике столько энергии и он бесконечно хочет играть в мяч! Драк решает найти своему питомцу компаньона, и после серии неудачных попыток Пёсик наконец-то выбирает себе друга, который грозит Дракуле еще большей суетой.",
+                    rateScore = 4,
+                    ageRestriction = 6,
+                    imageUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/dkokENeY5Ka30BFgWAqk14mbnGs.jpg",
+                    posterUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/dkokENeY5Ka30BFgWAqk14mbnGs.jpg",
+                    genre = "мультфильмы",
+                    actors = listOf(
+                            ActorDto(
+                                    name = "Брайан Халл",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/mLq5C8100kjFad6AMLNUXX3kcPf.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Дженнифер Клуска",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/wpYWJ7Kw5qcXEOZyTuIEsfqMqXq.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Дерек Драймон",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/1ZdPd2JaiigVDB7hPxy29RAx9GY.jpg"
+                            )
+                    )
+            ),
+            MovieDto(
+                    title = "Космический джем: Новое поколение",
+                    description = "Чтобы спасти сына, знаменитый чемпион НБА отправляется в сказочный мир, где в команде мультяшек вынужден сражаться на баскетбольной площадке с цифровыми копиями знаменитых игроков.",
+                    rateScore = 4,
+                    ageRestriction = 6,
+                    imageUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/5bFK5d3mVTAvBCXi5NPWH0tYjKl.jpg",
+                    posterUrl = "https://www.themoviedb.org/t/p/original/1MMMF4KlwNFCSR1KzQQuxapUMAa.jpg",
+                    genre = "комедии",
+                    actors = listOf(
+                            ActorDto(
+                                    name = "Леброн Джеймс",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/rmIYKVdYT60zfsqfjNuB71f1y82.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Дон Чидл",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/b1EVJWdFn7a75qVYJgwO87W2TJU.jpg"
+                            ),
+                            ActorDto(
+                                    name = "Седрик Джо",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/2LXuhY0h5MlxLu7X55w4oAiVDWP.jpg"
+                            )
+                    )
             )
     )
 }

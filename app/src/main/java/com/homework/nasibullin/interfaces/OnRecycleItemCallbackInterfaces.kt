@@ -1,8 +1,9 @@
 package com.homework.nasibullin.interfaces
 
-import com.homework.nasibullin.dataclasses.MovieDto
-
-interface OnClickListenerInterface {
+interface OnGenreItemClickedCallback {
     fun onGenreClick(title: String)
+}
+
+interface OnMovieItemClickedCallback {
     fun onMovieClick(title: String)
 }

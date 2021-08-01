@@ -1,6 +1,5 @@
 package com.homework.nasibullin
 
-
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -10,17 +9,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.homework.nasibullin.fragments.MainFragment
 import com.homework.nasibullin.fragments.MovieDetailsFragment
 import com.homework.nasibullin.fragments.ProfileFragment
-import com.homework.nasibullin.interfaces.MainFragmentClickListener
+import com.homework.nasibullin.interfaces.MainFragmentCallbacks
 
 
-class MainActivity : AppCompatActivity(), MainFragmentClickListener {
+class MainActivity : AppCompatActivity(), MainFragmentCallbacks {
 
     private lateinit var bottomNavigationView: BottomNavigationView
     private var actionBottomFlag: Boolean = true
     private var currentFragment:String? = null
     private var currentMovieTitle:String? = null
     private var currentGenre:String? = null
-
 
     companion object {
         const val MAIN_FRAGMENT_TAG = "mainFragment"
@@ -31,27 +29,43 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
         const val CURRENT_MOVIE_GENRE = "currentGenre"
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if(savedInstanceState == null){
-            addFragment(MAIN_FRAGMENT_TAG)
-        }
-        else{
-            currentGenre = savedInstanceState.getString(CURRENT_MOVIE_GENRE)
-            currentFragment = supportFragmentManager.fragments.last().tag
-            addFragment(currentFragment ?: MAIN_FRAGMENT_TAG,
-                    title = savedInstanceState.getString(CURRENT_MOVIE_KEY))
-        }
-
+        stateRestoration(savedInstanceState)
         initNavigationListener()
     }
 
 
     /**
+     *  Get screen width to make margin between elements relative to the screen width
+     *  @return screen width
+     * */
+    private val screenWidth: Int
+    get() = windowManager.defaultDisplay.width
+
+    private fun stateRestoration(savedInstanceState: Bundle?){
+        if(savedInstanceState == null){
+            addFragment(MAIN_FRAGMENT_TAG)
+        }
+        else{
+            showLastFragment()
+        }
+    }
+
+    /**
+     * show last fragment after screen flipping
+     */
+    private fun showLastFragment(){
+        supportFragmentManager.beginTransaction()
+            .show(supportFragmentManager.fragments.last())
+            .commit()
+    }
+
+
+    /**
      * Change bottom active item without actions. Need when Back pressed
-    so that no action is performed when the button is changed
+        so that no action is performed when the button is changed
      */
     private fun changeBottomItemWithoutAction() {
         actionBottomFlag = false
@@ -80,8 +94,6 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
         }
     }
 
-
-
     /**
      * init bottom navigation listener
      */
@@ -94,6 +106,7 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
 
     /**
      * action which execute
+     * @param item of bottom bar, which was pressed
      */
     private fun actionBottom(item: MenuItem): Boolean {
         if (actionBottomFlag) {
@@ -118,6 +131,7 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
 
     /**
      * Checking whether a fragment was created with such a tag or not. If yes, then delete the fragment to recreate it
+     * @param tag of fragment, which need to check
      */
     private fun checkFragmentRepeat(tag: String) {
         val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
@@ -130,15 +144,13 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
 
     /**
      * Adding a new snippet, either when clicking on the item navigation bottom bar, or when clicking on the movie
+     * @param tag of fragment which need to add
      */
-    private fun addFragment(tag: String, title: String? = null) {
+    private fun addFragment(tag: String) {
         checkFragmentRepeat(tag)
-
-        currentMovieTitle = title
-
         val fragment: Fragment = when (tag) {
             MAIN_FRAGMENT_TAG -> {
-                MainFragment.newInstance(currentGenre ?: MainFragment.ALL_GENRE)
+                MainFragment.newInstance(screenWidth)
             }
             MOVIE_DETAIL_FRAGMENT_TAG -> {
                 if (currentMovieTitle != null) {
@@ -146,7 +158,7 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
                             ?: throw IllegalArgumentException("Recycler required"))
                 }
                 else{
-                    MainFragment.newInstance(currentGenre ?: MainFragment.ALL_GENRE)
+                    MainFragment.newInstance(screenWidth)
                 }
             }
             PROFILE_FRAGMENT_TAG -> {
@@ -156,12 +168,10 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
                 MainFragment()
             }
         }
-
-       supportFragmentManager.beginTransaction()
+        supportFragmentManager.beginTransaction()
                 .add(R.id.clFragmentContainer, fragment, tag)
                 .commit()
     }
-
 
     /**
      * keep user genre selection when flipping screen
@@ -170,22 +180,18 @@ class MainActivity : AppCompatActivity(), MainFragmentClickListener {
         super.onSaveInstanceState(outState)
         outState.putString(CURRENT_FRAGMENT_KEY, currentFragment)
         outState.putString(CURRENT_MOVIE_KEY, currentMovieTitle)
-        outState.putString(CURRENT_MOVIE_GENRE, currentGenre)
     }
 
     /**
      * Adding a movie detail fragment when clicking on an element
+     * @param title of the movie the details of which want to show
      */
     override fun onMovieItemClicked(title: String) {
-        addFragment(MOVIE_DETAIL_FRAGMENT_TAG, title = title)
+        currentMovieTitle = title
+        addFragment(MOVIE_DETAIL_FRAGMENT_TAG)
     }
 
-    /**
-     * Saving a genre when clicking on a genre. Used to save current genre when flipping the screen
-     */
-    override fun onGenreItemClicked(title: String) {
-        currentGenre = title
-    }
+
 }
 
 

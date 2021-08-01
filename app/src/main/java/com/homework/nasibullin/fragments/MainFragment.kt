@@ -6,60 +6,68 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.addRepeatingJob
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.homework.nasibullin.R
 import com.homework.nasibullin.adapters.GenreAdapter
 import com.homework.nasibullin.adapters.MovieAdapter
 import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.dataclasses.MovieDto
 import com.homework.nasibullin.datasourceimpl.MovieGenreSourceImpl
-import com.homework.nasibullin.datasourceimpl.MoviesDataSourceImpl
+import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.decorations.GenreItemDecoration
 import com.homework.nasibullin.decorations.MovieItemDecoration
+import com.homework.nasibullin.repo.TestGetData
 import com.homework.nasibullin.holders.EmptyListViewHolder
-import com.homework.nasibullin.interfaces.MainFragmentClickListener
-import com.homework.nasibullin.interfaces.OnClickListenerInterface
+import com.homework.nasibullin.interfaces.MainFragmentCallbacks
+import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
+import com.homework.nasibullin.interfaces.OnMovieItemClickedCallback
 import com.homework.nasibullin.models.GenreModel
-import com.homework.nasibullin.models.MovieModel
+import com.homework.nasibullin.utils.Utility
+import com.homework.nasibullin.viewmodels.MainFragmentViewModel
+import com.homework.nasibullin.viewmodels.MainFragmentViewModelFactory
+import kotlinx.coroutines.flow.collect
 
 
-
-
-private const val MIN_OFFSET = 20
-class MainFragment : Fragment(), OnClickListenerInterface {
+class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedCallback {
     private lateinit var movieGenreRecycler: RecyclerView
     private lateinit var movieRecycler: RecyclerView
     private lateinit var genreAdapter: GenreAdapter
     private lateinit var movieAdapter: MovieAdapter
     private lateinit var genreModel: GenreModel
-    private lateinit var movieModel: MovieModel
     private lateinit var movieCollection: Collection<MovieDto>
     private lateinit var genreCollection: Collection<GenreDto>
-    private var currentGenre: String = ALL_GENRE
+    private lateinit var swipeRefreshLayout:SwipeRefreshLayout
+    private lateinit var emptyListViewHolder: EmptyListViewHolder
+    private lateinit var viewModel: MainFragmentViewModel
+    private var mainFragmentClickListener: MainFragmentCallbacks? = null
     private var movieItemWidth: Int = 0
     private var movieItemMargin: Int = 0
-    private lateinit var emptyListViewHolder: EmptyListViewHolder
-    private var mainFragmentClickListener: MainFragmentClickListener? = null
+    private var screenWidth: Int = 0
 
 
         companion object {
-            const val GENRE_KEY = "currentGenre"
-            const val ALL_GENRE = "все"
             const val GENRE_LEFT_RIGHT_OFFSET = 6
             const val MOVIE_TOP_BOTTOM_OFFSET = 50
-            const val ERROR_MESSAGE =  "Error"
             const val PORTRAIT_ORIENTATION_SPAN_NUMBER = 2
             const val LANDSCAPE_ORIENTATION_SPAN_NUMBER = 3
+            const val MIN_OFFSET = 20
+            const val ALL_GENRE = "все"
+            const val SCREEN_WIDTH_KEY = "screenWidth"
             /**
-             * transfer the current genre to work when flipping the screen
+             * put to bundle width of screen
+             * @param screenWidth current screen width in px
+             * @return MainFragment type fragment
              * */
-            fun newInstance(titleGenre: String): MainFragment {
+            fun newInstance(screenWidth:Int): MainFragment {
                 val args = Bundle()
-                args.putString(GENRE_KEY, titleGenre)
+                args.putInt(SCREEN_WIDTH_KEY, screenWidth)
                 val fragment = MainFragment()
                 fragment.arguments = args
                 return fragment
@@ -67,32 +75,163 @@ class MainFragment : Fragment(), OnClickListenerInterface {
         }
 
 
-
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        val mainFragmentView = inflater.inflate(R.layout.list_of_movies, container, false)
-        currentGenre = arguments?.getString(GENRE_KEY) ?: ALL_GENRE
-
-        return mainFragmentView
+        return inflater.inflate(R.layout.list_of_movies, container, false)
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initValuesFromBundle()
+        initViewModel()
         initDataSource()
-        setupViews()
+        initView()
     }
+
+    private fun initValuesFromBundle(){
+        screenWidth = arguments?.getInt(SCREEN_WIDTH_KEY) ?: 0
+    }
+
+
+    private fun initViewModel(){
+        viewModel = ViewModelProviders.of(this,
+            MainFragmentViewModelFactory(TestGetData()))
+            .get(MainFragmentViewModel::class.java)
+    }
+
+    /**
+     * Init data models and collections
+     * */
+    private fun initDataSource() {
+        movieCollection = emptyList()
+        genreModel = GenreModel(MovieGenreSourceImpl())
+        genreCollection = genreModel.getGenres()
+    }
+
+    private fun initView(){
+        setupViews()
+        setupObserver(false)
+        handleSwipe()
+    }
+
+
+
+    /**
+     *  prepare genre and movie recycle views
+     * */
+    private fun setupViews() {
+        emptyListViewHolder = EmptyListViewHolder(this.layoutInflater.inflate(R.layout.empty_list_movie,
+                view?.findViewById<RecyclerView>(R.id.rvMovieGenreList), false))
+        calculateValues()
+        prepareMovieGenreRecycleView()
+        prepareMovieRecycleView()
+        createAdapterObserver()
+    }
+
+    /**
+     * adapter observer, do actions after changes in recycle view
+     */
+    private fun createAdapterObserver()= movieAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+        override fun onChanged() {
+            super.onChanged()
+            movieRecycler.scrollToPosition(0)
+            emptyListViewHolder.bind(movieCollection.size)
+        }
+
+        override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+            super.onItemRangeRemoved(positionStart, itemCount)
+            movieRecycler.scrollToPosition(0)
+            emptyListViewHolder.bind(movieCollection.size)
+        }
+
+        override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+            super.onItemRangeMoved(fromPosition, toPosition, itemCount)
+            movieRecycler.scrollToPosition(0)
+            emptyListViewHolder.bind(movieCollection.size)
+        }
+
+        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+            super.onItemRangeInserted(positionStart, itemCount)
+            movieRecycler.scrollToPosition(0)
+            emptyListViewHolder.bind(movieCollection.size)
+        }
+
+        override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+            super.onItemRangeChanged(positionStart, itemCount)
+            movieRecycler.scrollToPosition(0)
+            emptyListViewHolder.bind(movieCollection.size)
+        }
+
+        override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
+            super.onItemRangeChanged(positionStart, itemCount, payload)
+            movieRecycler.scrollToPosition(0)
+            emptyListViewHolder.bind(movieCollection.size)
+        }
+    }
+    )
+
+    /**
+     * setup on refresh listener
+     */
+    private fun handleSwipe(){
+        swipeRefreshLayout = view?.findViewById(R.id.srlMovieList) ?: throw IllegalArgumentException("swipeRefresh required")
+        swipeRefreshLayout.setOnRefreshListener {
+            setupObserver(true)
+        }
+    }
+
+    /**
+     * observer, which async wait of data update
+     * @param isSwipe: false, when need to init data, true, when need to update data
+     */
+    private fun setupObserver(isSwipe:Boolean) {
+        viewModel.getMovieList(isSwipe)
+        addRepeatingJob(Lifecycle.State.STARTED){
+            viewModel.movieListChannel.collect {
+                when (it.status) {
+                    Resource.Status.SUCCESS -> {
+
+                        if (it.data == null) {
+                            Utility.showToast(it.message, context)
+
+                        } else{
+                            updateMovieData(it.data)
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        Utility.showToast(it.message, context)
+                    }
+
+                    Resource.Status.LOADING -> {
+                        Utility.showToast(it.message, context)
+                    }
+
+                    Resource.Status.FAILURE -> {
+
+                        Utility.showToast(it.message, context)
+
+                    }
+                }
+                swipeRefreshLayout.isRefreshing = false
+            }
+
+        }
+    }
+
+
+
+
 
     /**
      * signature of the activity as a listener
      * */
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is MainFragmentClickListener){
+        if (context is MainFragmentCallbacks){
             mainFragmentClickListener = context
         }
     }
@@ -104,102 +243,44 @@ class MainFragment : Fragment(), OnClickListenerInterface {
 
 
 
-
-
-
-
     /**
      * implementation of item listener action
+     * @param title selected genre
      * */
     override fun onGenreClick(title: String) {
-        showToast(title)
+        Utility.showToast(title, context)
         getMoviesByGenre(title)
-        mainFragmentClickListener?.onGenreItemClicked(title)
     }
 
     /**
      * implementation of item listener action
+     * @param title of selected movie
      * */
     override fun onMovieClick(title: String) {
-        showToast(title)
+        Utility.showToast(title, context)
         mainFragmentClickListener?.onMovieItemClicked(title)
     }
 
     /**
-     * keep user genre selection when flipping screen
-     * */
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(GENRE_KEY, currentGenre)
+     * update current movie data
+     * @param movieList is list of new films,
+     */
+    private fun updateMovieData(movieList: List<MovieDto>){
+        movieCollection = movieList
+        movieAdapter.submitList(movieCollection.toList())
     }
 
-
-    /**
-     * Init data models and collections
-     * */
-    private fun initDataSource() {
-        movieModel = MovieModel(MoviesDataSourceImpl())
-        initMovieCollection()
-        genreModel = GenreModel(MovieGenreSourceImpl())
-        genreCollection = genreModel.getGenres()
-    }
-
-
-    /**
-     *  Get screen width to make margin between elements relative to the screen width
-     * */
-    private val screenWidth: Int
-        get() {
-            return 720
-        }
-
-    /**
-     *  prepare genre and movie recycle views
-     * */
-    private fun setupViews() {
-        emptyListViewHolder = EmptyListViewHolder(this.layoutInflater.inflate(R.layout.empty_list_movie,
-                view?.findViewById<RecyclerView>(R.id.rvMovieGenreList), false))
-        calculateValues()
-        prepareMovieGenreRecycleView()
-        prepareMovieRecycleView()
-    }
 
     /**
      *  filter of movie list by genre of movie
+     *  @param genre is genre by which to filter films
      * */
     private fun getMoviesByGenre(genre:String){
-        movieCollection = movieModel.getMovies()
-        if (genre != ALL_GENRE) {
-            movieCollection = movieModel.getMovies().filter { it.genre == genre }
-        }
+
+        viewModel.currentGenre = genre
+        movieCollection = viewModel.filterMoviesByGenre()?: emptyList()
         movieAdapter.submitList(movieCollection.toList())
-        emptyListViewHolder.bind(movieCollection.size)
-        currentGenre = genre
     }
-
-    /**
-     * init Movie collection by all movie list or by genre if init after screen flip
-     */
-    private fun initMovieCollection(){
-        movieCollection = if (currentGenre == ALL_GENRE){
-            movieModel.getMovies()
-        } else{
-            movieModel.getMovies().filter { it.genre == currentGenre }
-        }
-    }
-
-    /**
-     * Get device orientation
-     */
-    private val orientation: Boolean
-        get() {
-            return when (resources.configuration.orientation) {
-                Configuration.ORIENTATION_PORTRAIT -> true
-                Configuration.ORIENTATION_LANDSCAPE -> false
-                Configuration.ORIENTATION_UNDEFINED -> true
-                else -> error("Error orientation")
-            }
-        }
 
     /**
      * Movie genre recycle view with ListAdapter
@@ -212,6 +293,7 @@ class MainFragment : Fragment(), OnClickListenerInterface {
         val itemDecorator = GenreItemDecoration(leftRight = GENRE_LEFT_RIGHT_OFFSET)
         movieGenreRecycler.addItemDecoration(itemDecorator)
         movieGenreRecycler.adapter = genreAdapter
+
         movieGenreRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
     }
 
@@ -222,7 +304,6 @@ class MainFragment : Fragment(), OnClickListenerInterface {
         movieRecycler = view?.findViewById(R.id.rvMovieList)?: throw IllegalArgumentException("Recycler required")
         movieAdapter = MovieAdapter(emptyListViewHolder)
         movieAdapter.initOnClickInterface(this)
-        movieAdapter.submitList(movieCollection.toList())
         val itemDecorator = MovieItemDecoration(
                 topBottom = MOVIE_TOP_BOTTOM_OFFSET,
                 right = calculateOffset(),
@@ -238,6 +319,19 @@ class MainFragment : Fragment(), OnClickListenerInterface {
         )
 
     }
+
+    /**
+     * Get device orientation
+     */
+    private val orientation: Boolean
+        get() {
+            return when (resources.configuration.orientation) {
+                Configuration.ORIENTATION_PORTRAIT -> true
+                Configuration.ORIENTATION_LANDSCAPE -> false
+                Configuration.ORIENTATION_UNDEFINED -> true
+                else -> error("Error orientation")
+            }
+        }
 
     /**
      * Get number of span depending on orientation
@@ -256,7 +350,6 @@ class MainFragment : Fragment(), OnClickListenerInterface {
         }
         val density = resources.displayMetrics.density
         offset = (offset.toFloat()/density).toInt()
-
         return if (offset < MIN_OFFSET) MIN_OFFSET else offset
     }
 
@@ -268,15 +361,5 @@ class MainFragment : Fragment(), OnClickListenerInterface {
         movieItemWidth = resources.getDimension(R.dimen.img_movie_poster_width).toInt()
     }
 
-    /**
-     * Show toast with genre or film title
-     * */
-    private fun showToast(message: String?) {
-        when {
-            message.isNullOrEmpty() -> {
-                showToast(ERROR_MESSAGE)
-            }
-            else -> Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-        }
-    }
+
 }

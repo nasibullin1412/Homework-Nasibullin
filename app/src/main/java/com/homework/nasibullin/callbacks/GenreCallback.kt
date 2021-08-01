@@ -3,7 +3,6 @@ package com.homework.nasibullin.callbacks
 import androidx.recyclerview.widget.DiffUtil
 import com.homework.nasibullin.dataclasses.GenreDto
 
-
 /**
 * Callback to base class for presenting List data in a GenreRecyclerView,
 *  including computing diffs between Lists on a background thread.

@@ -25,4 +25,21 @@
         <item name="endIconTint">@color/black</item>
         <item name="paddingStart">0dp</item>
     </style>
+    <style name="SpinnerTheme" parent="android:Widget.Spinner">
+        <item name="android:background">@drawable/bg_spinner</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minWidth">320dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+    <style name="CustomButton" parent="android:Widget">
+        <item name="android:background">@drawable/logout_button_selector</item>
+    </style>
+    <style name="CustomUserProfileText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/user_profile_data_font</item>
+        <item name="android:textColor">@color/custom_text</item>
+        <item name="android:textSize">@dimen/user_profile_headers_text_size</item>
+    </style>
 </resources>

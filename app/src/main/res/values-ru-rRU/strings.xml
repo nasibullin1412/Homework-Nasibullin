@@ -21,4 +21,13 @@
     <string name="page_name_list_movie">Популярное сейчас</string>
     <string name="empty_list_message" >Простите, но мы ничего не по вашему фильтру не нашли,
         а пока наши режисёры снимают новый фильм просто посмотрите на Джейсона Стетхема</string>
+    <string name="personal_data">Личные данные</string>
+    <string name="settings">Настройки</string>
+    <string name="app">Приложение</string>
+    <string name="logout">Выйти</string>
+    <string name="interest">Интересы</string>
+    <string name="hint_name">Имя</string>
+    <string name="hint_password">Пароль</string>
+    <string name="hint_mail">Почта</string>
+    <string name="hint_number">Телефон</string>
 </resources>

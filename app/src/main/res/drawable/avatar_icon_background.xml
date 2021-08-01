@@ -2,13 +2,13 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="oval">
-            <solid android:color="#E5E5E5"/>
+            <solid android:color="@color/custom_background"/>
         </shape>
     </item>
     <item
         android:drawable="@drawable/ic_avatar"
-        android:bottom="20dp"
-        android:left="20dp"
-        android:right="20dp"
-        android:top="20dp"/>
+        android:bottom="@dimen/avatar_icn_bottom"
+        android:left="@dimen/avatar_icn_left"
+        android:right="@dimen/avatar_icn_right"
+        android:top="@dimen/avatar_icn_top"/>
 </layer-list>

@@ -35,7 +35,7 @@
     <dimen name="movie_name_margin_left">22dp</dimen>
 
     <!-- shape of age category params -->
-    <dimen name="sh_age_category_margin_left">296dp</dimen>
+    <dimen name="sh_age_category_margin_right">18dp</dimen>
     <dimen name="sh_age_category_margin_top">39dp</dimen>
     <dimen name="sh_age_category_oval_radius">10dp</dimen>
     <dimen name="sh_age_category_oval_padding_l">0dp</dimen>
@@ -131,5 +131,19 @@
     <dimen name="img_movie_poster_width">150dp</dimen>
     <dimen name="img_movie_poster_height">216dp</dimen>
 
+    <dimen name="avatar_icn_bottom">20dp</dimen>
+    <dimen name="avatar_icn_left">20dp</dimen>
+    <dimen name="avatar_icn_right">20dp</dimen>
+    <dimen name="avatar_icn_top">20dp</dimen>
+
+    <dimen name="user_profile_padding">20dp</dimen>
+    <dimen name="user_profile_top_name_margin">64dp</dimen>
+    <dimen name="user_profile_top_mail_margin">2dp</dimen>
+    <dimen name="user_profile_icon_size">72dp</dimen>
+    <dimen name="user_profile_icon_margin_top">48dp</dimen>
+
+    <dimen name="user_profile_rv_min_height">16dp</dimen>
+    <dimen name="user_profile_rv_margin_top">14dp</dimen>
+    <dimen name="user_profile_interests_margin_top">57dp</dimen>
 
 </resources>

@@ -4,16 +4,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.homework.nasibullin.*
+import com.homework.nasibullin.R
 import com.homework.nasibullin.callbacks.MovieCallback
 import com.homework.nasibullin.dataclasses.MovieDto
 import com.homework.nasibullin.holders.EmptyListViewHolder
 import com.homework.nasibullin.holders.MovieViewHolder
-import com.homework.nasibullin.interfaces.OnClickListenerInterface
+import com.homework.nasibullin.interfaces.OnMovieItemClickedCallback
 
 
 /**
-* Class Adapter to movie list
+* Class Adapter to movie list.
 */
 private const val TYPE_EMPTY = 0
 private const val TYPE_MOVIE = 1
@@ -22,7 +22,7 @@ class MovieAdapter(
 ) : ListAdapter<MovieDto, RecyclerView.ViewHolder>(MovieCallback()) {
 
 
-    private lateinit var listener: OnClickListenerInterface
+    private lateinit var listener: OnMovieItemClickedCallback
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater: LayoutInflater = LayoutInflater.from(parent.context)
@@ -52,7 +52,6 @@ class MovieAdapter(
 
     }
 
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is MovieViewHolder -> {
@@ -66,7 +65,7 @@ class MovieAdapter(
 
     }
 
-    fun initOnClickInterface(listener: OnClickListenerInterface) {
+    fun initOnClickInterface(listener: OnMovieItemClickedCallback) {
         this.listener = listener
     }
 }
