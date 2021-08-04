@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <!-- MainFragment -->
+    <fragment android:id="@+id/mainFragment"
+        android:name="com.homework.nasibullin.fragments.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/list_of_movies">
+        <action android:id="@+id/action_mainFragment_to_viewMovieDetails"
+            app:destination="@id/viewMovieDetails"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            />
+    </fragment>
+
+
+    <!-- ViewMovieDetails -->
+    <fragment android:id="@+id/viewMovieDetails"
+        android:name="com.homework.nasibullin.fragments.MovieDetailsFragment"
+        android:label="fragment_view_transaction"
+        tools:layout="@layout/activity_movie_details">
+    </fragment>
+
+
+    <!-- ViewUserProfile -->
+    <fragment android:id="@+id/viewUserProfile"
+        android:name="com.homework.nasibullin.fragments.ProfileFragment"
+        android:label="fragment_view_user_profile"
+        tools:layout="@layout/user_profile">
+    </fragment>
+
+
+
+
+
+
+</navigation>

@@ -5,14 +5,14 @@ import com.homework.nasibullin.dataclasses.MovieDto
 import androidx.lifecycle.viewModelScope
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.fragments.MainFragment
-import com.homework.nasibullin.repo.TestGetData
+import com.homework.nasibullin.repo.TestGetMovieListData
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
 
-class MainFragmentViewModel (private val testGetData: TestGetData) : ViewModel() {
+class MainFragmentViewModel (private val testGetMovieListData: TestGetMovieListData) : ViewModel() {
     private var numberOfVariant: Int = 0
     private val _movieListChannel = Channel<Resource<List<MovieDto>>>(Channel.BUFFERED)
     val movieListChannel = _movieListChannel.receiveAsFlow()
@@ -24,7 +24,7 @@ class MainFragmentViewModel (private val testGetData: TestGetData) : ViewModel()
      * fetching local movie list data
      */
     private suspend fun initMovieList() {
-        testGetData.testGetLocalData(numberOfVariant)
+        testGetMovieListData.testGetLocalData(numberOfVariant)
                 .catch { e ->
                     _movieListChannel.send(Resource.error(e.toString()))
                 }
@@ -39,7 +39,7 @@ class MainFragmentViewModel (private val testGetData: TestGetData) : ViewModel()
      */
     private suspend fun updateMovieList(){
         numberOfVariant++
-        testGetData.testGetRemoteData(numberOfVariant)
+        testGetMovieListData.testGetRemoteData(numberOfVariant)
                 .catch { e ->
                     _movieListChannel.send(Resource.error(e.toString()))
                 }

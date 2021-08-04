@@ -2,12 +2,14 @@
 <menu xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 <item
-    android:id="@+id/nav_home"
+    android:id="@+id/mainFragment"
     android:icon="@drawable/ic_vector"
+    android:menuCategory="secondary"
     tools:ignore="MenuTitle" />
     <item
-        android:id="@+id/nav_profile"
+        android:id="@+id/viewUserProfile"
         android:icon="@drawable/ic_settings"
+        android:menuCategory="secondary"
         tools:ignore="MenuTitle" />
 
 </menu>

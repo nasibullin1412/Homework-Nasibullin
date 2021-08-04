@@ -39,14 +39,7 @@ class MovieDetailsFragment: Fragment() {
 
 
     companion object {
-        private const val KEY_ARGUMENT = "title"
-        fun newInstance(titleMovie: String): MovieDetailsFragment {
-            val args = Bundle()
-            args.putString(KEY_ARGUMENT, titleMovie)
-            val fragment = MovieDetailsFragment()
-            fragment.arguments = args
-            return fragment
-        }
+        const val KEY_ARGUMENT = "title"
     }
 
     override fun onCreateView(

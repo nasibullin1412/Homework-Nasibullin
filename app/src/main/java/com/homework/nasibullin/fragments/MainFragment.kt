@@ -6,10 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.addRepeatingJob
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +26,7 @@ import com.homework.nasibullin.datasourceimpl.MovieGenreSourceImpl
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.decorations.GenreItemDecoration
 import com.homework.nasibullin.decorations.MovieItemDecoration
-import com.homework.nasibullin.repo.TestGetData
+import com.homework.nasibullin.repo.TestGetMovieListData
 import com.homework.nasibullin.holders.EmptyListViewHolder
 import com.homework.nasibullin.interfaces.MainFragmentCallbacks
 import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
@@ -46,6 +49,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     private lateinit var swipeRefreshLayout:SwipeRefreshLayout
     private lateinit var emptyListViewHolder: EmptyListViewHolder
     private lateinit var viewModel: MainFragmentViewModel
+    private lateinit var navController: NavController
     private var mainFragmentClickListener: MainFragmentCallbacks? = null
     private var movieItemWidth: Int = 0
     private var movieItemMargin: Int = 0
@@ -86,6 +90,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
         initValuesFromBundle()
         initViewModel()
         initDataSource()
@@ -97,9 +102,11 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     }
 
 
+
+
     private fun initViewModel(){
         viewModel = ViewModelProviders.of(this,
-            MainFragmentViewModelFactory(TestGetData()))
+            MainFragmentViewModelFactory(TestGetMovieListData()))
             .get(MainFragmentViewModel::class.java)
     }
 
@@ -117,7 +124,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         setupObserver(false)
         handleSwipe()
     }
-
 
 
     /**
@@ -258,7 +264,11 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
      * */
     override fun onMovieClick(title: String) {
         Utility.showToast(title, context)
-        mainFragmentClickListener?.onMovieItemClicked(title)
+        val bundle = bundleOf(MovieDetailsFragment.KEY_ARGUMENT to title)
+        navController.navigate(
+            R.id.action_mainFragment_to_viewMovieDetails,
+            bundle
+        )
     }
 
     /**
