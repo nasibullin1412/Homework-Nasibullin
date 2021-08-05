@@ -17,11 +17,11 @@ import com.homework.nasibullin.R
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
-
-    private val TAG = "FireBaseMessagingService"
-    private var NOTIFICATION_CHANNEL_ID = "com.homework.nasibullin"
-    private val NOTIFICATION_ID = 100
-
+    companion object {
+        private const val TAG = "FireBaseMessagingService"
+        private const val NOTIFICATION_CHANNEL_ID = "com.homework.nasibullin"
+        private const val NOTIFICATION_ID = 100
+    }
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
