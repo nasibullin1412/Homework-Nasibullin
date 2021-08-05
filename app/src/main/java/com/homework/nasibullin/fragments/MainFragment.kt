@@ -174,7 +174,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     private fun handleSwipe(){
         swipeRefreshLayout = view?.findViewById(R.id.srlMovieList) ?: throw IllegalArgumentException("swipeRefresh required")
         swipeRefreshLayout.setOnRefreshListener {
-            setupObserver(true)
+            viewModel.getMovieList(true)
         }
     }
 
@@ -189,18 +189,22 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
             when(it.status){
                 Resource.Status.SUCCESS -> {
                     updateMovieData(it.data?:throw java.lang.IllegalArgumentException("Live Data required"))
+                    swipeRefreshLayout.isRefreshing =false
                 }
 
                 Resource.Status.ERROR -> {
                     Utility.showToast(it.message, context)
+                    swipeRefreshLayout.isRefreshing =false
                 }
 
                 Resource.Status.LOADING -> {
                     Utility.showToast(it.message, context)
+                    swipeRefreshLayout.isRefreshing =false
                 }
 
                 Resource.Status.FAILURE -> {
                     Utility.showToast(it.message, context)
+                    swipeRefreshLayout.isRefreshing =false
                 }
             }
 
