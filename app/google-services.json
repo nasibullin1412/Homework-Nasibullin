@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "389805741643",
+    "project_id": "mts-teta-homework",
+    "storage_bucket": "mts-teta-homework.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:389805741643:android:da2e936a7cbf22ffeb1fce",
+        "android_client_info": {
+          "package_name": "com.homework.nasibullin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "389805741643-p03e6kpp7v2sng0dcia9hup4og12jrnt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.homework.nasibullin",
+            "certificate_hash": "6fa7483d4b3ae8b70aecd71a945444249fe9c164"
+          }
+        },
+        {
+          "client_id": "389805741643-vsi26u4vsohedsd03lqtp5jeaqcemfdl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzbf9cGY76XAKbPb0ECoxMmBynMw7LrJQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "389805741643-vsi26u4vsohedsd03lqtp5jeaqcemfdl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,6 @@
 package com.homework.nasibullin.utils
 
+import android.app.Activity
 import android.content.Context
 import android.widget.Toast
 
@@ -18,4 +19,6 @@ object Utility {
             else -> Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }
     }
+
+    fun getScreenWidth(activity: Activity)=activity.windowManager.defaultDisplay.width
 }

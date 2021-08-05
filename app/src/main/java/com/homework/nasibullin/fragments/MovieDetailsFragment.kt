@@ -10,24 +10,18 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.addRepeatingJob
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.homework.nasibullin.R
 import com.homework.nasibullin.adapters.ActorAdapter
-import com.homework.nasibullin.dataclasses.ActorDto
-import com.homework.nasibullin.dataclasses.MovieDto
-import com.homework.nasibullin.datasourceimpl.MoviesDataSourceImpl
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.decorations.ActorItemDecoration
-import com.homework.nasibullin.models.MovieModel
 import com.homework.nasibullin.utils.Utility
 import com.homework.nasibullin.viewmodels.MovieDetailViewModel
 import com.homework.nasibullin.viewmodels.MovieDetailViewModelFactory
-import kotlinx.coroutines.flow.collect
 import java.lang.StringBuilder
 
 class MovieDetailsFragment: Fragment() {
@@ -39,14 +33,7 @@ class MovieDetailsFragment: Fragment() {
 
 
     companion object {
-        private const val KEY_ARGUMENT = "title"
-        fun newInstance(titleMovie: String): MovieDetailsFragment {
-            val args = Bundle()
-            args.putString(KEY_ARGUMENT, titleMovie)
-            val fragment = MovieDetailsFragment()
-            fragment.arguments = args
-            return fragment
-        }
+        const val KEY_ARGUMENT = "title"
     }
 
     override fun onCreateView(
@@ -84,36 +71,29 @@ class MovieDetailsFragment: Fragment() {
     private fun setupObserver(){
 
         viewModel.getMovie()
-        this.addRepeatingJob(Lifecycle.State.STARTED){
+        viewModel.movieDetail.observe(viewLifecycleOwner, {
 
-            viewModel.movieChannel.collect {
-                when (it.status) {
-                    Resource.Status.SUCCESS -> {
+            when (it.status) {
 
-                        if (it.data == null) {
-                            Utility.showToast(it.message, context)
+                Resource.Status.SUCCESS -> {
+                    setupView()
+                }
 
-                        } else{
-                            setupView()
-                        }
-                    }
-                    Resource.Status.ERROR -> {
-                        Utility.showToast(it.message, context)
-                    }
+                Resource.Status.ERROR -> {
+                    Utility.showToast("Error load user", context)
+                }
 
-                    Resource.Status.LOADING -> {
-                        Utility.showToast(it.message, context)
-                    }
+                Resource.Status.LOADING -> {
+                    Utility.showToast("Loading user data", context)
+                }
 
-                    Resource.Status.FAILURE -> {
-
-                        Utility.showToast(it.message, context)
-
-                    }
+                Resource.Status.FAILURE -> {
+                    Utility.showToast("Failure load user", context)
                 }
             }
 
-        }
+
+        })
 
     }
 

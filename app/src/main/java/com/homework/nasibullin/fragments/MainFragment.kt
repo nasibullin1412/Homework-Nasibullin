@@ -6,10 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
+import com.homework.nasibullin.MainActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.addRepeatingJob
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +27,7 @@ import com.homework.nasibullin.datasourceimpl.MovieGenreSourceImpl
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.decorations.GenreItemDecoration
 import com.homework.nasibullin.decorations.MovieItemDecoration
-import com.homework.nasibullin.repo.TestGetData
+import com.homework.nasibullin.repo.TestGetMovieListData
 import com.homework.nasibullin.holders.EmptyListViewHolder
 import com.homework.nasibullin.interfaces.MainFragmentCallbacks
 import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
@@ -32,7 +36,6 @@ import com.homework.nasibullin.models.GenreModel
 import com.homework.nasibullin.utils.Utility
 import com.homework.nasibullin.viewmodels.MainFragmentViewModel
 import com.homework.nasibullin.viewmodels.MainFragmentViewModelFactory
-import kotlinx.coroutines.flow.collect
 
 
 class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedCallback {
@@ -46,6 +49,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     private lateinit var swipeRefreshLayout:SwipeRefreshLayout
     private lateinit var emptyListViewHolder: EmptyListViewHolder
     private lateinit var viewModel: MainFragmentViewModel
+    private lateinit var navController: NavController
     private var mainFragmentClickListener: MainFragmentCallbacks? = null
     private var movieItemWidth: Int = 0
     private var movieItemMargin: Int = 0
@@ -59,19 +63,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
             const val LANDSCAPE_ORIENTATION_SPAN_NUMBER = 3
             const val MIN_OFFSET = 20
             const val ALL_GENRE = "все"
-            const val SCREEN_WIDTH_KEY = "screenWidth"
-            /**
-             * put to bundle width of screen
-             * @param screenWidth current screen width in px
-             * @return MainFragment type fragment
-             * */
-            fun newInstance(screenWidth:Int): MainFragment {
-                val args = Bundle()
-                args.putInt(SCREEN_WIDTH_KEY, screenWidth)
-                val fragment = MainFragment()
-                fragment.arguments = args
-                return fragment
-            }
         }
 
 
@@ -80,12 +71,14 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
+        requireContext()
         return inflater.inflate(R.layout.list_of_movies, container, false)
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
         initValuesFromBundle()
         initViewModel()
         initDataSource()
@@ -93,13 +86,15 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     }
 
     private fun initValuesFromBundle(){
-        screenWidth = arguments?.getInt(SCREEN_WIDTH_KEY) ?: 0
+        screenWidth = Utility.getScreenWidth(requireActivity())
     }
+
+
 
 
     private fun initViewModel(){
         viewModel = ViewModelProviders.of(this,
-            MainFragmentViewModelFactory(TestGetData()))
+            MainFragmentViewModelFactory(TestGetMovieListData()))
             .get(MainFragmentViewModel::class.java)
     }
 
@@ -117,7 +112,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         setupObserver(false)
         handleSwipe()
     }
-
 
 
     /**
@@ -190,36 +184,28 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
      */
     private fun setupObserver(isSwipe:Boolean) {
         viewModel.getMovieList(isSwipe)
-        addRepeatingJob(Lifecycle.State.STARTED){
-            viewModel.movieListChannel.collect {
-                when (it.status) {
-                    Resource.Status.SUCCESS -> {
+        viewModel.movieList.observe(viewLifecycleOwner, {
 
-                        if (it.data == null) {
-                            Utility.showToast(it.message, context)
-
-                        } else{
-                            updateMovieData(it.data)
-                        }
-                    }
-                    Resource.Status.ERROR -> {
-                        Utility.showToast(it.message, context)
-                    }
-
-                    Resource.Status.LOADING -> {
-                        Utility.showToast(it.message, context)
-                    }
-
-                    Resource.Status.FAILURE -> {
-
-                        Utility.showToast(it.message, context)
-
-                    }
+            when(it.status){
+                Resource.Status.SUCCESS -> {
+                    updateMovieData(it.data?:throw java.lang.IllegalArgumentException("Live Data required"))
                 }
-                swipeRefreshLayout.isRefreshing = false
+
+                Resource.Status.ERROR -> {
+                    Utility.showToast(it.message, context)
+                }
+
+                Resource.Status.LOADING -> {
+                    Utility.showToast(it.message, context)
+                }
+
+                Resource.Status.FAILURE -> {
+                    Utility.showToast(it.message, context)
+                }
             }
 
-        }
+
+        })
     }
 
 
@@ -231,6 +217,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
      * */
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
         if (context is MainFragmentCallbacks){
             mainFragmentClickListener = context
         }
@@ -258,7 +245,11 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
      * */
     override fun onMovieClick(title: String) {
         Utility.showToast(title, context)
-        mainFragmentClickListener?.onMovieItemClicked(title)
+        val bundle = bundleOf(MovieDetailsFragment.KEY_ARGUMENT to title)
+        navController.navigate(
+            R.id.action_mainFragment_to_viewMovieDetails,
+            bundle
+        )
     }
 
     /**
