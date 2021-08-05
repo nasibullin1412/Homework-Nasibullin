@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -57,7 +59,7 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
 
     private fun setupObserver(){
         viewModelProfileFragment.loadUser()
-        viewModelProfileFragment.userData.observe(viewLifecycleOwner, Observer {
+        viewModelProfileFragment.userData.observe(viewLifecycleOwner, {
 
             when(it.status){
 
@@ -82,12 +84,16 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
         })
     }
 
-
-
     /**
      * Filling in the fields of profile details
      */
     private fun setupView(){
+        view?.findViewById<ProgressBar>(R.id.pbUserProfile)?.apply {
+            visibility = View.GONE
+        }
+        view?.findViewById<ConstraintLayout>(R.id.clUserProfile)?.apply {
+            visibility = View.VISIBLE
+        }
         view?.findViewById<TextView>(R.id.tvUserName)?.apply {
             text = user?.name
         }

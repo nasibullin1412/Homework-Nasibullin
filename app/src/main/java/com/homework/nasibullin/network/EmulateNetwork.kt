@@ -22,4 +22,8 @@ object EmulateNetwork {
             else -> movieModel.getError()
         }
     }
+
+    fun getMovieDetail(title:String): MovieDto{
+        return MovieModel(MoviesDataSourceImpl()).getAll().first{it.title == title}
+    }
 }

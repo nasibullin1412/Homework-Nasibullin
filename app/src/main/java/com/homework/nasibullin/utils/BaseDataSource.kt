@@ -15,11 +15,20 @@ abstract class BaseDataSource {
 
         return try {
             Resource.success(databaseCall())
-
         } catch (e: Exception) {
             Resource.failed("Something went wrong, $e")
         }
     }
+
+    suspend fun getSafeMovieDetail(apiCall: suspend () -> MovieDto): Resource<MovieDto> {
+
+        return try {
+            Resource.success(apiCall())
+        } catch (e: Exception) {
+            Resource.failed("Something went wrong, $e")
+        }
+    }
+
 
     suspend fun getSafeMovies(apiCall: suspend () ->List<MovieDto>): Resource<List<MovieDto>>{
         return try {

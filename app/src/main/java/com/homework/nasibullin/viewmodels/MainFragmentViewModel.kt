@@ -1,5 +1,7 @@
 package com.homework.nasibullin.viewmodels
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.homework.nasibullin.dataclasses.MovieDto
 import androidx.lifecycle.viewModelScope
@@ -14,8 +16,8 @@ import kotlinx.coroutines.flow.receiveAsFlow
 
 class MainFragmentViewModel (private val testGetMovieListData: TestGetMovieListData) : ViewModel() {
     private var numberOfVariant: Int = 0
-    private val _movieListChannel = Channel<Resource<List<MovieDto>>>(Channel.BUFFERED)
-    val movieListChannel = _movieListChannel.receiveAsFlow()
+    val movieList: LiveData<Resource<List<MovieDto>>> get() = _movieList
+    private val _movieList = MutableLiveData<Resource<List<MovieDto>>>()
     var currentMovieList: Collection<MovieDto>? = null
     var currentGenre: String = MainFragment.ALL_GENRE
 
@@ -26,11 +28,11 @@ class MainFragmentViewModel (private val testGetMovieListData: TestGetMovieListD
     private suspend fun initMovieList() {
         testGetMovieListData.testGetLocalData(numberOfVariant)
                 .catch { e ->
-                    _movieListChannel.send(Resource.error(e.toString()))
+                    _movieList.value=Resource.error(e.toString())
                 }
                 .collect {
+                    _movieList.value=it
                     currentMovieList = it.data
-                    _movieListChannel.send(filterMoviesByGenre(it))
                 }
     }
 
@@ -40,13 +42,13 @@ class MainFragmentViewModel (private val testGetMovieListData: TestGetMovieListD
     private suspend fun updateMovieList(){
         numberOfVariant++
         testGetMovieListData.testGetRemoteData(numberOfVariant)
-                .catch { e ->
-                    _movieListChannel.send(Resource.error(e.toString()))
-                }
-                .collect {
-                    currentMovieList = it.data
-                    _movieListChannel.send(filterMoviesByGenre(it))
-                }
+            .catch { e ->
+                _movieList.value=Resource.error(e.toString())
+            }
+            .collect {
+                _movieList.value=it
+                currentMovieList = it.data
+            }
     }
 
     /**

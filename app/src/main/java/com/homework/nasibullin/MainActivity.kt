@@ -1,5 +1,6 @@
 package com.homework.nasibullin
 
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun setUpNavigation() {
+
         bottomNavigationView = findViewById(R.id.bottom_navigation_bar)
         val navHostFragment = supportFragmentManager
                 .findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
