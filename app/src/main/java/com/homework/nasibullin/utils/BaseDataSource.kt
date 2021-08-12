@@ -1,10 +1,9 @@
 package com.homework.nasibullin.utils
 
+import com.homework.nasibullin.dataclasses.Movie
 import com.homework.nasibullin.dataclasses.MovieDto
 import com.homework.nasibullin.dataclasses.UserDto
-import com.homework.nasibullin.datasourceimpl.MoviesDataSourceImpl
 import com.homework.nasibullin.datasources.Resource
-import com.homework.nasibullin.models.MovieModel
 import java.lang.Exception
 
 
@@ -30,7 +29,7 @@ abstract class BaseDataSource {
     }
 
 
-    suspend fun getSafeMovies(apiCall: suspend () ->List<MovieDto>): Resource<List<MovieDto>>{
+    suspend fun getSafeRemoteMovies(apiCall: suspend () ->List<MovieDto>): Resource<List<MovieDto>>{
         return try {
             Resource.success(apiCall())
         }
@@ -39,5 +38,29 @@ abstract class BaseDataSource {
         }
     }
 
+    suspend fun getSafeLocalMovies(dbCall: suspend () ->List<Movie>): Resource<List<MovieDto>>{
+        return try {
+            val result = dbCall()
+            val resultDto = result.map{ MovieDto(
+                title = it.title,
+                description = it.description,
+                rateScore = it.rateScore,
+                ageRestriction = it.ageRestriction,
+                imageUrl = it.imageUrl,
+                posterUrl = it.posterUrl,
+                genre = it.genre,
+                actors = emptyList()
+            ) }
+            if (resultDto.isEmpty()){
+                Resource.failed("Empty movie list")
+            }
+            else{
+                Resource.success(resultDto)
+            }
+        }
+        catch (e: Exception){
+            Resource.failed("Houston we have a problem: $e" )
+        }
+    }
 
 }

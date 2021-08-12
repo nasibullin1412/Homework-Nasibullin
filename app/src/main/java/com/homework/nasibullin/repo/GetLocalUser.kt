@@ -1,7 +1,7 @@
 package com.homework.nasibullin.repo
 
-import com.homework.nasibullin.database.Database
-import com.homework.nasibullin.dataclasses.MovieDto
+
+import com.homework.nasibullin.database.DatabaseEmulate
 import com.homework.nasibullin.dataclasses.UserDto
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.network.EmulateNetwork
@@ -17,7 +17,7 @@ class GetLocalUser: BaseDataSource() {
         suspend fun testGetLocalUser(): Flow<Resource<UserDto>> {
             delay(1000)
             return flow {
-                val result = getSafeUserData{ Database.getUserData() }
+                val result = getSafeUserData{ DatabaseEmulate.getUserData() }
                 emit(result)
             }.flowOn(Dispatchers.IO)
         }

@@ -1,13 +1,75 @@
 package com.homework.nasibullin.dataclasses
 
-data class ActorDto(
-    val avatarUrl: String,
-    val name: String
+import androidx.room.*
+import androidx.room.ColumnInfo.INTEGER
+import androidx.room.ColumnInfo.TEXT
+import androidx.room.ForeignKey.CASCADE
+
+
+@Entity(tableName = "actors",
+        foreignKeys = [ForeignKey(
+                entity = Movie::class,
+                parentColumns = arrayOf("id"),
+                childColumns = arrayOf("movieId"),
+                onDelete = CASCADE //NO_ACTION, RESTRICT, SET_DEFAULT, SET_NULL
+        )] ,
+        indices = [Index(value = ["movieId"])]
+)
+data class Actor(
+        @PrimaryKey
+        @ColumnInfo(name="id")
+        val id: Long,
+        @ColumnInfo(name = "avatar url", typeAffinity = TEXT)
+        val avatarUrl: String,
+        @ColumnInfo(name = "name", typeAffinity = TEXT)
+        val name: String,
+        @ColumnInfo(name = "movieId", typeAffinity = INTEGER)
+        val movieId: Int
 )
 
 /**
 * class describing movie data in the popular movie list
 * */
+@Entity(tableName = "movies")
+data class Movie(
+        @PrimaryKey
+        @ColumnInfo(name = "id")
+        val id: Long,
+        @ColumnInfo(name = "title", typeAffinity = TEXT)
+        val title: String,
+        @ColumnInfo(name = "description", typeAffinity = TEXT)
+        val description: String,
+        @ColumnInfo(name = "rate score", typeAffinity = INTEGER)
+        val rateScore: Int,
+        @ColumnInfo(name = "age restriction", typeAffinity = INTEGER)
+        val ageRestriction: Int,
+        @ColumnInfo(name = "image url", typeAffinity = TEXT)
+        val imageUrl: String,
+        @ColumnInfo(name = "poster url", typeAffinity = TEXT)
+        val posterUrl: String,
+        @ColumnInfo(name = "genre", typeAffinity = TEXT)
+        val genre: String
+)
+
+/**
+* class describing genre data in the movies genre list
+* */
+@Entity(tableName = "Genres")
+data class GenreDto(
+    val title: String
+)
+
+
+data class MovieWithActor(
+        @Embedded val movie: Movie,
+        @Relation(
+                parentColumn = "id",
+                entityColumn = "movieId"
+        )
+        val actors: List<Actor>
+)
+
+
 data class MovieDto(
         val title: String,
         val description: String,
@@ -20,13 +82,6 @@ data class MovieDto(
 )
 
 /**
-* class describing genre data in the movies genre list
-* */
-data class GenreDto(
-    val title: String
-)
-
-/**
  * user profile data
  */
 data class UserDto(
@@ -35,4 +90,10 @@ data class UserDto(
         val password:String,
         val number:String,
         val mail:String,
+)
+
+
+data class ActorDto(
+        val avatarUrl: String,
+        val name: String
 )

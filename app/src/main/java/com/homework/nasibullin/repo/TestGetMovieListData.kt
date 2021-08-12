@@ -1,6 +1,6 @@
 package com.homework.nasibullin.repo
 
-import com.homework.nasibullin.database.Database
+import com.homework.nasibullin.database.AppDatabase
 import com.homework.nasibullin.dataclasses.MovieDto
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.network.EmulateNetwork
@@ -20,18 +20,18 @@ class TestGetMovieListData: BaseDataSource() {
     suspend fun testGetRemoteData(number: Int): Flow<Resource<List<MovieDto>>> {
         delay(2000)
         return flow {
-            val result = getSafeMovies { EmulateNetwork.updateMovies(number) }
+            val result = getSafeRemoteMovies { EmulateNetwork.updateMovies(number) }
             emit(result)
         }.flowOn(Dispatchers.IO)
     }
 
     /**
-     * emulation of downloading movie data from the local database
-     * @param number is emulation script number
+     * downloading movie data from the local database
      */
-    suspend fun testGetLocalData(number: Int): Flow<Resource<List<MovieDto>>> {
+    suspend fun getLocalData(): Flow<Resource<List<MovieDto>>> {
         return flow {
-            val result = getSafeMovies { Database.getMovieLocalData(number) }
+            val db = AppDatabase.instance
+            val result = getSafeLocalMovies { db.movieDao().getAll()}
             emit(result)
         }.flowOn(Dispatchers.IO)
     }

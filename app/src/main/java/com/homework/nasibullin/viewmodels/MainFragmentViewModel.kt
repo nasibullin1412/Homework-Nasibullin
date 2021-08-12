@@ -9,10 +9,8 @@ import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.fragments.MainFragment
 import com.homework.nasibullin.repo.TestGetMovieListData
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.receiveAsFlow
 
 class MainFragmentViewModel (private val testGetMovieListData: TestGetMovieListData) : ViewModel() {
     private var numberOfVariant: Int = 0
@@ -26,7 +24,7 @@ class MainFragmentViewModel (private val testGetMovieListData: TestGetMovieListD
      * fetching local movie list data
      */
     private suspend fun initMovieList() {
-        testGetMovieListData.testGetLocalData(numberOfVariant)
+        testGetMovieListData.getLocalData()
                 .catch { e ->
                     _movieList.value=Resource.error(e.toString())
                 }
@@ -51,6 +49,7 @@ class MainFragmentViewModel (private val testGetMovieListData: TestGetMovieListD
             }
     }
 
+
     /**
      * asynchronous request to take data about the list of movies
      * @param isSwipe: false, when need to init data, true, when need to update data
@@ -60,9 +59,8 @@ class MainFragmentViewModel (private val testGetMovieListData: TestGetMovieListD
             if (!isSwipe) {
                 initMovieList()
             }
-            else {
-                updateMovieList()
-            }
+            updateMovieList()
+
         }
     }
 

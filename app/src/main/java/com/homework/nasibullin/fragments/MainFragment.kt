@@ -109,7 +109,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
 
     private fun initView(){
         setupViews()
-        setupObserver(false)
+        setupObserver()
         handleSwipe()
     }
 
@@ -180,10 +180,9 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
 
     /**
      * observer, which async wait of data update
-     * @param isSwipe: false, when need to init data, true, when need to update data
      */
-    private fun setupObserver(isSwipe:Boolean) {
-        viewModel.getMovieList(isSwipe)
+    private fun setupObserver() {
+        viewModel.getMovieList(false)
         viewModel.movieList.observe(viewLifecycleOwner, {
 
             when(it.status){
