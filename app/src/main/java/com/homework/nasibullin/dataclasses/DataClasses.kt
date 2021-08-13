@@ -24,7 +24,7 @@ data class Actor(
         @ColumnInfo(name = "name", typeAffinity = TEXT)
         val name: String,
         @ColumnInfo(name = "movieId", typeAffinity = INTEGER)
-        val movieId: Int
+        val movieId: Long
 )
 
 /**
@@ -54,31 +54,9 @@ data class Movie(
 /**
 * class describing genre data in the movies genre list
 * */
-@Entity(tableName = "Genres")
+@Entity(tableName = "genres")
 data class GenreDto(
     val title: String
-)
-
-
-data class MovieWithActor(
-        @Embedded val movie: Movie,
-        @Relation(
-                parentColumn = "id",
-                entityColumn = "movieId"
-        )
-        val actors: List<Actor>
-)
-
-
-data class MovieDto(
-        val title: String,
-        val description: String,
-        val rateScore: Int,
-        val ageRestriction: Int,
-        val imageUrl: String,
-        val posterUrl: String,
-        val genre: String,
-        val actors: List<ActorDto>
 )
 
 /**
@@ -93,7 +71,34 @@ data class UserDto(
 )
 
 
+
+data class MovieWithActor(
+        @Embedded val movie: Movie,
+        @Relation(
+                parentColumn = "id",
+                entityColumn = "movieId"
+        )
+        var actors: List<Actor>
+)
+
+
+data class MovieDto(
+        val id: Long,
+        val title: String,
+        val description: String,
+        val rateScore: Int,
+        val ageRestriction: Int,
+        val imageUrl: String,
+        val posterUrl: String,
+        val genre: String,
+        val actors: List<ActorDto>
+)
+
+
+
+
 data class ActorDto(
+        val id: Long,
         val avatarUrl: String,
         val name: String
 )

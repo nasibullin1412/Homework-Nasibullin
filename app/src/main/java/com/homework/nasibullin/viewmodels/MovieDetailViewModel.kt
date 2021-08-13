@@ -6,10 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.homework.nasibullin.dataclasses.MovieDto
 import com.homework.nasibullin.datasources.Resource
-import com.homework.nasibullin.repo.TestGetMovie
+import com.homework.nasibullin.repo.TestMovieDetail
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.lang.IllegalArgumentException
 
 class MovieDetailViewModel (private val title: String) : ViewModel() {
     var movie: MovieDto? = null
@@ -20,14 +21,36 @@ class MovieDetailViewModel (private val title: String) : ViewModel() {
      */
     fun getMovie(){
         viewModelScope.launch {
-            TestGetMovie.testGetMovie(title)
-                    .catch { e->
-                        _movieDetail.value = Resource.error(e.toString())
-                    }.collect {
+            var isNeedRemoteAction = false
+            TestMovieDetail.getLocalMovie(title)
+                .catch { e ->
+                    _movieDetail.value = Resource.error(e.toString())
+                }.collect {
+                    if (it.status != Resource.Status.FAILURE) {
                         movie = it.data
                         _movieDetail.value = it
                     }
+                    else{
+                        isNeedRemoteAction = true
+                    }
+
+                }
+            if (isNeedRemoteAction){
+                TestMovieDetail.testGetMovie(title)
+                    .catch {
+                            e ->
+                        _movieDetail.value = Resource.error(e.toString())
+                    }
+                    .collect {
+                        movie = it.data
+                        _movieDetail.value = it
+                    }
+                if (movie != null){
+                    TestMovieDetail.addMovieWithActors(movie ?: throw IllegalArgumentException("Movie required"))
+                }
+            }
         }
+
     }
 
 

@@ -4,11 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.homework.nasibullin.dataclasses.MovieDto
 import com.homework.nasibullin.dataclasses.UserDto
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.repo.GetLocalUser
-import com.homework.nasibullin.repo.TestGetMovie
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch

@@ -11,9 +11,10 @@ class Converters {
     fun fromMovieWithActorToMovieDto(movieWithActor: MovieWithActor): MovieDto {
         val actors = arrayListOf<ActorDto>()
         for (actor in movieWithActor.actors){
-            actors.add(ActorDto(avatarUrl = actor.avatarUrl, name = actor.name))
+            actors.add(ActorDto(avatarUrl = actor.avatarUrl, name = actor.name, id = actor.id))
         }
         return MovieDto(
+            id = movieWithActor.movie.id,
             title = movieWithActor.movie.title,
             description = movieWithActor.movie.description,
             rateScore = movieWithActor.movie.rateScore,
@@ -28,6 +29,7 @@ class Converters {
     @TypeConverter
     fun fromMovieToMovieDto(movie: Movie): MovieDto {
         return MovieDto(
+            id = movie.id,
             title = movie.title,
             description = movie.description,
             rateScore = movie.rateScore,
