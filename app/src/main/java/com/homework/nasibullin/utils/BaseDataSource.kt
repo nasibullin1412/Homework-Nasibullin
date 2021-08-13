@@ -1,11 +1,14 @@
 package com.homework.nasibullin.utils
 
-import androidx.appcompat.app.AppCompatActivity
-import com.homework.nasibullin.App
-import com.homework.nasibullin.database.AppDatabase
-import com.homework.nasibullin.dataclasses.*
+
+
+import com.homework.nasibullin.dataclasses.MovieDto
+import com.homework.nasibullin.dataclasses.MovieWithActor
+import com.homework.nasibullin.dataclasses.UserDto
+import com.homework.nasibullin.dataclasses.UserWithGenres
 import com.homework.nasibullin.datasources.Resource
-import com.homework.nasibullin.network.EmulateNetwork
+import com.homework.nasibullin.dataclasses.ActorDto
+import com.homework.nasibullin.dataclasses.Movie
 import java.lang.Exception
 
 

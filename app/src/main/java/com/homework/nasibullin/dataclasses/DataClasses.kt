@@ -5,7 +5,9 @@ import androidx.room.ColumnInfo.INTEGER
 import androidx.room.ColumnInfo.TEXT
 import androidx.room.ForeignKey.CASCADE
 
-
+/**
+ * actors table entity dataclass
+ */
 @Entity(tableName = "actors",
         foreignKeys = [ForeignKey(
                 entity = Movie::class,
@@ -28,7 +30,7 @@ data class Actor(
 )
 
 /**
-* class describing movie data in the popular movie list
+ * movie table entity dataclass
 * */
 @Entity(tableName = "movies")
 data class Movie(
@@ -52,6 +54,7 @@ data class Movie(
 )
 
 /**
+ * GenreDto table entity dataclass
 * class describing genre data in the movies genre list
 * */
 @Entity(tableName = "GenreDto",
@@ -72,6 +75,7 @@ data class GenreDto(
 )
 
 /**
+ * UserDto table dataclass
  * user profile data
  */
 @Entity(tableName = "UserDto")
@@ -101,8 +105,9 @@ data class UserDto(
 }
 
 
-
-
+/**
+ * UserDto and GenreDto tables entities relationships
+ */
 data class UserWithGenres(
         @Embedded val user: UserDto,
         @Relation(
@@ -112,7 +117,9 @@ data class UserWithGenres(
         var genres: List<GenreDto>
 )
 
-
+/**
+ * movie and actors tables entities relationships
+ */
 data class MovieWithActor(
         @Embedded val movie: Movie,
         @Relation(
@@ -122,7 +129,9 @@ data class MovieWithActor(
         var actors: List<Actor>
 )
 
-
+/**
+ * class describing movie data in the popular movie list
+ */
 data class MovieDto(
         val id: Long,
         val title: String,

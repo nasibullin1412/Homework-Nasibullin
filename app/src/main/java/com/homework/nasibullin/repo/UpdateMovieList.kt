@@ -10,6 +10,9 @@ import com.homework.nasibullin.utils.BaseDataSource
 import com.homework.nasibullin.utils.Utility
 
 class UpdateMovieList: BaseDataSource() {
+    /**
+     * update data base with actual movies
+     */
     suspend fun updateDatabase(movieList: List<MovieDto>){
         val db = AppDatabase.instance
         val dbMovieList = movieList.map{

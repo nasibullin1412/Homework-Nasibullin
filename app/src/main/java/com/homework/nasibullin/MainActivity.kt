@@ -11,18 +11,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity() {
 
     private lateinit var bottomNavigationView: BottomNavigationView
-    private var actionBottomFlag: Boolean = true
     private var currentFragment:String? = null
     private var currentMovieTitle:String? = null
-    private var currentGenre:String? = null
 
     companion object {
-        const val MAIN_FRAGMENT_TAG = "mainFragment"
-        const val MOVIE_DETAIL_FRAGMENT_TAG = "movieDetailFragment"
-        const val PROFILE_FRAGMENT_TAG = "profileFragment"
         const val CURRENT_FRAGMENT_KEY = "currentFragment"
         const val CURRENT_MOVIE_KEY = "currentMovie"
-        const val CURRENT_MOVIE_GENRE = "currentGenre"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

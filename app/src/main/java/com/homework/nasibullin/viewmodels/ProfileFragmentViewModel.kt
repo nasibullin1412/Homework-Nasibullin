@@ -15,8 +15,9 @@ import java.lang.IllegalArgumentException
 class ProfileFragmentViewModel(private val userData: UserData): ViewModel(){
     val userDetail: LiveData<Resource<UserDto>> get() = _userData
     private val _userData = MutableLiveData<Resource<UserDto>>()
-
-
+    /**
+     * asynchronous request to take data about user data
+     */
     fun loadUser() {
         viewModelScope.launch {
             var isNeedRemote = false

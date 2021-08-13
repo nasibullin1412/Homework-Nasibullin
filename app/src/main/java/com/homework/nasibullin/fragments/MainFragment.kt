@@ -90,8 +90,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     }
 
 
-
-
     private fun initViewModel(){
         viewModel = ViewModelProviders.of(this,
             MainFragmentViewModelFactory(TestGetMovieListData()))
@@ -210,10 +208,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
 
         })
     }
-
-
-
-
 
     /**
      * signature of the activity as a listener

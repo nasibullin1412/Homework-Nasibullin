@@ -1,9 +1,11 @@
 package com.homework.nasibullin.network
 
 import com.homework.nasibullin.dataclasses.MovieDto
+import com.homework.nasibullin.dataclasses.UserDto
 import com.homework.nasibullin.datasourceimpl.MoviesDataSourceImpl
-import com.homework.nasibullin.datasources.Resource
+import com.homework.nasibullin.datasourceimpl.UserDataSourceImpl
 import com.homework.nasibullin.models.MovieModel
+import com.homework.nasibullin.models.UserModel
 
 object EmulateNetwork {
     /**
@@ -23,7 +25,20 @@ object EmulateNetwork {
         }
     }
 
+    /**
+     * get remote movie detail emulate
+     * @param title is title of movies
+     */
     fun getMovieDetail(title:String): MovieDto{
         return MovieModel(MoviesDataSourceImpl()).getAll().first{it.title == title}
+    }
+
+    /**
+     * get remote user data emulate
+     * @return user data
+     */
+    fun getUserData(): UserDto {
+        val userModel = UserModel(UserDataSourceImpl())
+        return userModel.getUser()
     }
 }

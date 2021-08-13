@@ -10,7 +10,6 @@ import com.homework.nasibullin.dataclasses.Movie
 import com.homework.nasibullin.dataclasses.UserDto
 
 @Database(entities = [Movie::class, Actor::class, UserDto::class, GenreDto::class], version = 1)
-@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
     abstract fun userDao(): UserDao
