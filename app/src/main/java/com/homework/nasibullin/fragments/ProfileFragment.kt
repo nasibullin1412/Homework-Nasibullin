@@ -8,7 +8,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +20,7 @@ import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.decorations.GenreItemDecoration
 import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
 import com.homework.nasibullin.models.UserModel
-import com.homework.nasibullin.repo.GetLocalUser
+import com.homework.nasibullin.repo.UserData
 import com.homework.nasibullin.utils.Utility
 import com.homework.nasibullin.viewmodels.ProfileFragmentViewModel
 import com.homework.nasibullin.viewmodels.ProfileFragmentViewModelFactory
@@ -45,7 +44,7 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
         super.onViewCreated(view, savedInstanceState)
         viewModelProfileFragment = ViewModelProviders.of(
             this,
-            ProfileFragmentViewModelFactory(GetLocalUser())
+            ProfileFragmentViewModelFactory(UserData())
         ).get(
             ProfileFragmentViewModel::class.java
         )
@@ -59,7 +58,7 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
 
     private fun setupObserver(){
         viewModelProfileFragment.loadUser()
-        viewModelProfileFragment.userData.observe(viewLifecycleOwner, {
+        viewModelProfileFragment.userDetail.observe(viewLifecycleOwner, {
 
             when(it.status){
 
@@ -112,7 +111,7 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
         view?.findViewById<TextView>(R.id.etUserPassword)?.apply {
             text = user?.password
         }
-        setupGenreRecycleView(user?.interests)
+        setupGenreRecycleView(user?.genres)
 
     }
 

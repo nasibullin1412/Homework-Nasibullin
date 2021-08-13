@@ -7,11 +7,12 @@ import com.homework.nasibullin.datasources.UserDataSource
 
 class UserDataSourceImpl : UserDataSource {
     override fun getUser()=UserDto(
+            id = 0,
             name = "Константин",
-            interests = listOf(
-                    GenreDto("боевики"),
-                    GenreDto("фантастика"),
-                    GenreDto("мелодрамы"),
+            genres = listOf(
+                    GenreDto("боевики", 0),
+                    GenreDto("фантастика", 0),
+                    GenreDto("мелодрамы", 0),
             ),
             number = "+79179004155",
             password = "lolKek00",

@@ -54,22 +54,63 @@ data class Movie(
 /**
 * class describing genre data in the movies genre list
 * */
-@Entity(tableName = "genres")
+@Entity(tableName = "GenreDto",
+        foreignKeys = [ForeignKey(
+                entity = UserDto::class,
+                parentColumns = arrayOf("id"),
+                childColumns = arrayOf("userId"),
+                onDelete = CASCADE //NO_ACTION, RESTRICT, SET_DEFAULT, SET_NULL
+        )] ,
+        indices = [Index(value = ["userId"])]
+)
 data class GenreDto(
-    val title: String
+        @PrimaryKey
+        @ColumnInfo(name = "genre", typeAffinity = TEXT)
+        val title: String,
+        @ColumnInfo(name = "userId", typeAffinity = INTEGER)
+        val userId: Long
 )
 
 /**
  * user profile data
  */
+@Entity(tableName = "UserDto")
 data class UserDto(
+        @PrimaryKey
+        @ColumnInfo(name = "id")
+        val id: Long,
+        @ColumnInfo(name = "name", typeAffinity = TEXT)
         val name: String,
-        val interests: List<GenreDto>,
+        @ColumnInfo(name="password", typeAffinity = TEXT)
         val password:String,
+        @ColumnInfo(name = "number", typeAffinity = TEXT)
         val number:String,
+        @ColumnInfo(name="mail", typeAffinity = TEXT)
         val mail:String,
-)
+        @Ignore val genres: List<GenreDto> = emptyList()
+) {
+        constructor(id: Long, name:String, password: String, number: String, mail: String): this(
+                id,
+                name,
+                password,
+                number,
+                mail,
+                emptyList()
+        )
 
+}
+
+
+
+
+data class UserWithGenres(
+        @Embedded val user: UserDto,
+        @Relation(
+                parentColumn = "id",
+                entityColumn = "userId"
+        )
+        var genres: List<GenreDto>
+)
 
 
 data class MovieWithActor(

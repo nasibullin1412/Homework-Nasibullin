@@ -13,7 +13,6 @@ import java.lang.Exception
 abstract class BaseDataSource {
 
     suspend fun getSafeUserData(databaseCall: suspend () -> UserDto): Resource<UserDto> {
-
         return try {
             Resource.success(databaseCall())
         } catch (e: Exception) {
@@ -21,8 +20,29 @@ abstract class BaseDataSource {
         }
     }
 
-    suspend fun getSafeMovieDetail(apiCall: suspend () -> MovieDto): Resource<MovieDto> {
+    suspend fun getSafeLocalUserData(dbCall: suspend () -> UserWithGenres?): Resource<UserDto> {
+        return try {
+            val result = dbCall()
+            if (result != null && result.genres.isNotEmpty()) {
+                val userDto = UserDto(
+                    id = 0,
+                    name = result.user.name,
+                    password = result.user.password,
+                    mail = result.user.mail,
+                    number = result.user.number,
+                    genres = result.genres
+                )
+                Resource.success(userDto)
+            }
+            else{
+                Resource.failed("No data")
+            }
+        } catch (e: Exception) {
+            Resource.failed("Something went wrong, $e")
+        }
+    }
 
+    suspend fun getSafeRemoteMovieDetail(apiCall: suspend () -> MovieDto): Resource<MovieDto> {
         return try {
             Resource.success(apiCall())
         } catch (e: Exception) {

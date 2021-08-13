@@ -24,7 +24,7 @@ object TestMovieDetail: BaseDataSource() {
     suspend fun testGetMovie(title: String): Flow<Resource<MovieDto>> {
         delay(2000)
         return flow {
-            val result = getSafeMovieDetail{EmulateNetwork.getMovieDetail(title)}
+            val result = getSafeRemoteMovieDetail{EmulateNetwork.getMovieDetail(title)}
             emit(result)
         }.flowOn(Dispatchers.IO)
     }

@@ -12,22 +12,21 @@ interface MovieDao {
     @Query("SELECT * FROM movies WHERE id = 0")
     suspend fun check(): Movie?
 
-    @Insert
-    suspend fun insertAll(movies: List<Movie>)
-    @Insert
-    suspend fun insert(actor: Actor)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(actor: Actor): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE) //ABORT, IGNORE
     suspend fun insert(movie: Movie): Long
 
-    @Update
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(movie: Movie)
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(actor: Actor)
 
-    @Update
-    suspend fun update(movieList: List<Movie>)
+
 
     @Delete
     suspend fun delete(movie: Movie)
@@ -41,6 +40,11 @@ interface MovieDao {
 
     @Query("SELECT * FROM movies WHERE movies.title = :title")
     suspend fun getMovieDetail(title: String): MovieWithActor?
+
+
+    @Query("SELECT * FROM UserDto")
+    suspend fun getUserData(): UserWithGenres?
+
 
 
     @Transaction

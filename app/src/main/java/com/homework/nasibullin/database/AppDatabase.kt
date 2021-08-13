@@ -3,13 +3,17 @@ package com.homework.nasibullin.database
 import androidx.room.*
 import com.homework.nasibullin.App
 import com.homework.nasibullin.database.dao.MovieDao
+import com.homework.nasibullin.database.dao.UserDao
 import com.homework.nasibullin.dataclasses.Actor
+import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.dataclasses.Movie
+import com.homework.nasibullin.dataclasses.UserDto
 
-@Database(entities = [Movie::class, Actor::class], version = 1)
+@Database(entities = [Movie::class, Actor::class, UserDto::class, GenreDto::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
+    abstract fun userDao(): UserDao
     companion object {
         private const val DATABASE_NAME = "Movies.db"
 
