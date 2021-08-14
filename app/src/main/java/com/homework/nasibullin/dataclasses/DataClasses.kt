@@ -85,21 +85,20 @@ data class UserDto(
         val id: Long,
         @ColumnInfo(name = "name", typeAffinity = TEXT)
         val name: String,
-        @ColumnInfo(name="password", typeAffinity = TEXT)
-        val password:String,
         @ColumnInfo(name = "number", typeAffinity = TEXT)
         val number:String,
         @ColumnInfo(name="mail", typeAffinity = TEXT)
         val mail:String,
-        @Ignore val genres: List<GenreDto> = emptyList()
+        @Ignore val genres: List<GenreDto> = emptyList(),
+        @Ignore var password:String
 ) {
-        constructor(id: Long, name:String, password: String, number: String, mail: String): this(
+        constructor(id: Long, name:String, number: String, mail: String): this(
                 id,
                 name,
-                password,
-                number,
                 mail,
-                emptyList()
+                number,
+                emptyList(),
+                ""
         )
 
 }

@@ -30,10 +30,10 @@ abstract class BaseDataSource {
                 val userDto = UserDto(
                     id = 0,
                     name = result.user.name,
-                    password = result.user.password,
                     mail = result.user.mail,
                     number = result.user.number,
-                    genres = result.genres
+                    genres = result.genres,
+                    password = result.user.password
                 )
                 Resource.success(userDto)
             }
@@ -44,6 +44,8 @@ abstract class BaseDataSource {
             Resource.failed("Something went wrong, $e")
         }
     }
+
+
 
     suspend fun getSafeRemoteMovieDetail(apiCall: suspend () -> MovieDto): Resource<MovieDto> {
         return try {
@@ -123,6 +125,10 @@ abstract class BaseDataSource {
         }
     }
 
+    suspend fun getSafeUserPassword(sharedCall: suspend () -> String): String{
+        return sharedCall()
+
+    }
 
 
 }

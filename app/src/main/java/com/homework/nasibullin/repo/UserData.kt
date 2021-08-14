@@ -1,17 +1,20 @@
 package com.homework.nasibullin.repo
 
 
+import com.homework.nasibullin.App
 import com.homework.nasibullin.database.AppDatabase
 import com.homework.nasibullin.dataclasses.UserDto
 import com.homework.nasibullin.dataclasses.UserWithGenres
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.network.EmulateNetwork
+import com.homework.nasibullin.security.SharedPreferenceUtils
 import com.homework.nasibullin.utils.BaseDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import java.lang.IllegalArgumentException
 
 class UserData: BaseDataSource() {
     /**
@@ -31,7 +34,10 @@ class UserData: BaseDataSource() {
     suspend fun getLocalUser(): Flow<Resource<UserDto>> {
         return flow {
             val db = AppDatabase.instance
-            val result = getSafeLocalUserData { db.userDao().getUserData() }
+            val result = getSafeLocalUserData{ db.userDao().getUserData() }
+            if (result.data != null){
+                result.data.password = getSafeUserPassword { SharedPreferenceUtils.getPassword(App.appContext)?: throw IllegalArgumentException("Pass required") }
+            }
             emit(result)
         }.flowOn(Dispatchers.IO)
     }
@@ -41,11 +47,17 @@ class UserData: BaseDataSource() {
      */
     suspend fun insertUser(userDto: UserDto){
         val db = AppDatabase.instance
-        db.userDao().insertUserWithGenres(UserWithGenres(
-            user = userDto,
-            genres = userDto.genres
-        )
-        )
+        updateDatabase {
+            db.userDao().insertUserWithGenres(
+                UserWithGenres(
+                    user = userDto,
+                    genres = userDto.genres
+                )
+            )
+        }
+        updateDatabase {
+            SharedPreferenceUtils.setPassword(password = userDto.password, App.appContext)
+        }
     }
 
 }

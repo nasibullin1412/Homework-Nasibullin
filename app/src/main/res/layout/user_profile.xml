@@ -130,7 +130,7 @@
                     android:layout_marginTop="20dp"
                     android:paddingStart="0dp"
                     android:inputType="textPassword"
-                    tools:text="lolKek00"
+                    tools:text="00"
                     android:paddingBottom="6dp"
                     android:background="@drawable/border_bottom"
                     android:hint="@string/hint_password"

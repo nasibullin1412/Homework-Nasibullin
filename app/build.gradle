@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.homework.nasibullin"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -89,5 +89,6 @@ dependencies {
 
     // Add the dependencies for any other desired Firebase products
     // https://firebase.google.com/docs/android/setup#available-libraries
-
+    implementation "androidx.security:security-crypto:1.1.0-alpha03"
+    implementation "androidx.security:security-identity-credential:1.0.0-alpha02"
 }
