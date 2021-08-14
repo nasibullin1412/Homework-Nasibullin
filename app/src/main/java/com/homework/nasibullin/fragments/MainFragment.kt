@@ -90,8 +90,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     }
 
 
-
-
     private fun initViewModel(){
         viewModel = ViewModelProviders.of(this,
             MainFragmentViewModelFactory(TestGetMovieListData()))
@@ -109,7 +107,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
 
     private fun initView(){
         setupViews()
-        setupObserver(false)
+        setupObserver()
         handleSwipe()
     }
 
@@ -174,43 +172,42 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     private fun handleSwipe(){
         swipeRefreshLayout = view?.findViewById(R.id.srlMovieList) ?: throw IllegalArgumentException("swipeRefresh required")
         swipeRefreshLayout.setOnRefreshListener {
-            setupObserver(true)
+            viewModel.getMovieList(true)
         }
     }
 
     /**
      * observer, which async wait of data update
-     * @param isSwipe: false, when need to init data, true, when need to update data
      */
-    private fun setupObserver(isSwipe:Boolean) {
-        viewModel.getMovieList(isSwipe)
+    private fun setupObserver() {
+        viewModel.getMovieList(false)
         viewModel.movieList.observe(viewLifecycleOwner, {
 
             when(it.status){
                 Resource.Status.SUCCESS -> {
                     updateMovieData(it.data?:throw java.lang.IllegalArgumentException("Live Data required"))
+                    swipeRefreshLayout.isRefreshing =false
                 }
 
                 Resource.Status.ERROR -> {
                     Utility.showToast(it.message, context)
+                    swipeRefreshLayout.isRefreshing =false
                 }
 
                 Resource.Status.LOADING -> {
                     Utility.showToast(it.message, context)
+                    swipeRefreshLayout.isRefreshing =false
                 }
 
                 Resource.Status.FAILURE -> {
                     Utility.showToast(it.message, context)
+                    swipeRefreshLayout.isRefreshing =false
                 }
             }
 
 
         })
     }
-
-
-
-
 
     /**
      * signature of the activity as a listener

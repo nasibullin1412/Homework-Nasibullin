@@ -8,6 +8,7 @@ import com.homework.nasibullin.datasources.MoviesDataSource
 class MoviesDataSourceImpl : MoviesDataSource {
     override fun getMovies() = listOf(
             MovieDto(
+                    id = 0,
                     title = "Гнев человеческий",
                     description = "Эйч — загадочный и холодный на вид джентльмен, но внутри него пылает жажда справедливости. " +
                             "Преследуя свои мотивы, он внедряется в инкассаторскую компанию, чтобы выйти на соучастников серии многомиллионных ограблений," +
@@ -19,14 +20,17 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     genre = "боевики",
                     actors = listOf(
                             ActorDto(
+                                    id = 0,
                                     name = "Джейсон Стэтхем",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/lldeQ91GwIVff43JBrpdbAAeYWj.jpg"
                             ),
                             ActorDto(
+                                    id = 1,
                                     name = "Холт МакКэллани",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8NvOcP35qv5UHWEdpqAvQrKnQQz.jpg"
                             ),
                             ActorDto(
+                                    id = 2,
                                     name = "Джош Хартнетт",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/dCfu2EN7FjISACcjilaJu7evwEc.jpg"
                             )
@@ -34,6 +38,7 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     )
             ),
             MovieDto(
+                    id = 1,
                     title = "Мортал Комбат",
                     description = "Боец смешанных единоборств Коул Янг не раз соглашался проиграть за деньги. Он не знает о своем наследии и почему император Внешнего мира Шан Цзун посылает могущественного криомансера Саб-Зиро на охоту за Коулом. Янг боится за безопасность своей семьи, и майор спецназа Джакс, обладатель такой же отметки в виде дракона, как и у Коула, советует ему отправиться на поиски Сони Блейд.",
                     rateScore = 5,
@@ -43,14 +48,17 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     genre = "боевики",
                     actors = listOf(
                             ActorDto(
+                                    id = 3,
                                     name = "Льюис Тан",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/lkW8gh20BuwzHecXqYH1eRVuWpb.jpg"
                             ),
                             ActorDto(
+                                    id = 4,
                                     name = "Холт МакКэллани",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/aAfaMEEqD8syHv5bLi5B3sccrM2.jpg"
                             ),
                             ActorDto(
+                                    id = 5,
                                     name = "Джош Хартнетт",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/Am9vM77uZd9bGODugwmWtOfzx6E.jpg"
                             )
@@ -58,6 +66,7 @@ class MoviesDataSourceImpl : MoviesDataSource {
 
             ),
             MovieDto(
+                    id = 2,
                     title = "Упс... Приплыли!",
                     description = "От Великого потопа зверей спас ковчег. Но спустя полгода скитаний они готовы сбежать с него куда угодно. Нервы на пределе. Хищники готовы забыть про запреты и заглядываются на травоядных. " +
                             "Единственное спасение — найти райский остров. Там простор и полно еды. Но даже если он совсем близко, будут ли рады местные такому количеству гостей?",
@@ -68,20 +77,24 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     genre = "мультфильмы",
                     actors = listOf(
                             ActorDto(
+                                    id = 6,
                                     name = "Тара Флинн",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/17gBs4aux2NcnMvf3DK5UKUFttn.jpg"
                             ),
                             ActorDto(
+                                    id = 7,
                                     name = "Ава Коннолли",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/o8uE77C4wQHYHJW6En192kjxJGd.jpg"
                             ),
                             ActorDto(
+                                    id = 8,
                                     name = "Мэри Мюррей",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/1ZRP9IfehCSx5OeBQQDcVPvKYD0.jpg"
                             )
                     )
             ),
             MovieDto(
+                    id = 3,
                     title = "The Box",
                     description = "Уличный музыкант знакомится с музыкальным продюсером, и они вдвоём отправляются в путешествие, которое перевернёт их жизни.",
                     rateScore = 4,
@@ -91,20 +104,24 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     genre = "драмы",
                     actors = listOf(
                             ActorDto(
+                                    id = 9,
                                     name = "Чханёль",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/qqvTuk4CTvS1IE47CUozhcHVahz.jpg"
                             ),
                             ActorDto(
+                                    id = 10,
                                     name = "Чо Даль Хван",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/jpEPPXmVC3EDMqrDQDYyXEMYlah.jpg"
                             ),
                             ActorDto(
+                                    id = 11,
                                     name = "Ким Юн Сун",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/fDO7vJVRkZOOY1GtQMJzf4N136q.jpg"
                             )
                     )
             ),
             MovieDto(
+                    id = 4,
                     title = "Сага о Дэнни",
                     description = "Tekashi69 или Сикснайн — знаменитый бруклинский рэпер с радужными волосами — прогремел синглом «Gummo», коллабом с Ники Минаж, а также многочисленными преступлениями.",
                     rateScore = 2,
@@ -114,12 +131,25 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     genre = "драмы",
                     actors = listOf(
                             ActorDto(
+                                    id = 12,
                                     name = "6ix9ine",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xAlvyeC9zLbygGMxmmyTHymwuZP.jpg"
+                            ) ,
+                            ActorDto(
+                                    id = 13,
+                                    name = "Джек Дилан Грейзер",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/cZdGLa78UP7VzMgNbDRnoaSkZm1.jpg"
+                            ),
+                            ActorDto(
+                                    id = 14,
+                                    name = "Милисенд Симонс",
+                                    avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/vn7hejb0IRFvSrZxpxqY9RbBxMe.jpg"
                             )
+
                     )
             ),
             MovieDto(
+                    id = 5,
                     title = "Пчелка Майя",
                     description = "Летний сбор пыльцы позади, и пчёлы пребывают в возбуждённом ожидании, ведь из столицы прибыл гонец, чтобы пригласить улей на соревнования за Кубок Мёда.",
                     rateScore = 4,
@@ -129,20 +159,24 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     genre = "мультфильмы",
                     actors = listOf(
                             ActorDto(
+                                    id = 15,
                                     name = "Бенсон Джек Энтони",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/aVfEldX1ksEMrx45yNBAf9MAIDZ.jpg"
                             ),
                             ActorDto(
+                                    id = 16,
                                     name = "Франсис Берри",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/qCp0psD5qzguABpRxWmMuC04kcl.jpg"
                             ),
                             ActorDto(
+                                    id = 17,
                                     name = "Кристиан Харисиу",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8OpoYvO1QqBYRAp1LxxUIiRdQG0.jpg"
                             )
                     )
             ),
             MovieDto(
+                    id = 6,
                     title = "Круэлла",
                     description = "Невероятно одаренная мошенница по имени Эстелла решает сделать себе имя в мире моды.",
                     rateScore = 4,
@@ -152,20 +186,24 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     genre = "фантастика",
                     actors = listOf(
                             ActorDto(
+                                    id = 18,
                                     name = "Эмма Стоун",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/2hwXbPW2ffnXUe1Um0WXHG0cTwb.jpg"
                             ),
                             ActorDto(
+                                    id = 19,
                                     name = "Эмма Томпсон",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xr8Ki3CIqweWWqS5q0kUYdiK6oQ.jpg"
                             ),
                             ActorDto(
+                                    id = 20,
                                     name = "Джоэл Фрай",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/4nEKEWJpaTHncCTv6zeP98V0qGI.jpg"
                             )
                     )
             ),
             MovieDto(
+                    id = 7,
                     title = "Чёрная вдова",
                     description = "Чёрной Вдове придется вспомнить о том, что было в её жизни задолго до присоединения к команде Мстителей",
                     rateScore = 3,
@@ -175,20 +213,24 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     genre = "фантастика",
                     actors = listOf(
                             ActorDto(
+                                    id = 21,
                                     name = "Скарлетт Йоханссон",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/6NsMbJXRlDZuDzatN2akFdGuTvx.jpg"
                             ),
                             ActorDto(
+                                    id = 22,
                                     name = "Флоренс Пью",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/75PvULemW8BvheSKtPMoBBsvPLh.jpg"
                             ),
                             ActorDto(
+                                    id = 23,
                                     name = "Рэйчел Вайс",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/x87wtRVVvsOG7hkfJlzNkkfXQCN.jpg"
                             )
                     )
             ),
             MovieDto(
+                    id = 8,
                     title = "Судная ночь навсегда",
                     description = "Этим летом все правила будут нарушены. Группа мародеров решает, что ежегодная Судная ночь не должна заканчиваться с наступлением утра," +
                             " а может продолжаться бесконечно. Никто больше не будет в безопасности.",
@@ -199,20 +241,24 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     genre = "боевики",
                     actors = listOf(
                             ActorDto(
+                                    id = 24,
                                     name = "Джош Лукас",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/aHYyysVwQ7D0iYLjlUgiknBQGwW.jpg"
                             ),
                             ActorDto(
+                                    id = 25,
                                     name = "Анна де Лагуэра",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/nVhTkLBwZu4zOzYbnW9mtmHQfyg.jpg"
                             ),
                             ActorDto(
+                                    id = 26,
                                     name = "Тенорч Хуерта",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/5qoAmQpcPCjf4Pd6aTZOeINGYzk.jpg"
                             )
                     )
             ),
             MovieDto(
+                    id = 0,
                     title = "Война будущего",
                     description = "В будущем идёт разрушительный конфликт с инопланетной расой. В попытке переломить ход войны учёные начинают призывать в свою армию солдат из прошлого.",
                     rateScore = 5,
@@ -222,20 +268,24 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     genre = "фантастика",
                     actors = listOf(
                             ActorDto(
+                                    id = 0,
                                     name = "Крис Пратт",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/gXKyT1YU5RWWPaE1je3ht58eUZr.jpg"
                             ),
                             ActorDto(
+                                    id = 1,
                                     name = "Ивонна Старковски",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/wio1VaQDOggDfPOTJf2vxGfooxZ.jpg"
                             ),
                             ActorDto(
+                                    id = 2,
                                     name = "Джордж Симмонс",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/7kIiPojgSVNRXb5z0hiijcD5LJ6.jpg"
                             )
                     )
             ),
             MovieDto(
+                    id = 1,
                     title = "Тихое место 2",
                     description = "474 дня прошло после нападения на Землю охотящихся на звук существ, семья Эбботт продолжает бороться за жизнь в полной тишине." +
                             " Столкнувшись со смертельной угрозой в собственном доме, они вынуждены отправиться во внешний мир, где находят убежище и старого знакомого семьи.",
@@ -246,20 +296,24 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     genre = "ужасы",
                     actors = listOf(
                             ActorDto(
+                                    id = 3,
                                     name = "Эмили Блант",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/nPJXaRMvu1vh3COG16GzmdsBySQ.jpg"
                             ),
                             ActorDto(
+                                    id = 4,
                                     name = "Киллиан Мёрфи",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/i8dOTC0w6V274ev5iAAvo4Ahhpr.jpg"
                             ),
                             ActorDto(
+                                    id = 5,
                                     name = "Милисенд Симонс",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/vn7hejb0IRFvSrZxpxqY9RbBxMe.jpg"
                             )
                     )
             ),
             MovieDto(
+                    id = 2,
                     title = "Довод",
                     description = "После теракта в киевском оперном театре агент ЦРУ объединяется с британской разведкой, " +
                             "чтобы противостоять русскому олигарху, который сколотил состояние на торговле оружием. ",
@@ -270,20 +324,24 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     genre = "фантастика",
                     actors = listOf(
                             ActorDto(
+                                    id = 6,
                                     name = "Джон Вашингтон",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/eWNCcG4DqqhFKtWP56Ds8MiKPXB.jpg"
                             ),
                             ActorDto(
+                                    id = 7,
                                     name = "Роберт Паттинсон",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8A4PS5iG7GWEAVFftyqMZKl3qcr.jpg"
                             ),
                             ActorDto(
+                                    id = 8,
                                     name = "Элизабет Дебики",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/sJxj44aKdY0pjSIgnxBgMWLrQmw.jpg"
                             )
                     )
             ),
             MovieDto(
+                    id = 3,
                     title = "Кролик Питер 2",
                     description = "Продолжение истории маленького и непоседливого кролика по имени Питер." +
                             " Беатрис, Томас и крольчата, наконец, находят общий язык и начинают спокойную и размеренную жизнь за городом.",
@@ -294,20 +352,24 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     genre = "комедии",
                     actors = listOf(
                             ActorDto(
+                                    id = 9,
                                     name = "Джеймс Корден",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xGB0gfZ48M27gQjjL7inJIh1Pqj.jpg"
                             ),
                             ActorDto(
+                                    id = 10,
                                     name = "Рози Бёрн",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/4oQWCLK7gd6RNKF0WJipJo7TyFP.jpg"
                             ),
                             ActorDto(
+                                    id = 11,
                                     name = "Домлан Глисон",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/uDbwncuKlqL0fAuucXSvgakJDrc.jpg"
                             )
                     )
             ),
             MovieDto(
+                    id = 4,
                     title = "Лука",
                     description = "В прекрасном приморском городке на Итальянской Ривьере мальчик Лука проводит незабываемое лето, наполненное мороженым, пастой и бесконечными поездками на скутере. Вместе с ним эти приключения переживает его новый лучший друг, который на самом деле – морское чудовище из другого мира.",
                     rateScore = 4,
@@ -316,20 +378,24 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     posterUrl="https://www.themoviedb.org/t/p/original/tiVmLZ6bTPH0bWTs13amLZhKL4o.jpg",
                     genre = "мультфильмы",
                     actors = listOf(ActorDto(
+                                    id = 12,
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/oNLhzkZXNw1RNihne9P5q57cRcd.jpg",
                                      name = "Джейкоб Трамбле"
                             ),
                             ActorDto(
+                                    id = 13,
                                     name = "Эмма Берман",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/r3QkZtW6Iaq56ziZqvPXAQLOcTr.jpg"
                             ),
                             ActorDto(
+                                    id = 14,
                                     name = "Джек Дилан ГрейзерДомлан Глисон",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/cZdGLa78UP7VzMgNbDRnoaSkZm1.jpg"
                             )
                     )
             ),
             MovieDto(
+                    id = 5,
                     title = "Майор Гром: Чумной Доктор",
                     description = "Майор полиции Игорь Гром известен всему Санкт-Петербургу своим пробивным характером и непримиримой позицией по отношению к преступникам всех мастей. Неимоверная сила, аналитический склад ума и неподкупность – всё это делает майора Грома идеальным полицейским, не знающим преград. Но всё резко меняется с появлением человека в маске Чумного Доктора.",
                     rateScore = 3,
@@ -339,20 +405,24 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     genre = "фантастика",
                     actors = listOf(
                             ActorDto(
+                                    id = 15,
                                     name = "Тихон Жизневский",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/nWM4bvQk5Pq74uu3r2wLawOHMJr.jpg"
                             ),
                             ActorDto(
+                                    id = 16,
                                     name = "Любовь Аксёнова",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/yOQX4JPwX1uhMyVT1jJigAk7iUr.jpg"
                             ),
                             ActorDto(
+                                    id = 17,
                                     name = "Алексей Маклаков",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/u1i5aLdon5fHggZVcIL1VkytqBN.jpg"
                             )
                     )
             ),
             MovieDto(
+                    id = 6,
                     title = "Годзилла против Конга",
                     description = "Человечество стало виной тому, что Годзилла и Конг вынуждены сойтись в неравной схватке. Организация «Монарх», отслеживающая жизнь монстров на земле, отправляет экспедицию в неизведанные земли острова Черепа, где надеется раскрыть тайну происхождения титанов.",
                     rateScore = 5,
@@ -362,20 +432,24 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     genre = "фантастика",
                     actors = listOf(
                             ActorDto(
+                                    id = 18,
                                     name = "Александр Скарсгард",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/hIuDik6KDmHLrqZWxBVdXzUw1kq.jpg"
                             ),
                             ActorDto(
+                                    id = 19,
                                     name = "Милли Бобби Браун",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/yzfxLMcBMusKzZp9f1Z9Ags8WML.jpg"
                             ),
                             ActorDto(
+                                    id = 20,
                                     name = "Ребекка Холл",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/cVZaQrUY7F5khCBYdKDlEppHnQi.jpg"
                             )
                     )
             ),
             MovieDto(
+                    id = 7,
                     title = "Монстрические питомцы",
                     description = "В новом фильме любимый монструозный щенок Дракулы страдает от нехватки внимания со стороны хозяина, слишком занятого делами отеля, а ведь в Пёсике столько энергии и он бесконечно хочет играть в мяч! Драк решает найти своему питомцу компаньона, и после серии неудачных попыток Пёсик наконец-то выбирает себе друга, который грозит Дракуле еще большей суетой.",
                     rateScore = 4,
@@ -385,20 +459,24 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     genre = "мультфильмы",
                     actors = listOf(
                             ActorDto(
+                                    id = 21,
                                     name = "Брайан Халл",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/mLq5C8100kjFad6AMLNUXX3kcPf.jpg"
                             ),
                             ActorDto(
+                                    id = 22,
                                     name = "Дженнифер Клуска",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/wpYWJ7Kw5qcXEOZyTuIEsfqMqXq.jpg"
                             ),
                             ActorDto(
+                                    id = 23,
                                     name = "Дерек Драймон",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/1ZdPd2JaiigVDB7hPxy29RAx9GY.jpg"
                             )
                     )
             ),
             MovieDto(
+                    id = 8,
                     title = "Космический джем: Новое поколение",
                     description = "Чтобы спасти сына, знаменитый чемпион НБА отправляется в сказочный мир, где в команде мультяшек вынужден сражаться на баскетбольной площадке с цифровыми копиями знаменитых игроков.",
                     rateScore = 4,
@@ -408,14 +486,17 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     genre = "комедии",
                     actors = listOf(
                             ActorDto(
+                                    id = 24,
                                     name = "Леброн Джеймс",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/rmIYKVdYT60zfsqfjNuB71f1y82.jpg"
                             ),
                             ActorDto(
+                                    id = 25,
                                     name = "Дон Чидл",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/b1EVJWdFn7a75qVYJgwO87W2TJU.jpg"
                             ),
                             ActorDto(
+                                    id = 26,
                                     name = "Седрик Джо",
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/2LXuhY0h5MlxLu7X55w4oAiVDWP.jpg"
                             )

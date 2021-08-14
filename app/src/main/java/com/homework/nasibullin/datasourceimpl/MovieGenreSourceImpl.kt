@@ -8,28 +8,36 @@ import com.homework.nasibullin.datasources.MoviesGenreDataSource
 class MovieGenreSourceImpl: MoviesGenreDataSource {
     override fun getGenre() = listOf(
             GenreDto(
-                "все"
+                "все",
+                0
             ),
             GenreDto(
-                    "боевики"
+                    "боевики",
+                1
             ),
             GenreDto(
-                        "драмы"
+                        "драмы",
+                2
             ),
             GenreDto(
-                        "комедии"
+                        "комедии",
+                3
             ),
             GenreDto(
-                        "ужасы"
+                        "ужасы",
+                4
             ),
             GenreDto(
-                        "мелодрамы"
+                        "мелодрамы",
+                5
             ),
             GenreDto(
-                        "фантастика"
+                        "фантастика",
+                6
             ),
             GenreDto(
-                "мультфильмы"
+                "мультфильмы",
+                7
             )
     )
 }
