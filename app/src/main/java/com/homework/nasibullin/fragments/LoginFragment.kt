@@ -1,5 +1,6 @@
 package com.homework.nasibullin.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,11 +12,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.homework.nasibullin.App
 import com.homework.nasibullin.R
 import com.homework.nasibullin.dataclasses.AuthenticateResponse
 import com.homework.nasibullin.dataclasses.UserLogin
 import com.homework.nasibullin.datasources.Resource
+import com.homework.nasibullin.interfaces.LoginFragmentCallbacks
 import com.homework.nasibullin.utils.Utility
 import com.homework.nasibullin.viewmodels.LoginFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class LoginFragment : Fragment() {
     private lateinit var navController: NavController
     private val viewModel: LoginFragmentViewModel by viewModels()
+    private var loginFragmentCallbacks: LoginFragmentCallbacks? = null
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -40,6 +44,20 @@ class LoginFragment : Fragment() {
         navController = Navigation.findNavController(view)
         initView()
     }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is LoginFragmentCallbacks){
+            loginFragmentCallbacks = context
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        loginFragmentCallbacks = null
+    }
+
+
     private fun initView(){
         handleClick()
     }
@@ -137,6 +155,10 @@ class LoginFragment : Fragment() {
 
     private fun successSessionId(authenticateResponse: AuthenticateResponse)
     {
+        loginFragmentCallbacks?.onLogin()
+        navController.navigate(
+            R.id.action_loginFragment_to_mainFragment
+        )
         Utility.showToast(authenticateResponse.request_token, context)
     }
 }

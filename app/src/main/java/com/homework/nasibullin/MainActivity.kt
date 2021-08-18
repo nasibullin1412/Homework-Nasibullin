@@ -2,15 +2,17 @@ package com.homework.nasibullin
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.homework.nasibullin.interfaces.LoginFragmentCallbacks
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), LoginFragmentCallbacks {
 
     private lateinit var bottomNavigationView: BottomNavigationView
     private var currentFragment:String? = null
@@ -25,6 +27,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setUpNavigation()
+    }
+
+    override fun onLogin() {
+        bottomNavigationView.visibility = View.VISIBLE
     }
 
 
