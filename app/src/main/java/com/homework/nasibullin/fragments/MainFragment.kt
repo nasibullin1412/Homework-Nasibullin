@@ -8,10 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.homework.nasibullin.MainActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.addRepeatingJob
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
@@ -27,7 +24,7 @@ import com.homework.nasibullin.datasourceimpl.MovieGenreSourceImpl
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.decorations.GenreItemDecoration
 import com.homework.nasibullin.decorations.MovieItemDecoration
-import com.homework.nasibullin.repo.TestGetMovieListData
+import com.homework.nasibullin.repo.MovieListDataRepo
 import com.homework.nasibullin.holders.EmptyListViewHolder
 import com.homework.nasibullin.interfaces.MainFragmentCallbacks
 import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
@@ -92,7 +89,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
 
     private fun initViewModel(){
         viewModel = ViewModelProviders.of(this,
-            MainFragmentViewModelFactory(TestGetMovieListData()))
+            MainFragmentViewModelFactory(MovieListDataRepo()))
             .get(MainFragmentViewModel::class.java)
     }
 

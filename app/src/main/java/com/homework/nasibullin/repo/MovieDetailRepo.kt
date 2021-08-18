@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-object TestMovieDetail: BaseDataSource() {
+object MovieDetailRepo: BaseDataSource() {
 
     /**
      * emulation of downloading movie details from the server. A delay of 2 seconds has been simulated

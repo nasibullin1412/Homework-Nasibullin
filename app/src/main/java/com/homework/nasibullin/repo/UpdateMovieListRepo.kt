@@ -9,7 +9,7 @@ import com.homework.nasibullin.dataclasses.MovieWithActor
 import com.homework.nasibullin.utils.BaseDataSource
 import com.homework.nasibullin.utils.Utility
 
-class UpdateMovieList: BaseDataSource() {
+class UpdateMovieListRepo: BaseDataSource() {
     /**
      * update data base with actual movies
      */

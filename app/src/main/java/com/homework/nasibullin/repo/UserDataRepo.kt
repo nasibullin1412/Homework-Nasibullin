@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import java.lang.IllegalArgumentException
 
-class UserData: BaseDataSource() {
+class UserDataRepo: BaseDataSource() {
     /**
      * emulate get remote user
      */

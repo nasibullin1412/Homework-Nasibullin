@@ -20,7 +20,7 @@ import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.decorations.GenreItemDecoration
 import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
 import com.homework.nasibullin.models.UserModel
-import com.homework.nasibullin.repo.UserData
+import com.homework.nasibullin.repo.UserDataRepo
 import com.homework.nasibullin.utils.Utility
 import com.homework.nasibullin.viewmodels.ProfileFragmentViewModel
 import com.homework.nasibullin.viewmodels.ProfileFragmentViewModelFactory
@@ -44,7 +44,7 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
         super.onViewCreated(view, savedInstanceState)
         viewModelProfileFragment = ViewModelProviders.of(
             this,
-            ProfileFragmentViewModelFactory(UserData())
+            ProfileFragmentViewModelFactory(UserDataRepo())
         ).get(
             ProfileFragmentViewModel::class.java
         )

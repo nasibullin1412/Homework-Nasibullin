@@ -2,7 +2,6 @@ package com.homework.nasibullin.database.dao
 
 import androidx.room.*
 import com.homework.nasibullin.dataclasses.*
-import com.homework.nasibullin.repo.UpdateMovieList
 
 @Dao
 interface MovieDao {

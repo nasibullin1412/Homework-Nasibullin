@@ -7,14 +7,14 @@ import com.homework.nasibullin.dataclasses.MovieDto
 import androidx.lifecycle.viewModelScope
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.fragments.MainFragment
-import com.homework.nasibullin.repo.TestGetMovieListData
-import com.homework.nasibullin.repo.UpdateMovieList
+import com.homework.nasibullin.repo.MovieListDataRepo
+import com.homework.nasibullin.repo.UpdateMovieListRepo
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import java.lang.IllegalArgumentException
 
-class MainFragmentViewModel (private val testGetMovieListData: TestGetMovieListData) : ViewModel() {
+class MainFragmentViewModel (private val movieListDataRepo: MovieListDataRepo) : ViewModel() {
     private var numberOfVariant: Int = 0
     val movieList: LiveData<Resource<List<MovieDto>>> get() = _movieList
     private val _movieList = MutableLiveData<Resource<List<MovieDto>>>()
@@ -26,7 +26,7 @@ class MainFragmentViewModel (private val testGetMovieListData: TestGetMovieListD
      * fetching local movie list data
      */
     private suspend fun initMovieList() {
-        testGetMovieListData.getLocalData()
+        movieListDataRepo.getLocalData()
                 .catch { e ->
                     _movieList.value=Resource.error(e.toString())
                 }
@@ -41,7 +41,7 @@ class MainFragmentViewModel (private val testGetMovieListData: TestGetMovieListD
      */
     private suspend fun updateMovieList(){
         numberOfVariant++
-        testGetMovieListData.testGetRemoteData(numberOfVariant)
+        movieListDataRepo.testGetRemoteData(numberOfVariant)
             .catch { e ->
                 _movieList.value=Resource.error(e.toString())
             }
@@ -53,7 +53,7 @@ class MainFragmentViewModel (private val testGetMovieListData: TestGetMovieListD
 
     private suspend fun updateDatabase() {
         if (!currentMovieList.isNullOrEmpty()) {
-            UpdateMovieList().updateDatabase(
+            UpdateMovieListRepo().updateDatabase(
                 currentMovieList?.toList() ?: throw IllegalArgumentException("currentMovieList")
             )
         }

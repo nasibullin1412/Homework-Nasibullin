@@ -6,13 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.homework.nasibullin.dataclasses.UserDto
 import com.homework.nasibullin.datasources.Resource
-import com.homework.nasibullin.repo.UserData
+import com.homework.nasibullin.repo.UserDataRepo
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
-class ProfileFragmentViewModel(private val userData: UserData): ViewModel(){
+class ProfileFragmentViewModel(private val userDataRepo: UserDataRepo): ViewModel(){
     val userDetail: LiveData<Resource<UserDto>> get() = _userData
     private val _userData = MutableLiveData<Resource<UserDto>>()
     /**
@@ -21,7 +21,7 @@ class ProfileFragmentViewModel(private val userData: UserData): ViewModel(){
     fun loadUser() {
         viewModelScope.launch {
             var isNeedRemote = false
-            userData.getLocalUser()
+            userDataRepo.getLocalUser()
                 .catch { e ->
                     _userData.value = Resource.error(e.toString())
                 }
@@ -34,7 +34,7 @@ class ProfileFragmentViewModel(private val userData: UserData): ViewModel(){
                     }
                 }
             if (isNeedRemote){
-                userData.testGetRemoteUser()
+                userDataRepo.testGetRemoteUser()
                     .catch {
                             e ->
                         _userData.value = Resource.error(e.toString())
@@ -42,7 +42,7 @@ class ProfileFragmentViewModel(private val userData: UserData): ViewModel(){
                     .collect {
                         _userData.value = it
                     }
-                userData.insertUser(userDto = _userData.value?.data ?: throw IllegalArgumentException("User data required"))
+                userDataRepo.insertUser(userDto = _userData.value?.data ?: throw IllegalArgumentException("User data required"))
             }
         }
     }

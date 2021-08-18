@@ -3,7 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/loginFragment">
+
+
+
+    <!-- MainFragment -->
+    <fragment android:id="@+id/loginFragment"
+        android:name="com.homework.nasibullin.fragments.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/login_fragment">
+        <action android:id="@+id/action_loginFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            />
+    </fragment>
 
     <!-- MainFragment -->
     <fragment android:id="@+id/mainFragment"

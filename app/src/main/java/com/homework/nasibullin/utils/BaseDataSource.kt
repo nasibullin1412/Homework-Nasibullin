@@ -2,18 +2,40 @@ package com.homework.nasibullin.utils
 
 
 
-import com.homework.nasibullin.dataclasses.MovieDto
-import com.homework.nasibullin.dataclasses.MovieWithActor
-import com.homework.nasibullin.dataclasses.UserDto
-import com.homework.nasibullin.dataclasses.UserWithGenres
+import com.homework.nasibullin.App
+import com.homework.nasibullin.dataclasses.*
 import com.homework.nasibullin.datasources.Resource
-import com.homework.nasibullin.dataclasses.ActorDto
-import com.homework.nasibullin.dataclasses.Movie
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Response
 import java.lang.Exception
 
 
 
 abstract class BaseDataSource {
+
+    suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): Resource<T>{
+        return try {
+            val response = withContext(Dispatchers.IO) {
+                apiCall()
+            }
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    Resource.success(body)
+                }
+                else{
+                    Resource.failed("Null body fail.")
+                }
+            }
+            else{
+                Resource.error(response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            Resource.error(e.message.toString())
+        }
+    }
 
     suspend fun getSafeUserData(databaseCall: suspend () -> UserDto): Resource<UserDto> {
         return try {
