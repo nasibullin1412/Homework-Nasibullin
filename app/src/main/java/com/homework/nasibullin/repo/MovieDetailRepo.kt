@@ -52,7 +52,8 @@ object MovieDetailRepo: BaseDataSource() {
             rateScore = movieDto.rateScore,
             ageRestriction = movieDto.ageRestriction,
             imageUrl = movieDto.imageUrl,
-            posterUrl = movieDto.posterUrl
+            posterUrl = movieDto.posterUrl,
+            backId = movieDto.id
         )
         val actors = movieDto.actors.map{
             Actor(

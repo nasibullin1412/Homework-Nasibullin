@@ -8,13 +8,17 @@ import androidx.lifecycle.viewModelScope
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.fragments.MainFragment
 import com.homework.nasibullin.repo.MovieListDataRepo
-import com.homework.nasibullin.repo.UpdateMovieListRepo
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import java.lang.IllegalArgumentException
+import javax.inject.Inject
 
-class MainFragmentViewModel (private val movieListDataRepo: MovieListDataRepo) : ViewModel() {
+@HiltViewModel
+class MainFragmentViewModel @Inject constructor (
+    private val repository: MovieListDataRepo
+    ) : ViewModel() {
     private var numberOfVariant: Int = 0
     val movieList: LiveData<Resource<List<MovieDto>>> get() = _movieList
     private val _movieList = MutableLiveData<Resource<List<MovieDto>>>()
@@ -26,7 +30,7 @@ class MainFragmentViewModel (private val movieListDataRepo: MovieListDataRepo) :
      * fetching local movie list data
      */
     private suspend fun initMovieList() {
-        movieListDataRepo.getLocalData()
+        repository.getLocalData()
                 .catch { e ->
                     _movieList.value=Resource.error(e.toString())
                 }
@@ -41,7 +45,7 @@ class MainFragmentViewModel (private val movieListDataRepo: MovieListDataRepo) :
      */
     private suspend fun updateMovieList(){
         numberOfVariant++
-        movieListDataRepo.testGetRemoteData(numberOfVariant)
+        repository.getRemoteData(numberOfVariant)
             .catch { e ->
                 _movieList.value=Resource.error(e.toString())
             }
@@ -53,7 +57,7 @@ class MainFragmentViewModel (private val movieListDataRepo: MovieListDataRepo) :
 
     private suspend fun updateDatabase() {
         if (!currentMovieList.isNullOrEmpty()) {
-            UpdateMovieListRepo().updateDatabase(
+            repository.updateDatabase(
                 currentMovieList?.toList() ?: throw IllegalArgumentException("currentMovieList")
             )
         }

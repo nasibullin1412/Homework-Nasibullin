@@ -11,7 +11,7 @@ import androidx.room.ForeignKey.CASCADE
 @Entity(tableName = "actors",
         foreignKeys = [ForeignKey(
                 entity = Movie::class,
-                parentColumns = arrayOf("id"),
+                parentColumns = arrayOf("backId"),
                 childColumns = arrayOf("movieId"),
                 onDelete = CASCADE //NO_ACTION, RESTRICT, SET_DEFAULT, SET_NULL
         )] ,
@@ -32,7 +32,7 @@ data class Actor(
 /**
  * movie table entity dataclass
 * */
-@Entity(tableName = "movies")
+@Entity(tableName = "movies", indices = [Index(value = ["backId"], unique = true)])
 data class Movie(
         @PrimaryKey
         @ColumnInfo(name = "id")
@@ -50,7 +50,9 @@ data class Movie(
         @ColumnInfo(name = "poster url", typeAffinity = TEXT)
         val posterUrl: String,
         @ColumnInfo(name = "genre", typeAffinity = TEXT)
-        val genre: String
+        val genre: String,
+        @ColumnInfo(name = "backId", typeAffinity = INTEGER)
+        val backId: Long
 )
 
 /**
@@ -122,7 +124,7 @@ data class UserWithGenres(
 data class MovieWithActor(
         @Embedded val movie: Movie,
         @Relation(
-                parentColumn = "id",
+                parentColumn = "backId",
                 entityColumn = "movieId"
         )
         var actors: List<Actor>

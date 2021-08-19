@@ -6,16 +6,18 @@ import com.homework.nasibullin.utils.NetworkConstants.API_KEY_VALUE
 import com.homework.nasibullin.utils.NetworkConstants.APPLICATION_JSON_TYPE
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
+import okhttp3.HttpUrl
+import okhttp3.Interceptor
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
-import okhttp3.Interceptor
-import okhttp3.MediaType.Companion.toMediaType
+
 
 fun Retrofit.Builder.setClient() = apply {
     val okHttpClient = OkHttpClient.Builder()
-        .addHeaderInterceptor()
+        .addQueryInterceptor()
         .addHttpLoggingInterceptor()
         .connectTimeout(20, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
@@ -25,13 +27,11 @@ fun Retrofit.Builder.setClient() = apply {
     this.client(okHttpClient)
 }
 
-private fun OkHttpClient.Builder.addHeaderInterceptor() = apply {
+private fun OkHttpClient.Builder.addQueryInterceptor() = apply {
     val interceptor = Interceptor { chain ->
-        val request = chain.request()
-            .newBuilder()
-            .addHeader(API_KEY, API_KEY_VALUE)
-            .build()
-
+        var request = chain.request()
+        val url: HttpUrl = request.url.newBuilder().addQueryParameter(API_KEY, API_KEY_VALUE).build()
+        request = request.newBuilder().url(url).build()
         chain.proceed(request)
     }
 

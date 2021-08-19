@@ -14,3 +14,24 @@ data class UserLogin(
     val password: String,
     val request_token: String
 )
+
+
+
+@Serializable
+data class MovieResponse(
+    val page: Int,
+    val results: List<MovieDataResponse>
+)
+
+@Serializable
+data class MovieDataResponse(
+    val adult: Boolean,
+    val backdrop_path: String,
+    val overview: String,
+    val genre_ids: List<Int>,
+    val id: Long,
+    val title: String,
+    val vote_average: Double,
+    val poster_path: String
+)
+

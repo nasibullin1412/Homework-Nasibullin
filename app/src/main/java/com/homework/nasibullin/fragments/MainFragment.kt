@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -33,8 +34,9 @@ import com.homework.nasibullin.models.GenreModel
 import com.homework.nasibullin.utils.Utility
 import com.homework.nasibullin.viewmodels.MainFragmentViewModel
 import com.homework.nasibullin.viewmodels.MainFragmentViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedCallback {
     private lateinit var movieGenreRecycler: RecyclerView
     private lateinit var movieRecycler: RecyclerView
@@ -45,7 +47,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     private lateinit var genreCollection: Collection<GenreDto>
     private lateinit var swipeRefreshLayout:SwipeRefreshLayout
     private lateinit var emptyListViewHolder: EmptyListViewHolder
-    private lateinit var viewModel: MainFragmentViewModel
+    private val viewModel: MainFragmentViewModel by viewModels()
     private lateinit var navController: NavController
     private var mainFragmentClickListener: MainFragmentCallbacks? = null
     private var movieItemWidth: Int = 0
@@ -77,7 +79,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
         initValuesFromBundle()
-        initViewModel()
         initDataSource()
         initView()
     }
@@ -87,11 +88,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     }
 
 
-    private fun initViewModel(){
-        viewModel = ViewModelProviders.of(this,
-            MainFragmentViewModelFactory(MovieListDataRepo()))
-            .get(MainFragmentViewModel::class.java)
-    }
 
     /**
      * Init data models and collections
@@ -251,7 +247,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
      * @param movieList is list of new films,
      */
     private fun updateMovieData(movieList: List<MovieDto>){
-        movieCollection = movieList
+        movieCollection = movieList.take(10)
         movieAdapter.submitList(movieCollection.toList())
     }
 

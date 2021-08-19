@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.homework.nasibullin.R
 import com.homework.nasibullin.dataclasses.MovieDto
+import com.homework.nasibullin.utils.NetworkConstants.IMAGE_BASE_URL
 import java.lang.StringBuilder
 
 class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -21,7 +22,7 @@ class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     // Do every time
     fun bind(movie: MovieDto) {
-        imgMoviePoster.load(movie.imageUrl){
+        imgMoviePoster.load(IMAGE_BASE_URL + movie.imageUrl){
             placeholder(R.drawable.poster)
         }
         tvMovieName.text = movie.title
