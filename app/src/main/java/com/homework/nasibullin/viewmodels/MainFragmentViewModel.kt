@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.homework.nasibullin.dataclasses.MovieDto
 import androidx.lifecycle.viewModelScope
+import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.fragments.MainFragment
 import com.homework.nasibullin.repo.MovieListDataRepo
@@ -24,6 +25,22 @@ class MainFragmentViewModel @Inject constructor (
     private val _movieList = MutableLiveData<Resource<List<MovieDto>>>()
     var currentMovieList: Collection<MovieDto>? = null
     var currentGenre: String = MainFragment.ALL_GENRE
+    val genreList: LiveData<Resource<List<GenreDto>>> get() = _genreList
+    private val _genreList = MutableLiveData<Resource<List<GenreDto>>>()
+
+
+    fun getGenreList(){
+        viewModelScope.launch {
+            repository.getRemoteGenres()
+                .catch { e->
+                    _genreList.value = Resource.error(e.toString())
+                }
+                .collect{
+                    _genreList.value = it
+                }
+        }
+    }
+
 
 
     /**

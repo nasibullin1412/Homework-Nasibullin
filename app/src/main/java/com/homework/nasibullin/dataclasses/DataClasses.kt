@@ -72,6 +72,8 @@ data class GenreDto(
         @PrimaryKey
         @ColumnInfo(name = "genre", typeAffinity = TEXT)
         val title: String,
+        @ColumnInfo(name = "genreId")
+        val genreId: Long,
         @ColumnInfo(name = "userId", typeAffinity = INTEGER)
         val userId: Long
 )

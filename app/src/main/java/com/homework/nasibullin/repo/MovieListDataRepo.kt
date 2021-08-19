@@ -2,10 +2,7 @@ package com.homework.nasibullin.repo
 
 import com.homework.nasibullin.App
 import com.homework.nasibullin.database.AppDatabase
-import com.homework.nasibullin.dataclasses.Actor
-import com.homework.nasibullin.dataclasses.Movie
-import com.homework.nasibullin.dataclasses.MovieDto
-import com.homework.nasibullin.dataclasses.MovieWithActor
+import com.homework.nasibullin.dataclasses.*
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.network.ApiService
 import com.homework.nasibullin.network.EmulateNetwork
@@ -34,6 +31,15 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
             emit(resultDto)
         }.flowOn(Dispatchers.IO)
     }
+
+    suspend fun getRemoteGenres(): Flow<Resource<List<GenreDto>>> {
+        return flow {
+            val result = safeApiCall { App.instance.apiService.getGenres() }
+            val resultDto = Converters.fromListGenreResponseToListGenreDto(result)
+            emit(resultDto)
+        }.flowOn(Dispatchers.IO)
+    }
+
 
     /**
      * downloading movie data from the local database

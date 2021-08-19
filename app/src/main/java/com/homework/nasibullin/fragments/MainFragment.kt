@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
@@ -25,7 +24,6 @@ import com.homework.nasibullin.datasourceimpl.MovieGenreSourceImpl
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.decorations.GenreItemDecoration
 import com.homework.nasibullin.decorations.MovieItemDecoration
-import com.homework.nasibullin.repo.MovieListDataRepo
 import com.homework.nasibullin.holders.EmptyListViewHolder
 import com.homework.nasibullin.interfaces.MainFragmentCallbacks
 import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
@@ -33,7 +31,6 @@ import com.homework.nasibullin.interfaces.OnMovieItemClickedCallback
 import com.homework.nasibullin.models.GenreModel
 import com.homework.nasibullin.utils.Utility
 import com.homework.nasibullin.viewmodels.MainFragmentViewModel
-import com.homework.nasibullin.viewmodels.MainFragmentViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -95,11 +92,12 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     private fun initDataSource() {
         movieCollection = emptyList()
         genreModel = GenreModel(MovieGenreSourceImpl())
-        genreCollection = genreModel.getGenres()
+        //genreCollection = genreModel.getGenres()
     }
 
     private fun initView(){
         setupViews()
+        setupGenreObserver()
         setupObserver()
         handleSwipe()
     }
@@ -168,6 +166,43 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
             viewModel.getMovieList(true)
         }
     }
+
+
+    private fun setupGenreObserver() {
+        viewModel.getGenreList()
+        viewModel.genreList.observe(viewLifecycleOwner, {
+
+            when(it.status){
+                Resource.Status.SUCCESS -> {
+                    if (it.data != null) {
+                        updateGenreData(ArrayList(it.data))
+                    }
+                }
+
+                Resource.Status.ERROR -> {
+                    Utility.showToast(it.message, context)
+                }
+
+                Resource.Status.LOADING -> {
+                    Utility.showToast(it.message, context)
+                }
+
+                Resource.Status.FAILURE -> {
+                    Utility.showToast(it.message, context)
+                }
+            }
+
+
+        })
+    }
+
+    private fun updateGenreData(genreDtoList: ArrayList<GenreDto>){
+        genreDtoList.add(0, GenreDto(ALL_GENRE, 0, 5))
+        genreCollection = genreDtoList
+        genreAdapter.submitList(genreCollection.toList())
+    }
+
+
 
     /**
      * observer, which async wait of data update
@@ -270,7 +305,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         movieGenreRecycler = view?.findViewById(R.id.rvMovieGenreList) ?: throw IllegalArgumentException("Recycler required")
         genreAdapter = GenreAdapter()
         genreAdapter.initOnClickInterface(this)
-        genreAdapter.submitList(genreModel.getGenres())
+        genreAdapter.submitList(listOf(GenreDto(title = ALL_GENRE, 0, 5)))
         val itemDecorator = GenreItemDecoration(leftRight = GENRE_LEFT_RIGHT_OFFSET)
         movieGenreRecycler.addItemDecoration(itemDecorator)
         movieGenreRecycler.adapter = genreAdapter

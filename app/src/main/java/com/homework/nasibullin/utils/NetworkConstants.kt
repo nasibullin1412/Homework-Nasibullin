@@ -7,5 +7,6 @@ object NetworkConstants {
     const val API_KEY_VALUE = "bd187b8c54d6ea75c2bcb8b6defc019d"
     const val APPLICATION_JSON_TYPE = "application/json"
     const val LANGUAGE = "ru-Rus"
+    const val GENRE_LANGUAGE ="ru-Ru"
     const val REGION = "ru"
 }

@@ -1,10 +1,8 @@
 package com.homework.nasibullin.network
 
-import com.homework.nasibullin.dataclasses.AuthenticateResponse
-import com.homework.nasibullin.dataclasses.MovieDataResponse
-import com.homework.nasibullin.dataclasses.MovieResponse
-import com.homework.nasibullin.dataclasses.UserLogin
+import com.homework.nasibullin.dataclasses.*
 import com.homework.nasibullin.utils.NetworkConstants.BASE_URL
+import com.homework.nasibullin.utils.NetworkConstants.GENRE_LANGUAGE
 import com.homework.nasibullin.utils.NetworkConstants.LANGUAGE
 import com.homework.nasibullin.utils.NetworkConstants.REGION
 import com.homework.nasibullin.utils.addJsonConverter
@@ -31,6 +29,10 @@ interface ApiService {
         @Query("page") page:Int = 1
     )
     : Response<MovieResponse>
+
+
+    @GET("genre/movie/list")
+    suspend fun getGenres(@Query("language") language: String = GENRE_LANGUAGE): Response<GenreResponse>
 
     companion object {
         fun create(): ApiService {

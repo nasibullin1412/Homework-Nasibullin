@@ -10,9 +10,9 @@ class UserDataSourceImpl : UserDataSource {
             id = 0,
             name = "Константин",
             genres = listOf(
-                    GenreDto("боевики", 0),
-                    GenreDto("фантастика", 0),
-                    GenreDto("мелодрамы", 0),
+                    GenreDto("боевики", 1, 0),
+                    GenreDto("фантастика", 2, 0),
+                    GenreDto("мелодрамы", 3, 0),
             ),
             number = "+79179004155",
             password = "lolKek00",

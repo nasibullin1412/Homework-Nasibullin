@@ -1,8 +1,6 @@
 package com.homework.nasibullin.utils
 
-import com.homework.nasibullin.dataclasses.MovieDto
-import com.homework.nasibullin.dataclasses.MovieDataResponse
-import com.homework.nasibullin.dataclasses.MovieResponse
+import com.homework.nasibullin.dataclasses.*
 import com.homework.nasibullin.datasources.Resource
 
 object Converters {
@@ -28,4 +26,18 @@ object Converters {
                 }
             )
         } ?: Resource.failed(movieData.message ?: "Error convert")
+
+    fun fromListGenreResponseToListGenreDto(genreData: Resource<GenreResponse>): Resource<List<GenreDto>> =
+        genreData.data?.let {
+            Resource.success(
+                it.genres.map { genreResponse->
+                    GenreDto(
+                        genreId = genreResponse.id,
+                        title = genreResponse.name,
+                        userId = 5
+                    )
+                }
+            )
+        }?: Resource.failed(genreData.message ?: "Error convert")
+
     }

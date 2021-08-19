@@ -9,8 +9,9 @@ class MovieGenreSourceImpl: MoviesGenreDataSource {
     override fun getGenre() = listOf(
             GenreDto(
                 "все",
-                0
-            ),
+                0,
+                5
+            )/*,
             GenreDto(
                     "боевики",
                 1
@@ -38,6 +39,6 @@ class MovieGenreSourceImpl: MoviesGenreDataSource {
             GenreDto(
                 "мультфильмы",
                 7
-            )
+            )*/
     )
 }

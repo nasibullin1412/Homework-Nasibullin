@@ -35,3 +35,14 @@ data class MovieDataResponse(
     val poster_path: String
 )
 
+
+@Serializable
+data class GenreResponse(
+    val genres: List<GenreDataResponse>
+)
+
+@Serializable
+data class GenreDataResponse(
+    val id: Long,
+    val name: String
+)
