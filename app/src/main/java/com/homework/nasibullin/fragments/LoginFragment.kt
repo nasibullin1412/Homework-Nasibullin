@@ -9,10 +9,8 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.homework.nasibullin.App
 import com.homework.nasibullin.R
 import com.homework.nasibullin.dataclasses.AuthenticateResponse
@@ -43,6 +41,12 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
         initView()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loginFragmentCallbacks?.onLoginStart()
     }
 
     override fun onAttach(context: Context) {
@@ -155,7 +159,7 @@ class LoginFragment : Fragment() {
 
     private fun successSessionId(authenticateResponse: AuthenticateResponse)
     {
-        loginFragmentCallbacks?.onLogin()
+        loginFragmentCallbacks?.onLoginEnd()
         navController.navigate(
             R.id.action_loginFragment_to_mainFragment
         )

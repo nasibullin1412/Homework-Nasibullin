@@ -7,5 +7,6 @@ interface MainFragmentCallbacks
 
 interface LoginFragmentCallbacks
 {
-    fun onLogin()
+    fun onLoginEnd()
+    fun onLoginStart()
 }

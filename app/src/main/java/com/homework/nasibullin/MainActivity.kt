@@ -29,13 +29,16 @@ class MainActivity : AppCompatActivity(), LoginFragmentCallbacks {
         setUpNavigation()
     }
 
-    override fun onLogin() {
+    override fun onLoginEnd() {
         bottomNavigationView.visibility = View.VISIBLE
+    }
+
+    override fun onLoginStart() {
+        bottomNavigationView.visibility = View.GONE
     }
 
 
     private fun setUpNavigation() {
-
         bottomNavigationView = findViewById(R.id.bottom_navigation_bar)
         val navHostFragment = supportFragmentManager
                 .findFragmentById(R.id.nav_host_fragment) as NavHostFragment?

@@ -18,6 +18,8 @@
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true"
             />
     </fragment>
 
