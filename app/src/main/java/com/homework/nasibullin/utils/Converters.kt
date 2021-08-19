@@ -40,4 +40,26 @@ object Converters {
             )
         }?: Resource.failed(genreData.message ?: "Error convert")
 
+    fun fromListCastResponseToActorDto(actorData: Resource<CastResponse>): Resource<List<ActorDto>> =
+        actorData.data?.let {
+            Resource.success(
+                it.cast.map { actorResponse ->
+                    ActorDto(
+                        id = actorResponse.id,
+                        name = actorResponse.name,
+                        avatarUrl = actorResponse.profilePath ?: ""
+                    )
+                }
+            )
+        }?: Resource.failed(actorData.message ?: "Error convert")
+
+    fun fromMovieDtoAndActorListToMovieDto(movieDto: MovieDto?, cast: List<ActorDto>?): Resource<MovieDto> {
+        movieDto?.actors = cast ?: return Resource.failed("Cast required")
+        return movieDto?.let {
+            Resource.success(movieDto)
+        }?: Resource.failed("Error convert")
     }
+
+    }
+
+

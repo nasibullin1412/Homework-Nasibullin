@@ -10,26 +10,29 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.homework.nasibullin.R
 import com.homework.nasibullin.adapters.ActorAdapter
+import com.homework.nasibullin.dataclasses.MovieDto
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.decorations.ActorItemDecoration
+import com.homework.nasibullin.utils.NetworkConstants.IMAGE_BASE_URL
 import com.homework.nasibullin.utils.Utility
 import com.homework.nasibullin.viewmodels.MovieDetailViewModel
-import com.homework.nasibullin.viewmodels.MovieDetailViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import java.lang.StringBuilder
 
+@AndroidEntryPoint
 class MovieDetailsFragment: Fragment() {
     private lateinit var cardView: CardView
     private lateinit var title:String
     private lateinit var actorAdapter: ActorAdapter
     private lateinit var actorRecycler: RecyclerView
-    private lateinit var viewModel: MovieDetailViewModel
+    private val viewModel: MovieDetailViewModel by viewModels()
 
 
     companion object {
@@ -53,16 +56,7 @@ class MovieDetailsFragment: Fragment() {
 
     private fun init() {
         setCorrectShapeToCardView()
-        viewModel = ViewModelProviders.of(
-                this,
-                MovieDetailViewModelFactory(title))
-                .get(MovieDetailViewModel::class.java)
-        if (viewModel.movie == null && viewModel.movie?.title != title){
-            setupObserver()
-        }
-        else{
-            setupView()
-        }
+        setupObserver()
     }
 
     /**
@@ -70,25 +64,30 @@ class MovieDetailsFragment: Fragment() {
      */
     private fun setupObserver(){
 
-        viewModel.getMovie()
+        viewModel.getMovie(title)
         viewModel.movieDetail.observe(viewLifecycleOwner, {
 
             when (it.status) {
 
                 Resource.Status.SUCCESS -> {
-                    setupView()
+                    if (it.data != null){
+                        setupView(it.data)
+                    }
+                    else{
+                        Utility.showToast("Null data", context)
+                    }
                 }
 
                 Resource.Status.ERROR -> {
-                    Utility.showToast("Error load user", context)
+                    Utility.showToast(it.message, context)
                 }
 
                 Resource.Status.LOADING -> {
-                    Utility.showToast("Loading user data", context)
+                    Utility.showToast(it.message, context)
                 }
 
                 Resource.Status.FAILURE -> {
-                    Utility.showToast("Failure load user", context)
+                    Utility.showToast(it.message, context)
                 }
             }
 
@@ -100,11 +99,11 @@ class MovieDetailsFragment: Fragment() {
     /**
      * Filling in the fields of movie details
      */
-    private fun setupView(){
+    private fun setupView(movie: MovieDto){
         view?.findViewById<ProgressBar>(R.id.pbMovieDetail)?.apply {
             visibility = View.GONE
         }
-        view?.findViewById<ImageView>(R.id.imgMoviePoster)?.load(viewModel.movie?.posterUrl)
+        view?.findViewById<ImageView>(R.id.imgMoviePoster)?.load(IMAGE_BASE_URL + movie.posterUrl)
         view?.findViewById<ImageView>(R.id.imgMoviePoster)?.apply {
             visibility = View.VISIBLE
         }
@@ -112,24 +111,24 @@ class MovieDetailsFragment: Fragment() {
             visibility = View.VISIBLE
         }
         view?.findViewById<TextView>(R.id.tvGenre)?.apply {
-            text = viewModel.movie?.genre
+            text = movie.genre
         }
         view?.findViewById<RatingBar>(R.id.rbMovieDetailStar)?.apply{
-            rating = viewModel.movie?.rateScore?.toFloat() ?: throw IllegalArgumentException("Rating required")
+            rating = movie.rateScore.toFloat()
         }
         view?.findViewById<TextView>(R.id.tvMovieName)?.apply {
-            text = viewModel.movie?.title
+            text = movie.title
         }
         view?.findViewById<TextView>(R.id.tvAgeCategory)?.apply {
             text = StringBuilder().also {
-                it.append(viewModel.movie?.ageRestriction.toString())
+                it.append(movie.ageRestriction.toString())
                 it.append("+")
             }
         }
         view?.findViewById<TextView>(R.id.tvMovieDescription)?.apply {
-            text = viewModel.movie?.description
+            text = movie.description
         }
-        prepareRecycleView()
+        prepareRecycleView(movie)
 
 
     }
@@ -145,10 +144,10 @@ class MovieDetailsFragment: Fragment() {
     /**
      * Actor recycle view with ListAdapter
      * */
-    private fun prepareRecycleView() {
+    private fun prepareRecycleView(movie: MovieDto) {
         actorRecycler = view?.findViewById(R.id.rvActorsList) ?: throw IllegalArgumentException("CrvActorList required")
         actorAdapter = ActorAdapter()
-        actorAdapter.submitList(viewModel.movie?.actors)
+        actorAdapter.submitList(movie.actors)
         val itemDecorator = ActorItemDecoration(leftRight = 12)
         actorRecycler.addItemDecoration(itemDecorator)
         actorRecycler.adapter = actorAdapter

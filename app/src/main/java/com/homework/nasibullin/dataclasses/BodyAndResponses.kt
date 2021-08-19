@@ -1,5 +1,7 @@
 package com.homework.nasibullin.dataclasses
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import retrofit2.SkipCallbackExecutor
 
 @Serializable
 data class AuthenticateResponse(
@@ -43,6 +45,20 @@ data class GenreResponse(
 
 @Serializable
 data class GenreDataResponse(
+    val id: Long,
+    val name: String
+)
+
+@Serializable
+data class CastResponse(
+    val id: Long,
+    val cast: List<CastDataResponse>
+)
+
+@Serializable
+data class CastDataResponse(
+    @SerialName("profile_path")
+    val profilePath: String?,
     val id: Long,
     val name: String
 )

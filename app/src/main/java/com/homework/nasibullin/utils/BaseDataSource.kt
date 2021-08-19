@@ -2,12 +2,11 @@ package com.homework.nasibullin.utils
 
 
 
-import com.homework.nasibullin.App
 import com.homework.nasibullin.dataclasses.*
 import com.homework.nasibullin.datasources.Resource
+import com.homework.nasibullin.utils.NetworkConstants.MOVIE_PAGE_SIZE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.Call
 import retrofit2.Response
 import java.lang.Exception
 
@@ -80,9 +79,9 @@ abstract class BaseDataSource {
     suspend fun getSafeLocalMovieDetail(apiCall: suspend () -> MovieWithActor?): Resource<MovieDto> {
         return try {
             val result = apiCall()
-            if (result != null && result.actors.isNotEmpty()) {
+            if (result != null ) {
                 val movieDto = MovieDto(
-                    id = result.movie.id,
+                    id = result.movie.backId,
                     title = result.movie.title,
                     description = result.movie.description,
                     rateScore = result.movie.rateScore,
@@ -92,23 +91,27 @@ abstract class BaseDataSource {
                     genre = result.movie.genre,
                     actors = result.actors.map { ActorDto(avatarUrl = it.avatarUrl, name = it.name, id=it.id) }
                 )
-                Resource.success(movieDto)
+                if (result.actors.isNotEmpty()){
+                    Resource.success(movieDto)
+                }
+                else{
+                    Resource.failed("No actors", movieDto)
+                }
             }
             else{
                 Resource.failed("No data")
             }
         } catch (e: Exception) {
-            Resource.failed("Something went wrong, $e")
+            Resource.error("Something went wrong, $e")
         }
     }
 
-
-    suspend fun getSafeRemoteMovies(apiCall: suspend () ->List<MovieDto>): Resource<List<MovieDto>>{
+    suspend fun getSafeMovieDbIndex(dbCall: suspend () -> Long): Long {
         return try {
-            Resource.success(apiCall())
+            dbCall()
         }
         catch (e: Exception){
-            Resource.failed("Houston we have a problem: $e" )
+            MOVIE_PAGE_SIZE.toLong()
         }
     }
 
@@ -116,7 +119,7 @@ abstract class BaseDataSource {
         return try {
             val result = dbCall()
             val resultDto = result.map{ MovieDto(
-                id = it.id,
+                id = it.backId,
                 title = it.title,
                 description = it.description,
                 rateScore = it.rateScore,

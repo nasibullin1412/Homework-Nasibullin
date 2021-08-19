@@ -136,15 +136,15 @@ data class MovieWithActor(
  * class describing movie data in the popular movie list
  */
 data class MovieDto(
-        val id: Long,
-        val title: String,
-        val description: String,
-        val rateScore: Int,
-        val ageRestriction: Int,
-        val imageUrl: String,
-        val posterUrl: String,
-        val genre: String,
-        val actors: List<ActorDto>
+    val id: Long,
+    val title: String,
+    val description: String,
+    val rateScore: Int,
+    val ageRestriction: Int,
+    val imageUrl: String,
+    val posterUrl: String,
+    val genre: String,
+    var actors: List<ActorDto>
 )
 
 

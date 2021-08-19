@@ -29,6 +29,7 @@ import com.homework.nasibullin.interfaces.MainFragmentCallbacks
 import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
 import com.homework.nasibullin.interfaces.OnMovieItemClickedCallback
 import com.homework.nasibullin.models.GenreModel
+import com.homework.nasibullin.utils.NetworkConstants.MOVIE_PAGE_SIZE
 import com.homework.nasibullin.utils.Utility
 import com.homework.nasibullin.viewmodels.MainFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -92,7 +93,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     private fun initDataSource() {
         movieCollection = emptyList()
         genreModel = GenreModel(MovieGenreSourceImpl())
-        //genreCollection = genreModel.getGenres()
     }
 
     private fun initView(){
@@ -282,7 +282,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
      * @param movieList is list of new films,
      */
     private fun updateMovieData(movieList: List<MovieDto>){
-        movieCollection = movieList.take(10)
+        movieCollection = movieList.take(MOVIE_PAGE_SIZE)
         movieAdapter.submitList(movieCollection.toList())
     }
 

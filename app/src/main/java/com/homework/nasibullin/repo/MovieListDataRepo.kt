@@ -8,6 +8,7 @@ import com.homework.nasibullin.network.ApiService
 import com.homework.nasibullin.network.EmulateNetwork
 import com.homework.nasibullin.utils.BaseDataSource
 import com.homework.nasibullin.utils.Converters
+import com.homework.nasibullin.utils.NetworkConstants.MOVIE_PAGE_SIZE
 import com.homework.nasibullin.utils.Utility
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -24,7 +25,7 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
      * emulation of downloading movie data from the server. A delay of 2 seconds has been simulated
      * @param number is emulation script number
      */
-    suspend fun getRemoteData(number: Int): Flow<Resource<List<MovieDto>>> {
+    suspend fun getRemoteData(): Flow<Resource<List<MovieDto>>> {
         return flow {
             val result = safeApiCall { App.instance.apiService.getPopularMovies()}
             val resultDto = Converters.fromListMovieResponseToListMovieDto(result)
@@ -80,11 +81,11 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
             ) }
         if (db.movieDao().check() == null){
             Utility.showToast("insert", context = App.appContext)
-            updateDatabase { db.movieDao().insertMovieWithActors(dbMovieList)}
+            updateDatabase { db.movieDao().insertMovieWithActors(dbMovieList.take(MOVIE_PAGE_SIZE))}
         }
         else{
             Utility.showToast("update", context = App.appContext)
-            updateDatabase { db.movieDao().updateMovieWithActors(dbMovieList)}
+            updateDatabase { db.movieDao().updateMovieWithActors(dbMovieList.take(MOVIE_PAGE_SIZE))}
         }
 
 

@@ -36,7 +36,7 @@ class MoviesDataSourceImpl : MoviesDataSource {
                             )
 
                     )
-            ),
+            )/*,
             MovieDto(
                     id = 1,
                     title = "Мортал Комбат",
@@ -501,6 +501,6 @@ class MoviesDataSourceImpl : MoviesDataSource {
                                     avatarUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/2LXuhY0h5MlxLu7X55w4oAiVDWP.jpg"
                             )
                     )
-            )
+            )*/
     )
 }

@@ -20,6 +20,10 @@ interface MovieDao {
     @Query("SELECT * FROM movies WHERE id = 0")
     suspend fun check(): Movie?
 
+    @Query("SELECT id FROM movies WHERE title = :title")
+    suspend fun getIndex(title: String): Long
+
+
     /**
      * insert actor in actors table
      * @param actor is actor, which need to add

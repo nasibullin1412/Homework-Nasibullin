@@ -9,10 +9,7 @@ import com.homework.nasibullin.utils.addJsonConverter
 import com.homework.nasibullin.utils.setClient
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -33,6 +30,13 @@ interface ApiService {
 
     @GET("genre/movie/list")
     suspend fun getGenres(@Query("language") language: String = GENRE_LANGUAGE): Response<GenreResponse>
+
+    @GET("movie/{movieId}/credits")
+    suspend fun getMovieCast(
+        @Path("movieId") movieId: Long,
+        @Query("language") language: String = LANGUAGE)
+    : Response<CastResponse>
+
 
     companion object {
         fun create(): ApiService {
