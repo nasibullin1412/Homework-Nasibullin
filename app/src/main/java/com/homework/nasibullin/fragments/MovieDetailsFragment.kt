@@ -11,7 +11,6 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -33,7 +32,6 @@ class MovieDetailsFragment: Fragment() {
     private lateinit var actorAdapter: ActorAdapter
     private lateinit var actorRecycler: RecyclerView
     private val viewModel: MovieDetailViewModel by viewModels()
-
 
     companion object {
         const val KEY_ARGUMENT = "title"
@@ -143,6 +141,7 @@ class MovieDetailsFragment: Fragment() {
 
     /**
      * Actor recycle view with ListAdapter
+     * @param movie is movie of which actors need to set in recycle view
      * */
     private fun prepareRecycleView(movie: MovieDto) {
         actorRecycler = view?.findViewById(R.id.rvActorsList) ?: throw IllegalArgumentException("CrvActorList required")
@@ -153,8 +152,4 @@ class MovieDetailsFragment: Fragment() {
         actorRecycler.adapter = actorAdapter
         actorRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
     }
-
-
-
-
 }

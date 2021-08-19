@@ -10,7 +10,6 @@ import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.holders.GenreViewHolder
 import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
 
-
 /**
 * Class Adapter to genre list
 */
@@ -34,8 +33,4 @@ class GenreAdapter(
         })
         holder.bind(getItem(position))
     }
-
-
-
-
 }

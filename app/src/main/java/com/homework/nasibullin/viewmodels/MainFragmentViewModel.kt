@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.fragments.MainFragment
-import com.homework.nasibullin.fragments.MainFragment.Companion.ALL_GENRE
 import com.homework.nasibullin.repo.MovieListDataRepo
 import com.homework.nasibullin.security.SharedPreferenceUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,7 +29,6 @@ class MainFragmentViewModel @Inject constructor (
     val genreList: LiveData<Resource<List<GenreDto>>> get() = _genreList
     private val _genreList = MutableLiveData<Resource<List<GenreDto>>>()
 
-
     fun getGenreList(){
         viewModelScope.launch {
             repository.getRemoteGenres()
@@ -48,8 +46,6 @@ class MainFragmentViewModel @Inject constructor (
             SharedPreferenceUtils.setValueToSharedPreference(genre.genreId.toString(), genre.title)
         }
     }
-
-
 
     fun getGenreNameById(id: Long): String{
         return SharedPreferenceUtils.getSharedPreference(id.toString())
@@ -91,6 +87,7 @@ class MainFragmentViewModel @Inject constructor (
             )
         }
     }
+
     /**
      * asynchronous request to take data about the list of movies
      * @param isSwipe: false, when need to init data, true, when need to update data
@@ -125,6 +122,4 @@ class MainFragmentViewModel @Inject constructor (
             currentMovieList?.toList()
         }
     }
-
-
 }

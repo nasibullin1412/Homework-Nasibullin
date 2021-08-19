@@ -1,6 +1,11 @@
 package com.homework.nasibullin.utils
 
-import com.homework.nasibullin.dataclasses.*
+import com.homework.nasibullin.dataclasses.GenreDto
+import com.homework.nasibullin.dataclasses.GenreResponse
+import com.homework.nasibullin.dataclasses.MovieDto
+import com.homework.nasibullin.dataclasses.MovieResponse
+import com.homework.nasibullin.dataclasses.CastResponse
+import com.homework.nasibullin.dataclasses.ActorDto
 import com.homework.nasibullin.datasources.Resource
 
 object Converters {
@@ -59,7 +64,6 @@ object Converters {
             Resource.success(movieDto)
         }?: Resource.failed("Error convert")
     }
-
-    }
+}
 
 

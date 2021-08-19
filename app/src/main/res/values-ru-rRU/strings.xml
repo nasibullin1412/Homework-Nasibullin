@@ -30,4 +30,8 @@
     <string name="hint_password">Пароль</string>
     <string name="hint_mail">Почта</string>
     <string name="hint_number">Телефон</string>
+    <string name="login_top_text">Вход</string>
+    <string name="hint_login_username">Логин</string>
+    <string name="hint_login_password">Пароль</string>
+    <string name="btn_string">Войти</string>
 </resources>

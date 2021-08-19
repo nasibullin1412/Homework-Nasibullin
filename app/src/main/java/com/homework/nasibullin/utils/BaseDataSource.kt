@@ -1,16 +1,17 @@
 package com.homework.nasibullin.utils
 
-
-
-import com.homework.nasibullin.dataclasses.*
+import com.homework.nasibullin.dataclasses.MovieDto
+import com.homework.nasibullin.dataclasses.MovieWithActor
+import com.homework.nasibullin.dataclasses.UserDto
+import com.homework.nasibullin.dataclasses.UserWithGenres
+import com.homework.nasibullin.dataclasses.ActorDto
+import com.homework.nasibullin.dataclasses.Movie
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.utils.NetworkConstants.MOVIE_PAGE_SIZE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 import java.lang.Exception
-
-
 
 abstract class BaseDataSource {
 
@@ -61,16 +62,6 @@ abstract class BaseDataSource {
             else{
                 Resource.failed("No data")
             }
-        } catch (e: Exception) {
-            Resource.failed("Something went wrong, $e")
-        }
-    }
-
-
-
-    suspend fun getSafeRemoteMovieDetail(apiCall: suspend () -> MovieDto): Resource<MovieDto> {
-        return try {
-            Resource.success(apiCall())
         } catch (e: Exception) {
             Resource.failed("Something went wrong, $e")
         }
@@ -154,6 +145,4 @@ abstract class BaseDataSource {
         return sharedCall()
 
     }
-
-
 }

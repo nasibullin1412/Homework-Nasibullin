@@ -1,7 +1,15 @@
 package com.homework.nasibullin.database.dao
 
-import androidx.room.*
-import com.homework.nasibullin.dataclasses.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
+import androidx.room.Delete
+import androidx.room.Transaction
+import com.homework.nasibullin.dataclasses.Movie
+import com.homework.nasibullin.dataclasses.Actor
+import com.homework.nasibullin.dataclasses.MovieWithActor
 
 @Dao
 interface MovieDao {
@@ -12,7 +20,6 @@ interface MovieDao {
     @Query("SELECT * FROM movies")
     suspend fun getAll(): List<Movie>
 
-
     /**
      * check having movies in database
      * @return first movie in database
@@ -20,9 +27,12 @@ interface MovieDao {
     @Query("SELECT * FROM movies WHERE id = 0")
     suspend fun check(): Movie?
 
+    /**
+     * get database index of movie with need title
+     * @param title is title of movie, which index need
+     */
     @Query("SELECT id FROM movies WHERE title = :title")
     suspend fun getIndex(title: String): Long
-
 
     /**
      * insert actor in actors table
@@ -51,8 +61,6 @@ interface MovieDao {
      */
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(actor: Actor)
-
-
 
     @Delete
     suspend fun delete(movie: Movie)
@@ -97,6 +105,4 @@ interface MovieDao {
             }
         }
     }
-
-
 }

@@ -52,7 +52,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     private var movieItemMargin: Int = 0
     private var screenWidth: Int = 0
 
-
         companion object {
             const val GENRE_LEFT_RIGHT_OFFSET = 6
             const val MOVIE_TOP_BOTTOM_OFFSET = 50
@@ -63,7 +62,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
             const val ALL_GENRE = "все"
         }
 
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -72,7 +70,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         requireContext()
         return inflater.inflate(R.layout.list_of_movies, container, false)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -102,7 +99,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         setupObserver()
         handleSwipe()
     }
-
 
     /**
      *  prepare genre and movie recycle views
@@ -168,7 +164,9 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         }
     }
 
-
+    /**
+     * setup observer for genres
+     */
     private fun setupGenreObserver() {
         viewModel.getGenreList()
         viewModel.genreList.observe(viewLifecycleOwner, {
@@ -197,14 +195,16 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         })
     }
 
+    /**
+     * update genre recycle view
+     * @param genreDtoList is list with genres
+     */
     private fun updateGenreData(genreDtoList: ArrayList<GenreDto>){
         genreDtoList.add(0, GenreDto(ALL_GENRE, ALL_GENRE_ID.toLong(), 5))
         viewModel.setGenreListToSharedPref(genreDtoList)
         genreCollection = genreDtoList
         genreAdapter.submitList(genreCollection.toList())
     }
-
-
 
     /**
      * observer, which async wait of data update
@@ -255,11 +255,9 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         mainFragmentClickListener = null
     }
 
-
-
     /**
      * implementation of item listener action
-     * @param title selected genre
+     * @param id selected genre
      * */
     override fun onGenreClick(id: Long) {
         Utility.showToast(viewModel.getGenreNameById(id), context)
@@ -378,6 +376,4 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         movieItemMargin = resources.getDimension(R.dimen.list_of_guideline_left).toInt()
         movieItemWidth = resources.getDimension(R.dimen.img_movie_poster_width).toInt()
     }
-
-
 }

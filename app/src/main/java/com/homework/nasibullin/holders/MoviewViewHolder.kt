@@ -19,7 +19,6 @@ class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private var tvMovieRating: RatingBar = view.findViewById(R.id.rbMovieStar)
     private var tvAgeCategory: TextView = view.findViewById(R.id.tvListAgeCategory)
 
-
     // Do every time
     fun bind(movie: MovieDto) {
         imgMoviePoster.load(IMAGE_BASE_URL + movie.imageUrl)
@@ -30,6 +29,5 @@ class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             it.append("+")
         }
         tvMovieDescription.text = movie.description
-
     }
 }

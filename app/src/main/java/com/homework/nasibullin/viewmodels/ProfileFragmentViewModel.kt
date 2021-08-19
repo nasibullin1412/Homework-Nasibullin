@@ -46,7 +46,4 @@ class ProfileFragmentViewModel(private val userDataRepo: UserDataRepo): ViewMode
             }
         }
     }
-
-
-
 }

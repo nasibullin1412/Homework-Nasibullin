@@ -2,7 +2,6 @@ package com.homework.nasibullin
 
 import android.app.Application
 import android.content.Context
-import com.homework.nasibullin.database.AppDatabase.Companion.instance
 import com.homework.nasibullin.network.ApiService
 import dagger.hilt.android.HiltAndroidApp
 

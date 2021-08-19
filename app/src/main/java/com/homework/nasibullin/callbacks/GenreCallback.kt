@@ -17,6 +17,5 @@ class GenreCallback : DiffUtil.ItemCallback<GenreDto>() {
     override fun areContentsTheSame(oldItem: GenreDto, newItem: GenreDto): Boolean {
         return oldItem == newItem
     }
-
 }
 

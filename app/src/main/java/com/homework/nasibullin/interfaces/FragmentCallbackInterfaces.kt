@@ -1,12 +1,10 @@
 package com.homework.nasibullin.interfaces
 
-interface MainFragmentCallbacks
-{
+interface MainFragmentCallbacks {
     fun onMovieItemClicked(title: String)
 }
 
-interface LoginFragmentCallbacks
-{
+interface LoginFragmentCallbacks {
     fun onLoginEnd()
     fun onLoginStart()
 }

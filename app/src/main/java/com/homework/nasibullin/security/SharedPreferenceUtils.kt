@@ -7,12 +7,10 @@ import androidx.security.crypto.MasterKeys
 import com.homework.nasibullin.App
 import com.homework.nasibullin.fragments.MainFragment.Companion.ALL_GENRE
 
-
 object SharedPreferenceUtils {
 
     private val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
     private val masterKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
-
     private const val SHARED_PREF_NAME = "Genres"
     private const val MY_PREFS_ENCRYPTED_NAME = "MyPrefsFile"
     private const val PASSWORD_KEY = "user_mame_password"
@@ -50,15 +48,21 @@ object SharedPreferenceUtils {
         return sharedPreferences.getString(PASSWORD_KEY, "Not Available")
     }
 
-
+    /**
+     * set value for shared preference
+     * @param key is the key by which the value will be put
+     * @param value is value which will be put
+     */
     fun setValueToSharedPreference(key: String, value: String){
         val sharedPreferences = App.appContext.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE)
         sharedPreferences.edit().putString(key, value).apply()
     }
 
+    /**
+     * get value from shared pref by key
+     */
     fun getSharedPreference(key: String): String{
         val sharedPreferences = App.appContext.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE)
         return sharedPreferences.getString(key, ALL_GENRE) ?: ALL_GENRE
     }
-
 }

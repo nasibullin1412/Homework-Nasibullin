@@ -25,7 +25,6 @@ import com.homework.nasibullin.utils.Utility
 import com.homework.nasibullin.viewmodels.ProfileFragmentViewModel
 import com.homework.nasibullin.viewmodels.ProfileFragmentViewModelFactory
 
-
 class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
     private var user: UserDto? = null
     private lateinit var viewModelProfileFragment: ProfileFragmentViewModel
@@ -132,12 +131,9 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
 
     /**
      * on genre item click listener.
-     * @param title is genre which was selected
+     * @param id is genre which was selected
      */
     override fun onGenreClick(id: Long) {
             Utility.showToast(id.toString(), context)
     }
-
-
-
 }

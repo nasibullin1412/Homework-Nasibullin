@@ -1,6 +1,5 @@
 package com.homework.nasibullin.repo
 
-
 import com.homework.nasibullin.App
 import com.homework.nasibullin.database.AppDatabase
 import com.homework.nasibullin.dataclasses.UserDto

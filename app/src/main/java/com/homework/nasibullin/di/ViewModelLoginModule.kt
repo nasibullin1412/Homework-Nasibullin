@@ -1,6 +1,5 @@
 package com.homework.nasibullin.di
 
-
 import com.homework.nasibullin.repo.LoginRepo
 import dagger.Module
 import dagger.Provides

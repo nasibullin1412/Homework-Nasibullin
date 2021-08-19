@@ -11,7 +11,6 @@ import com.homework.nasibullin.holders.EmptyListViewHolder
 import com.homework.nasibullin.holders.MovieViewHolder
 import com.homework.nasibullin.interfaces.OnMovieItemClickedCallback
 
-
 /**
 * Class Adapter to movie list.
 */
@@ -20,7 +19,6 @@ private const val TYPE_MOVIE = 1
 class MovieAdapter(
     private var emptyListViewHolder: EmptyListViewHolder
 ) : ListAdapter<MovieDto, RecyclerView.ViewHolder>(MovieCallback()) {
-
 
     private lateinit var listener: OnMovieItemClickedCallback
 

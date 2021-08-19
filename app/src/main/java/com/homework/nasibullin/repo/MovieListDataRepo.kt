@@ -4,14 +4,11 @@ import com.homework.nasibullin.App
 import com.homework.nasibullin.database.AppDatabase
 import com.homework.nasibullin.dataclasses.*
 import com.homework.nasibullin.datasources.Resource
-import com.homework.nasibullin.network.ApiService
-import com.homework.nasibullin.network.EmulateNetwork
 import com.homework.nasibullin.utils.BaseDataSource
 import com.homework.nasibullin.utils.Converters
 import com.homework.nasibullin.utils.NetworkConstants.MOVIE_PAGE_SIZE
 import com.homework.nasibullin.utils.Utility
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -20,10 +17,8 @@ import javax.inject.Singleton
 
 @Singleton
 class MovieListDataRepo @Inject constructor(): BaseDataSource() {
-
     /**
-     * emulation of downloading movie data from the server. A delay of 2 seconds has been simulated
-     * @param number is emulation script number
+     * get remote popular movies
      */
     suspend fun getRemoteData(): Flow<Resource<List<MovieDto>>> {
         return flow {
@@ -32,7 +27,9 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
             emit(resultDto)
         }.flowOn(Dispatchers.IO)
     }
-
+    /**
+     * get genre list from backend
+     */
     suspend fun getRemoteGenres(): Flow<Resource<List<GenreDto>>> {
         return flow {
             val result = safeApiCall { App.instance.apiService.getGenres() }
@@ -40,7 +37,6 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
             emit(resultDto)
         }.flowOn(Dispatchers.IO)
     }
-
 
     /**
      * downloading movie data from the local database
@@ -52,7 +48,6 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
             emit(result)
         }.flowOn(Dispatchers.IO)
     }
-
 
     /**
      * update data base with actual movies
@@ -87,8 +82,5 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
             Utility.showToast("update", context = App.appContext)
             updateDatabase { db.movieDao().updateMovieWithActors(dbMovieList.take(MOVIE_PAGE_SIZE))}
         }
-
-
     }
-
 }

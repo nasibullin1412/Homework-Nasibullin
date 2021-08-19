@@ -14,7 +14,6 @@ class ActorViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val imgAvatar: ImageView = view.findViewById(R.id.ivActorImage)
     private val textName: TextView = view.findViewById(R.id.tvActorName)
 
-
     // Do every time
     fun bind(actor: ActorDto) {
         imgAvatar.load(IMAGE_BASE_URL+actor.avatarUrl)

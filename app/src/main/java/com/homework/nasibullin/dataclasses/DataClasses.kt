@@ -107,7 +107,6 @@ data class UserDto(
 
 }
 
-
 /**
  * UserDto and GenreDto tables entities relationships
  */
@@ -146,9 +145,6 @@ data class MovieDto(
     val genre: Long,
     var actors: List<ActorDto>
 )
-
-
-
 
 data class ActorDto(
         val id: Long,

@@ -12,7 +12,5 @@ class ProfileFragmentViewModelFactory(private val userDataRepo: UserDataRepo): V
             return ProfileFragmentViewModel(userDataRepo) as T
         }
         throw IllegalArgumentException("Unknown class name")
-
     }
-
 }

@@ -1,6 +1,5 @@
 package com.homework.nasibullin
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +8,6 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.homework.nasibullin.interfaces.LoginFragmentCallbacks
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), LoginFragmentCallbacks {
@@ -29,15 +27,23 @@ class MainActivity : AppCompatActivity(), LoginFragmentCallbacks {
         setUpNavigation()
     }
 
+    /**
+     * After success authorization show bottom navigation
+     */
     override fun onLoginEnd() {
         bottomNavigationView.visibility = View.VISIBLE
     }
 
+    /**
+     * Hide bottom navigation when user authorizes
+     */
     override fun onLoginStart() {
         bottomNavigationView.visibility = View.GONE
     }
 
-
+    /**
+     * Setup navigation bottom with support fragment manager
+     */
     private fun setUpNavigation() {
         bottomNavigationView = findViewById(R.id.bottom_navigation_bar)
         val navHostFragment = supportFragmentManager
@@ -45,6 +51,7 @@ class MainActivity : AppCompatActivity(), LoginFragmentCallbacks {
         NavigationUI.setupWithNavController(bottomNavigationView,
                 navHostFragment!!.navController)
     }
+
     /**
      * keep user genre selection when flipping screen
      * */
@@ -53,9 +60,6 @@ class MainActivity : AppCompatActivity(), LoginFragmentCallbacks {
         outState.putString(CURRENT_FRAGMENT_KEY, currentFragment)
         outState.putString(CURRENT_MOVIE_KEY, currentMovieTitle)
     }
-
-
-
 }
 
 

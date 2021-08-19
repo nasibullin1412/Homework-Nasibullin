@@ -1,7 +1,6 @@
 package com.homework.nasibullin.dataclasses
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import retrofit2.SkipCallbackExecutor
 
 @Serializable
 data class AuthenticateResponse(
@@ -16,8 +15,6 @@ data class UserLogin(
     val password: String,
     val request_token: String
 )
-
-
 
 @Serializable
 data class MovieResponse(
@@ -36,7 +33,6 @@ data class MovieDataResponse(
     val vote_average: Double,
     val poster_path: String
 )
-
 
 @Serializable
 data class GenreResponse(

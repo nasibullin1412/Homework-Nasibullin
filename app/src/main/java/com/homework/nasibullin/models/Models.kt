@@ -29,7 +29,6 @@ class GenreModel (
     fun getGenres() = moviesDataSource.getGenre()
 }
 
-
 /**
  * model of genre data
  * */

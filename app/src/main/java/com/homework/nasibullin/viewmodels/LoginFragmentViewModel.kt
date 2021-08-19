@@ -6,14 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.homework.nasibullin.dataclasses.AuthenticateResponse
 import kotlinx.coroutines.flow.collect
-import com.homework.nasibullin.dataclasses.MovieDto
-import com.homework.nasibullin.dataclasses.UserDto
 import com.homework.nasibullin.dataclasses.UserLogin
 import com.homework.nasibullin.datasources.Resource
-import com.homework.nasibullin.models.UserModel
 import com.homework.nasibullin.repo.LoginRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -50,7 +46,4 @@ class LoginFragmentViewModel @Inject constructor(
                 }
         }
     }
-
-
-
 }

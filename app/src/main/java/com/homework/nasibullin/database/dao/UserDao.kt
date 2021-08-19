@@ -1,6 +1,11 @@
 package com.homework.nasibullin.database.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Update
+import androidx.room.Query
+import androidx.room.Transaction
 import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.dataclasses.UserDto
 import com.homework.nasibullin.dataclasses.UserWithGenres

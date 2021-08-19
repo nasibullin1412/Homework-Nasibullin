@@ -9,5 +9,5 @@ object NetworkConstants {
     const val APPLICATION_JSON_TYPE = "application/json"
     const val LANGUAGE = "ru-Rus"
     const val GENRE_LANGUAGE ="ru-Ru"
-    const val REGION = "ru"
+    const val REGION = "RU"
 }

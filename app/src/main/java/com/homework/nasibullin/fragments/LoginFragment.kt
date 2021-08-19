@@ -36,12 +36,10 @@ class LoginFragment : Fragment() {
         return inflater.inflate(R.layout.login_fragment, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
-        initView()
-
+        handleClick()
     }
 
     override fun onResume() {
@@ -61,19 +59,18 @@ class LoginFragment : Fragment() {
         loginFragmentCallbacks = null
     }
 
-
-    private fun initView(){
-        handleClick()
-    }
-
+    /**
+     * set action after button click
+     */
     private fun handleClick(){
         view?.findViewById<Button>(R.id.btnLogin)?.setOnClickListener {
             setupObservers()
         }
     }
 
-
-
+    /**
+     * setup observer of request token
+     */
     private fun setupObservers(){
         viewModel.doGetRequestToken()
         viewModel.requestToken.observe(
@@ -107,14 +104,11 @@ class LoginFragment : Fragment() {
                 }
             }
         )
-
-
-
-
     }
 
-
-
+    /**
+     * setup observer of session id
+     */
     private fun getSessionId(authenticateResponse: AuthenticateResponse){
         //get email and password
         val username = view?.findViewById<EditText>(R.id.etUsername)?.text ?: ""
@@ -157,6 +151,9 @@ class LoginFragment : Fragment() {
         })
     }
 
+    /**
+     * go to fragment with movies after success authorization
+     */
     private fun successSessionId(authenticateResponse: AuthenticateResponse)
     {
         loginFragmentCallbacks?.onLoginEnd()

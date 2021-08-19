@@ -15,7 +15,6 @@ import com.homework.nasibullin.holders.ActorViewHolder
 class ActorAdapter(
 ) : ListAdapter<ActorDto, RecyclerView.ViewHolder>(ActorCallback()) {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater: LayoutInflater = LayoutInflater.from(parent.context)
         return ActorViewHolder(inflater.inflate(R.layout.item_actor, parent, false))
@@ -24,6 +23,4 @@ class ActorAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as ActorViewHolder).bind(getItem(position))
     }
-
-
 }

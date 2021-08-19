@@ -5,7 +5,6 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 
-
 object Utility {
     private const val ERROR_MESSAGE =  "Error"
 

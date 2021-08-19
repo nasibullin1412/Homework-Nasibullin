@@ -2,13 +2,15 @@ package com.homework.nasibullin.repo
 
 import com.homework.nasibullin.App
 import com.homework.nasibullin.database.AppDatabase
-import com.homework.nasibullin.dataclasses.*
+import com.homework.nasibullin.dataclasses.Actor
+import com.homework.nasibullin.dataclasses.MovieWithActor
+import com.homework.nasibullin.dataclasses.ActorDto
+import com.homework.nasibullin.dataclasses.Movie
+import com.homework.nasibullin.dataclasses.MovieDto
 import com.homework.nasibullin.datasources.Resource
-import com.homework.nasibullin.network.EmulateNetwork
 import com.homework.nasibullin.utils.BaseDataSource
 import com.homework.nasibullin.utils.Converters
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -17,10 +19,9 @@ import javax.inject.Singleton
 
 @Singleton
 class MovieDetailRepo @Inject constructor(): BaseDataSource() {
-
     /**
-     * emulation of downloading movie details from the server. A delay of 2 seconds has been simulated
-     * @param title is title of movie which needs to be downloaded
+     * Loading movie cast from the backend
+     * @param backId id of movie which cast needs to be downloaded
      */
     suspend fun getRemoteCast(backId: Long): Flow<Resource<List<ActorDto>>> {
         return flow {
@@ -43,10 +44,10 @@ class MovieDetailRepo @Inject constructor(): BaseDataSource() {
 
     /**
      * add movie with actors to database
+     * @param movieDto movie details, which set to database
      */
     suspend fun addMovieWithActors(movieDto: MovieDto){
         val db = AppDatabase.instance
-
         val movie = Movie(
             id = getSafeMovieDbIndex { db.movieDao().getIndex(movieDto.title) },
             title = movieDto.title,
@@ -69,7 +70,4 @@ class MovieDetailRepo @Inject constructor(): BaseDataSource() {
         val movieWithActor = MovieWithActor(movie, actors)
         updateDatabase { db.movieDao().insertMovieWithActors(listOf(movieWithActor)) }
     }
-
-
-
 }
