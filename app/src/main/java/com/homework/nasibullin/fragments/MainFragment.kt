@@ -83,8 +83,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         screenWidth = Utility.getScreenWidth(requireActivity())
     }
 
-
-
     /**
      * Init data models and collections
      * */
@@ -170,14 +168,12 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     private fun setupGenreObserver() {
         viewModel.getGenreList()
         viewModel.genreList.observe(viewLifecycleOwner, {
-
             when(it.status){
                 Resource.Status.SUCCESS -> {
                     if (it.data != null) {
                         updateGenreData(ArrayList(it.data))
                     }
                 }
-
                 Resource.Status.ERROR -> {
                     Utility.showToast(it.message, context)
                 }
@@ -190,8 +186,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
                     Utility.showToast(it.message, context)
                 }
             }
-
-
         })
     }
 
@@ -234,8 +228,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
                     swipeRefreshLayout.isRefreshing =false
                 }
             }
-
-
         })
     }
 
@@ -244,7 +236,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
      * */
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
         if (context is MainFragmentCallbacks){
             mainFragmentClickListener = context
         }
@@ -286,7 +277,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         movieAdapter.submitList(movieCollection.toList())
     }
 
-
     /**
      *  filter of movie list by genre of movie
      *  @param genre is genre by which to filter films
@@ -309,7 +299,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         val itemDecorator = GenreItemDecoration(leftRight = GENRE_LEFT_RIGHT_OFFSET)
         movieGenreRecycler.addItemDecoration(itemDecorator)
         movieGenreRecycler.adapter = genreAdapter
-
         movieGenreRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
     }
 
@@ -333,7 +322,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
                 RecyclerView.VERTICAL,
                 false
         )
-
     }
 
     /**

@@ -39,6 +39,8 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
+        setupObservers()
+        setupObserverSessionId()
         handleClick()
     }
 
@@ -64,7 +66,7 @@ class LoginFragment : Fragment() {
      */
     private fun handleClick(){
         view?.findViewById<Button>(R.id.btnLogin)?.setOnClickListener {
-            setupObservers()
+            viewModel.doGetRequestToken()
         }
     }
 
@@ -72,7 +74,6 @@ class LoginFragment : Fragment() {
      * setup observer of request token
      */
     private fun setupObservers(){
-        viewModel.doGetRequestToken()
         viewModel.requestToken.observe(
             viewLifecycleOwner,
             {
@@ -106,9 +107,6 @@ class LoginFragment : Fragment() {
         )
     }
 
-    /**
-     * setup observer of session id
-     */
     private fun getSessionId(authenticateResponse: AuthenticateResponse){
         //get email and password
         val username = view?.findViewById<EditText>(R.id.etUsername)?.text ?: ""
@@ -121,6 +119,13 @@ class LoginFragment : Fragment() {
         val userLogin = UserLogin(username = username.toString(), password = password.toString(), authenticateResponse.request_token)
 
         viewModel.doGetSessionId(userLogin)
+    }
+
+    /**
+     * setup observer of session id
+     */
+    private fun setupObserverSessionId(){
+
         viewModel.sessionToken.observe(viewLifecycleOwner, {
             when(it.status){
                 Resource.Status.SUCCESS -> {

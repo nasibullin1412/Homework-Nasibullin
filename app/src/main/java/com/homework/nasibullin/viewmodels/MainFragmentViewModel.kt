@@ -10,6 +10,7 @@ import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.fragments.MainFragment
 import com.homework.nasibullin.repo.MovieListDataRepo
 import com.homework.nasibullin.security.SharedPreferenceUtils
+import com.homework.nasibullin.utils.NetworkConstants.MOVIE_PAGE_SIZE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.catch
@@ -75,7 +76,7 @@ class MainFragmentViewModel @Inject constructor (
                 _movieList.value=Resource.error(e.toString())
             }
             .collect {
-                currentMovieList = it.data
+                currentMovieList = it.data?.take(MOVIE_PAGE_SIZE)
                 _movieList.value= filterMoviesByGenre(it)
             }
     }
