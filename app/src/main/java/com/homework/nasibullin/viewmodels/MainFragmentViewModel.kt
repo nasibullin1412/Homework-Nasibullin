@@ -8,7 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.fragments.MainFragment
+import com.homework.nasibullin.fragments.MainFragment.Companion.ALL_GENRE
 import com.homework.nasibullin.repo.MovieListDataRepo
+import com.homework.nasibullin.security.SharedPreferenceUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.catch
@@ -24,7 +26,7 @@ class MainFragmentViewModel @Inject constructor (
     val movieList: LiveData<Resource<List<MovieDto>>> get() = _movieList
     private val _movieList = MutableLiveData<Resource<List<MovieDto>>>()
     var currentMovieList: Collection<MovieDto>? = null
-    var currentGenre: String = MainFragment.ALL_GENRE
+    var currentGenre: Long = 0
     val genreList: LiveData<Resource<List<GenreDto>>> get() = _genreList
     private val _genreList = MutableLiveData<Resource<List<GenreDto>>>()
 
@@ -41,7 +43,17 @@ class MainFragmentViewModel @Inject constructor (
         }
     }
 
+    fun setGenreListToSharedPref(genreList: List<GenreDto>){
+        for (genre in genreList){
+            SharedPreferenceUtils.setValueToSharedPreference(genre.genreId.toString(), genre.title)
+        }
+    }
 
+
+
+    fun getGenreNameById(id: Long): String{
+        return SharedPreferenceUtils.getSharedPreference(id.toString())
+    }
 
     /**
      * fetching local movie list data
@@ -62,7 +74,7 @@ class MainFragmentViewModel @Inject constructor (
      */
     private suspend fun updateMovieList(){
         numberOfVariant++
-        repository.getRemoteData(numberOfVariant)
+        repository.getRemoteData()
             .catch { e ->
                 _movieList.value=Resource.error(e.toString())
             }
@@ -107,7 +119,7 @@ class MainFragmentViewModel @Inject constructor (
      * filter movies by genre
      */
     fun filterMoviesByGenre(): List<MovieDto>? {
-        return if (currentGenre != MainFragment.ALL_GENRE) {
+        return if (currentGenre != MainFragment.ALL_GENRE_ID.toLong()) {
             currentMovieList?.filter { it.genre == currentGenre }
         } else {
             currentMovieList?.toList()

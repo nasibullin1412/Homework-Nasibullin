@@ -134,8 +134,8 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
      * on genre item click listener.
      * @param title is genre which was selected
      */
-    override fun onGenreClick(title: String) {
-            Utility.showToast(title, context)
+    override fun onGenreClick(id: Long) {
+            Utility.showToast(id.toString(), context)
     }
 
 

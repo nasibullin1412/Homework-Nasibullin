@@ -17,7 +17,7 @@ class MoviesDataSourceImpl : MoviesDataSource {
                     ageRestriction = 18,
                     imageUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/5JP9X5tCZ6qz7DYMabLmrQirlWh.jpg",
                     posterUrl = "https://www.themoviedb.org/t/p/original/xkvPZY81ZliNh33tGsrUPTUFXXA.jpg",
-                    genre = "боевики",
+                    genre = 1,
                     actors = listOf(
                             ActorDto(
                                     id = 0,

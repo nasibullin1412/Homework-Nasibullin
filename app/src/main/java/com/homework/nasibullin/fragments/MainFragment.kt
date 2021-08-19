@@ -59,6 +59,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
             const val PORTRAIT_ORIENTATION_SPAN_NUMBER = 2
             const val LANDSCAPE_ORIENTATION_SPAN_NUMBER = 3
             const val MIN_OFFSET = 20
+            const val ALL_GENRE_ID = 0
             const val ALL_GENRE = "все"
         }
 
@@ -197,7 +198,8 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     }
 
     private fun updateGenreData(genreDtoList: ArrayList<GenreDto>){
-        genreDtoList.add(0, GenreDto(ALL_GENRE, 0, 5))
+        genreDtoList.add(0, GenreDto(ALL_GENRE, ALL_GENRE_ID.toLong(), 5))
+        viewModel.setGenreListToSharedPref(genreDtoList)
         genreCollection = genreDtoList
         genreAdapter.submitList(genreCollection.toList())
     }
@@ -259,9 +261,9 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
      * implementation of item listener action
      * @param title selected genre
      * */
-    override fun onGenreClick(title: String) {
-        Utility.showToast(title, context)
-        getMoviesByGenre(title)
+    override fun onGenreClick(id: Long) {
+        Utility.showToast(viewModel.getGenreNameById(id), context)
+        getMoviesByGenre(id)
     }
 
     /**
@@ -291,7 +293,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
      *  filter of movie list by genre of movie
      *  @param genre is genre by which to filter films
      * */
-    private fun getMoviesByGenre(genre:String){
+    private fun getMoviesByGenre(genre: Long){
 
         viewModel.currentGenre = genre
         movieCollection = viewModel.filterMoviesByGenre()?: emptyList()
@@ -305,7 +307,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         movieGenreRecycler = view?.findViewById(R.id.rvMovieGenreList) ?: throw IllegalArgumentException("Recycler required")
         genreAdapter = GenreAdapter()
         genreAdapter.initOnClickInterface(this)
-        genreAdapter.submitList(listOf(GenreDto(title = ALL_GENRE, 0, 5)))
+        genreAdapter.submitList(listOf(GenreDto(title = ALL_GENRE, ALL_GENRE_ID.toLong(), 5)))
         val itemDecorator = GenreItemDecoration(leftRight = GENRE_LEFT_RIGHT_OFFSET)
         movieGenreRecycler.addItemDecoration(itemDecorator)
         movieGenreRecycler.adapter = genreAdapter

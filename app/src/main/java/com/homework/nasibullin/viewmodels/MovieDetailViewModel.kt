@@ -8,6 +8,7 @@ import com.homework.nasibullin.dataclasses.ActorDto
 import com.homework.nasibullin.dataclasses.MovieDto
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.repo.MovieDetailRepo
+import com.homework.nasibullin.security.SharedPreferenceUtils
 import com.homework.nasibullin.utils.Converters
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -24,6 +25,11 @@ class MovieDetailViewModel @Inject constructor (
     private var actorList: List<ActorDto>? = null
     val movieDetail: LiveData<Resource<MovieDto>> get() = _movieDetail
     private val _movieDetail = MutableLiveData<Resource<MovieDto>>()
+
+    fun getGenreNameById(id: Long): String{
+        return SharedPreferenceUtils.getSharedPreference(id.toString())
+    }
+
     /**
      * asynchronous request to take data about movie details
      */

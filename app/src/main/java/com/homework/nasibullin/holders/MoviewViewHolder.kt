@@ -22,9 +22,7 @@ class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     // Do every time
     fun bind(movie: MovieDto) {
-        imgMoviePoster.load(IMAGE_BASE_URL + movie.imageUrl){
-            placeholder(R.drawable.poster)
-        }
+        imgMoviePoster.load(IMAGE_BASE_URL + movie.imageUrl)
         tvMovieName.text = movie.title
         tvMovieRating.rating = movie.rateScore.toFloat()
         tvAgeCategory.text = StringBuilder().also {

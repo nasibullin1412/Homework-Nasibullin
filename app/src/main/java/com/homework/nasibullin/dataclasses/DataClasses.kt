@@ -49,8 +49,8 @@ data class Movie(
         val imageUrl: String,
         @ColumnInfo(name = "poster url", typeAffinity = TEXT)
         val posterUrl: String,
-        @ColumnInfo(name = "genre", typeAffinity = TEXT)
-        val genre: String,
+        @ColumnInfo(name = "genre", typeAffinity = INTEGER)
+        val genre: Long,
         @ColumnInfo(name = "backId", typeAffinity = INTEGER)
         val backId: Long
 )
@@ -143,7 +143,7 @@ data class MovieDto(
     val ageRestriction: Int,
     val imageUrl: String,
     val posterUrl: String,
-    val genre: String,
+    val genre: Long,
     var actors: List<ActorDto>
 )
 

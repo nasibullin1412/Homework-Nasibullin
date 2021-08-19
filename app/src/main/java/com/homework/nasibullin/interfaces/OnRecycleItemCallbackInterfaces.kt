@@ -1,7 +1,7 @@
 package com.homework.nasibullin.interfaces
 
 interface OnGenreItemClickedCallback {
-    fun onGenreClick(title: String)
+    fun onGenreClick(id: Long)
 }
 
 interface OnMovieItemClickedCallback {

@@ -30,7 +30,7 @@ class GenreAdapter(
 
     override fun onBindViewHolder(holder: GenreViewHolder, position: Int) {
         holder.itemView.setOnClickListener(View.OnClickListener {
-            listener.onGenreClick(getItem(position).title) // Trigger the call back
+            listener.onGenreClick(getItem(position).genreId) // Trigger the call back
         })
         holder.bind(getItem(position))
     }

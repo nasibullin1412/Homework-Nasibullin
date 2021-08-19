@@ -111,7 +111,7 @@ class MovieDetailsFragment: Fragment() {
             visibility = View.VISIBLE
         }
         view?.findViewById<TextView>(R.id.tvGenre)?.apply {
-            text = movie.genre
+            text = viewModel.getGenreNameById(movie.genre)
         }
         view?.findViewById<RatingBar>(R.id.rbMovieDetailStar)?.apply{
             rating = movie.rateScore.toFloat()
