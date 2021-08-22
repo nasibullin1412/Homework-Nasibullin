@@ -8,26 +8,23 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.homework.nasibullin.R
 import com.homework.nasibullin.adapters.GenreAdapter
 import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.dataclasses.UserDto
-import com.homework.nasibullin.datasourceimpl.UserDataSourceImpl
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.decorations.GenreItemDecoration
 import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
-import com.homework.nasibullin.models.UserModel
-import com.homework.nasibullin.repo.UserDataRepo
 import com.homework.nasibullin.utils.Utility
 import com.homework.nasibullin.viewmodels.ProfileFragmentViewModel
-import com.homework.nasibullin.viewmodels.ProfileFragmentViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
-    private var user: UserDto? = null
-    private lateinit var viewModelProfileFragment: ProfileFragmentViewModel
+    private val viewModel: ProfileFragmentViewModel by viewModels()
     private lateinit var movieGenreRecycler: RecyclerView
     private lateinit var movieGenreAdapter: GenreAdapter
 
@@ -41,51 +38,35 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModelProfileFragment = ViewModelProviders.of(
-            this,
-            ProfileFragmentViewModelFactory(UserDataRepo())
-        ).get(
-            ProfileFragmentViewModel::class.java
-        )
-        initData()
         setupObserver()
-    }
-
-    private fun initData(){
-        user = UserModel(UserDataSourceImpl()).getUser()
+        viewModel.loadUser()
     }
 
     private fun setupObserver(){
-        viewModelProfileFragment.loadUser()
-        viewModelProfileFragment.userDetail.observe(viewLifecycleOwner, {
-
+        viewModel.userDetail.observe(viewLifecycleOwner, {
             when(it.status){
-
                 Resource.Status.SUCCESS -> {
-                    setupView()
+                    if (it.data != null){
+                        setupView(it.data)
+                    }
                 }
-
                 Resource.Status.ERROR -> {
-                    Utility.showToast("Error load user", context)
+                    Utility.showToast(it.message, context)
                 }
-
                 Resource.Status.LOADING -> {
-                    Utility.showToast("Loading user data", context)
+                    Utility.showToast(it.message, context)
                 }
-
                 Resource.Status.FAILURE -> {
-                    Utility.showToast("Failure load user", context)
+                    Utility.showToast(it.message, context)
                 }
             }
-
-
         })
     }
 
     /**
      * Filling in the fields of profile details
      */
-    private fun setupView(){
+    private fun setupView(user: UserDto){
         view?.findViewById<ProgressBar>(R.id.pbUserProfile)?.apply {
             visibility = View.GONE
         }
@@ -93,25 +74,24 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
             visibility = View.VISIBLE
         }
         view?.findViewById<TextView>(R.id.tvUserName)?.apply {
-            text = user?.name
+            text = user.name
         }
         view?.findViewById<TextView>(R.id.tvUserMail)?.apply {
-            text = user?.mail
+            text = user.mail
         }
         view?.findViewById<TextView>(R.id.etUserName)?.apply {
-            text = user?.name
+            text = user.name
         }
         view?.findViewById<TextView>(R.id.etUserMail)?.apply {
-            text = user?.mail
+            text = user.mail
         }
         view?.findViewById<TextView>(R.id.etUserNumber)?.apply {
-            text = user?.number
+            text = user.number
         }
         view?.findViewById<TextView>(R.id.etUserPassword)?.apply {
-            text = user?.password
+            text = user.password
         }
-        setupGenreRecycleView(user?.genres)
-
+        setupGenreRecycleView(user.genres)
     }
 
     /**

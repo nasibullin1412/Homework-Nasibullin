@@ -1,11 +1,13 @@
 package com.homework.nasibullin.utils
 
 import com.homework.nasibullin.dataclasses.GenreDto
-import com.homework.nasibullin.dataclasses.GenreResponse
-import com.homework.nasibullin.dataclasses.MovieDto
+import com.homework.nasibullin.dataclasses.UserDto
 import com.homework.nasibullin.dataclasses.MovieResponse
-import com.homework.nasibullin.dataclasses.CastResponse
+import com.homework.nasibullin.dataclasses.MovieDto
+import com.homework.nasibullin.dataclasses.GenreResponse
+import com.homework.nasibullin.dataclasses.AccountDetailResponse
 import com.homework.nasibullin.dataclasses.ActorDto
+import com.homework.nasibullin.dataclasses.CastResponse
 import com.homework.nasibullin.datasources.Resource
 
 object Converters {
@@ -57,6 +59,18 @@ object Converters {
                 }
             )
         }?: Resource.failed(actorData.message ?: "Error convert")
+
+    fun fromAccountDetailToUserDto(userData: Resource<AccountDetailResponse>): Resource<UserDto> =
+        userData.data?.let {
+            Resource.success(
+                UserDto(
+                    id = it.id,
+                    name = it.name,
+                    number = "",
+                    mail = it.username
+                )
+            )
+        }?: Resource.failed(userData.message ?: "Error convert")
 
     fun fromMovieDtoAndActorListToMovieDto(movieDto: MovieDto?, cast: List<ActorDto>?): Resource<MovieDto> {
         movieDto?.actors = cast ?: return Resource.failed("Cast required")

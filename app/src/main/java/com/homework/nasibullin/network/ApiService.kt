@@ -2,9 +2,12 @@ package com.homework.nasibullin.network
 
 import com.homework.nasibullin.dataclasses.AuthenticateResponse
 import com.homework.nasibullin.dataclasses.UserLogin
+import com.homework.nasibullin.dataclasses.UserRequest
 import com.homework.nasibullin.dataclasses.MovieResponse
 import com.homework.nasibullin.dataclasses.GenreResponse
 import com.homework.nasibullin.dataclasses.CastResponse
+import com.homework.nasibullin.dataclasses.SessionIdResponse
+import com.homework.nasibullin.dataclasses.AccountDetailResponse
 import com.homework.nasibullin.utils.NetworkConstants.BASE_URL
 import com.homework.nasibullin.utils.NetworkConstants.GENRE_LANGUAGE
 import com.homework.nasibullin.utils.NetworkConstants.LANGUAGE
@@ -13,7 +16,11 @@ import com.homework.nasibullin.utils.addJsonConverter
 import com.homework.nasibullin.utils.setClient
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Body
+import retrofit2.http.Query
+import retrofit2.http.Path
 
 interface ApiService {
     /**
@@ -29,7 +36,7 @@ interface ApiService {
      * @Body userLogin with user login, pass and request token
      */
     @POST("authentication/token/validate_with_login")
-    suspend fun postSessionIdKey(@Body userLogin: UserLogin): Response<AuthenticateResponse>
+    suspend fun postUserRequestKey(@Body userLogin: UserLogin): Response<AuthenticateResponse>
 
     /**
      * Get a list of the current popular movies on TMDB.
@@ -64,6 +71,12 @@ interface ApiService {
         @Path("movieId") movieId: Long,
         @Query("language") language: String = LANGUAGE)
     : Response<CastResponse>
+
+    @POST("authentication/session/new")
+    suspend fun postUserSessionId(@Body userRequest: UserRequest): Response<SessionIdResponse>
+
+    @GET("account")
+    suspend fun getUserDetails(@Query("session_id") sessionId: String): Response<AccountDetailResponse>
 
     companion object {
         fun create(): ApiService {

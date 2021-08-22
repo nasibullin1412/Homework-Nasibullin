@@ -40,7 +40,6 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
         setupObservers()
-        setupObserverSessionId()
         handleClick()
     }
 
@@ -71,7 +70,7 @@ class LoginFragment : Fragment() {
     }
 
     /**
-     * setup observer of request token
+     * setup all observers
      */
     private fun setupObservers(){
         viewModel.requestToken.observe(
@@ -80,24 +79,21 @@ class LoginFragment : Fragment() {
                 when(it.status){
                     Resource.Status.SUCCESS -> {
                         if (it.data != null) {
-                            getSessionId(it.data)
+                            getUserRequestToken(it.data)
                         }
                         else{
                             Utility.showToast("Success request but null response body",
                                 context)
                         }
                     }
-
                     Resource.Status.ERROR -> {
                         Utility.showToast(it.message, context)
 
                     }
-
                     Resource.Status.LOADING -> {
                         Utility.showToast(it.message, context)
 
                     }
-
                     Resource.Status.FAILURE -> {
                         Utility.showToast(it.message, context)
 
@@ -105,66 +101,96 @@ class LoginFragment : Fragment() {
                 }
             }
         )
-    }
-
-    private fun getSessionId(authenticateResponse: AuthenticateResponse){
-        //get email and password
-        val username = view?.findViewById<EditText>(R.id.etUsername)?.text ?: ""
-        val password = view?.findViewById<EditText>(R.id.etPassword)?.text ?: ""
-
-        if (username.isEmpty()  || password.isEmpty()){
-            Utility.showToast("Empty email or password!", App.appContext)
-            return
-        }
-        val userLogin = UserLogin(username = username.toString(), password = password.toString(), authenticateResponse.request_token)
-
-        viewModel.doGetSessionId(userLogin)
-    }
-
-    /**
-     * setup observer of session id
-     */
-    private fun setupObserverSessionId(){
-
-        viewModel.sessionToken.observe(viewLifecycleOwner, {
+        viewModel.userRequestToken.observe(
+            viewLifecycleOwner, {
             when(it.status){
                 Resource.Status.SUCCESS -> {
                     if (it.data != null) {
-                        successSessionId(it.data)
+                        successUserRequest(it.data.request_token)
                     }
                     else{
                         Utility.showToast("Success request but null response body",
                             context)
                     }
                 }
-
                 Resource.Status.ERROR -> {
                     Utility.showToast(it.message, context)
 
                 }
-
                 Resource.Status.LOADING -> {
                     Utility.showToast(it.message, context)
 
                 }
-
                 Resource.Status.FAILURE -> {
                     Utility.showToast(it.message, context)
 
                 }
             }
-        })
+        }
+        )
+        viewModel.sessionToken.observe(
+            viewLifecycleOwner,
+            {
+                when(it.status){
+                    Resource.Status.SUCCESS -> {
+                        if (it.data != null) {
+                            successSessionId(it.data.session_id)
+                        }
+                        else{
+                            Utility.showToast("Success request but null response body",
+                                context)
+                        }
+                    }
+                    Resource.Status.ERROR -> {
+                        Utility.showToast(it.message, context)
+
+                    }
+                    Resource.Status.LOADING -> {
+                        Utility.showToast(it.message, context)
+
+                    }
+                    Resource.Status.FAILURE -> {
+                        Utility.showToast(it.message, context)
+
+                    }
+                }
+            }
+        )
+
+    }
+
+    /**
+     * get user and login to get user request
+     * @param authenticateResponse is response with request token of user with api key
+     */
+    private fun getUserRequestToken(authenticateResponse: AuthenticateResponse){
+        val username = view?.findViewById<EditText>(R.id.etUsername)?.text ?: ""
+        val password = view?.findViewById<EditText>(R.id.etPassword)?.text ?: ""
+        if (username.isEmpty()  || password.isEmpty()){
+            Utility.showToast("Empty email or password!", App.appContext)
+            return
+        }
+        val userLogin = UserLogin(username = username.toString(), password = password.toString(), authenticateResponse.request_token)
+        viewModel.doLoginUser(userLogin)
+    }
+
+    /**
+     * get session id
+     * @param requestToken is request token of user, who entered his pass and username
+     */
+    private fun successUserRequest(requestToken: String){
+        viewModel.doCreateSessionId(requestToken)
     }
 
     /**
      * go to fragment with movies after success authorization
      */
-    private fun successSessionId(authenticateResponse: AuthenticateResponse)
-    {
+    private fun successSessionId(sessionId: String) {
+        viewModel.setSessionIdToEncryptedSharedPref(sessionId)
         loginFragmentCallbacks?.onLoginEnd()
         navController.navigate(
             R.id.action_loginFragment_to_mainFragment
         )
-        Utility.showToast(authenticateResponse.request_token, context)
+        Utility.showToast(sessionId, context)
     }
 }

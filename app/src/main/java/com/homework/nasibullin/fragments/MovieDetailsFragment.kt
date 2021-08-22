@@ -127,8 +127,6 @@ class MovieDetailsFragment: Fragment() {
             text = movie.description
         }
         prepareRecycleView(movie)
-
-
     }
 
     /**

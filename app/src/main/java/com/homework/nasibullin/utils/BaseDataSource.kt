@@ -37,14 +37,6 @@ abstract class BaseDataSource {
         }
     }
 
-    suspend fun getSafeUserData(databaseCall: suspend () -> UserDto): Resource<UserDto> {
-        return try {
-            Resource.success(databaseCall())
-        } catch (e: Exception) {
-            Resource.failed("Something went wrong, $e")
-        }
-    }
-
     suspend fun getSafeLocalUserData(dbCall: suspend () -> UserWithGenres?): Resource<UserDto> {
         return try {
             val result = dbCall()

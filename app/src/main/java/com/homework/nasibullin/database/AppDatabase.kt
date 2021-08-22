@@ -1,6 +1,8 @@
 package com.homework.nasibullin.database
 
-import androidx.room.*
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.Room
 import com.homework.nasibullin.App
 import com.homework.nasibullin.database.dao.MovieDao
 import com.homework.nasibullin.database.dao.UserDao

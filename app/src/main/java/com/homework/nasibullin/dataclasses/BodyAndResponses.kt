@@ -58,3 +58,36 @@ data class CastDataResponse(
     val id: Long,
     val name: String
 )
+
+@Serializable
+data class UserRequest(
+    @SerialName("request_token")
+    val requestToken: String
+)
+
+@Serializable
+data class SessionIdResponse(
+    val success: Boolean,
+    @SerialName("session_id")
+    val session_id: String
+)
+
+@Serializable
+data class AvatarPathDataResponse(
+    @SerialName("avatar_path")
+    val avatarPath: String?
+)
+
+@Serializable
+data class AvatarDataResponse(
+    @SerialName("tmdb")
+    val avatarPathDataResponse: AvatarPathDataResponse
+)
+
+@Serializable
+data class AccountDetailResponse(
+    val avatar: AvatarDataResponse,
+    val id: Long,
+    val name: String,
+    val username: String
+)

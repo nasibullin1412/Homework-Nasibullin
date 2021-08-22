@@ -12,5 +12,4 @@ class ActorCallback : DiffUtil.ItemCallback<ActorDto>() {
     override fun areContentsTheSame(oldItem: ActorDto, newItem: ActorDto): Boolean {
         return oldItem == newItem
     }
-
 }

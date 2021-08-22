@@ -2,28 +2,32 @@ package com.homework.nasibullin.repo
 
 import com.homework.nasibullin.App
 import com.homework.nasibullin.database.AppDatabase
+import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.dataclasses.UserDto
 import com.homework.nasibullin.dataclasses.UserWithGenres
 import com.homework.nasibullin.datasources.Resource
-import com.homework.nasibullin.network.EmulateNetwork
+import com.homework.nasibullin.fragments.MainFragment.Companion.ALL_GENRE
 import com.homework.nasibullin.security.SharedPreferenceUtils
 import com.homework.nasibullin.utils.BaseDataSource
+import com.homework.nasibullin.utils.Converters
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import java.lang.IllegalArgumentException
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UserDataRepo: BaseDataSource() {
+@Singleton
+class UserDataRepo @Inject constructor(): BaseDataSource() {
     /**
      * emulate get remote user
      */
-        suspend fun testGetRemoteUser(): Flow<Resource<UserDto>> {
-            delay(2000)
+        suspend fun getRemoteUser(sessionId: String): Flow<Resource<UserDto>> {
             return flow {
-                val result = getSafeUserData{ EmulateNetwork.getUserData() }
-                emit(result)
+                val result = safeApiCall { App.instance.apiService.getUserDetails(sessionId) }
+                val resultDto = Converters.fromAccountDetailToUserDto(result)
+                emit(resultDto)
             }.flowOn(Dispatchers.IO)
         }
 
@@ -35,7 +39,10 @@ class UserDataRepo: BaseDataSource() {
             val db = AppDatabase.instance
             val result = getSafeLocalUserData{ db.userDao().getUserData() }
             if (result.data != null){
-                result.data.password = getSafeUserPassword { SharedPreferenceUtils.getPassword(App.appContext)?: throw IllegalArgumentException("Pass required") }
+                result.data.password = getSafeUserPassword {
+                    SharedPreferenceUtils.getEncryptedValue(SharedPreferenceUtils.PASSWORD_KEY)
+                        ?: throw IllegalArgumentException("Pass required")
+                }
             }
             emit(result)
         }.flowOn(Dispatchers.IO)
@@ -50,12 +57,20 @@ class UserDataRepo: BaseDataSource() {
             db.userDao().insertUserWithGenres(
                 UserWithGenres(
                     user = userDto,
-                    genres = userDto.genres
+                    genres = listOf(
+                        GenreDto(
+                            title = ALL_GENRE,
+                            genreId = 0,
+                            userId = userDto.id
+                        )
+                    )
                 )
             )
         }
         updateDatabase {
-            SharedPreferenceUtils.setPassword(password = userDto.password, App.appContext)
+            SharedPreferenceUtils.setEncryptedValue(
+                key = SharedPreferenceUtils.PASSWORD_KEY,
+                value = userDto.password)
         }
     }
 

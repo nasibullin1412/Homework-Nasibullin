@@ -89,10 +89,10 @@ data class UserDto(
         val id: Long,
         @ColumnInfo(name = "name", typeAffinity = TEXT)
         val name: String,
-        @ColumnInfo(name = "number", typeAffinity = TEXT)
-        val number:String,
         @ColumnInfo(name="mail", typeAffinity = TEXT)
         val mail:String,
+        @ColumnInfo(name = "number", typeAffinity = TEXT)
+        val number:String,
         @Ignore val genres: List<GenreDto> = emptyList(),
         @Ignore var password:String
 ) {
@@ -104,7 +104,6 @@ data class UserDto(
                 emptyList(),
                 ""
         )
-
 }
 
 /**

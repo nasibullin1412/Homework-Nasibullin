@@ -1,7 +1,7 @@
 package com.homework.nasibullin.security
 
-import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.homework.nasibullin.App
@@ -13,39 +13,41 @@ object SharedPreferenceUtils {
     private val masterKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
     private const val SHARED_PREF_NAME = "Genres"
     private const val MY_PREFS_ENCRYPTED_NAME = "MyPrefsFile"
-    private const val PASSWORD_KEY = "user_mame_password"
+    const val PASSWORD_KEY = "user_mame_password"
+    const val SESSION_ID = "session_id"
+    const val DEFAULT_VALUE = "Not Available"
+
+    private val encryptSharedPref: SharedPreferences
+    get(){
+        return EncryptedSharedPreferences
+            .create(
+                MY_PREFS_ENCRYPTED_NAME,
+                masterKeyAlias,
+                App.appContext,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
+    }
 
     /**
      * set encrypted password to shared preference
-     * @param password is password, which need to encrypt and add to shared preference
-     * @param context app context
+     * @param key is the key by which the value will be put
+     * @param value is value which will be put
      */
-    fun setPassword(password: String, context: Context) {
-        val sharedPreferences = EncryptedSharedPreferences
-                .create(MY_PREFS_ENCRYPTED_NAME,
-                        masterKeyAlias,
-                        context,
-                        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
-
-        val sharedPrefsEditor = sharedPreferences.edit()
-        sharedPrefsEditor.putString(PASSWORD_KEY, password)
+    fun setEncryptedValue(key: String, value: String) {
+        val sharedPrefsEditor = encryptSharedPref.edit()
+        sharedPrefsEditor.putString(key, value)
         sharedPrefsEditor.apply()
     }
 
     /**
      * get decrypted password from shared preference
-     * @param context app context
+     * @param key is key in Shared Preference
+     * @return decrypted value from Encrypted Shared Preference
      */
-    fun getPassword(context: Context): String? {
-        val sharedPreferences = EncryptedSharedPreferences
-                .create(MY_PREFS_ENCRYPTED_NAME,
-                        masterKeyAlias,
-                        context,
-                        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
-
-        return sharedPreferences.getString(PASSWORD_KEY, "Not Available")
+    fun getEncryptedValue(key: String): String? {
+        val sharedPreferences = encryptSharedPref
+        return sharedPreferences.getString(key, DEFAULT_VALUE)
     }
 
     /**

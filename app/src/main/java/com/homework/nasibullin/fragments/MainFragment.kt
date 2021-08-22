@@ -116,41 +116,40 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     private fun createAdapterObserver()= movieAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
         override fun onChanged() {
             super.onChanged()
-            movieRecycler.scrollToPosition(0)
-            emptyListViewHolder.bind(movieCollection.size)
+            observerActions()
         }
 
         override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
             super.onItemRangeRemoved(positionStart, itemCount)
-            movieRecycler.scrollToPosition(0)
-            emptyListViewHolder.bind(movieCollection.size)
+            observerActions()
         }
 
         override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
             super.onItemRangeMoved(fromPosition, toPosition, itemCount)
-            movieRecycler.scrollToPosition(0)
-            emptyListViewHolder.bind(movieCollection.size)
+            observerActions()
         }
 
         override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
             super.onItemRangeInserted(positionStart, itemCount)
-            movieRecycler.scrollToPosition(0)
-            emptyListViewHolder.bind(movieCollection.size)
+            observerActions()
         }
 
         override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
             super.onItemRangeChanged(positionStart, itemCount)
-            movieRecycler.scrollToPosition(0)
-            emptyListViewHolder.bind(movieCollection.size)
+            observerActions()
         }
 
         override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
             super.onItemRangeChanged(positionStart, itemCount, payload)
-            movieRecycler.scrollToPosition(0)
-            emptyListViewHolder.bind(movieCollection.size)
+            observerActions()
         }
     }
     )
+
+    private fun observerActions(){
+        movieRecycler.scrollToPosition(0)
+        movieAdapter.emptyListViewHolder?.bind(movieCollection.size)
+    }
 
     /**
      * setup on refresh listener
@@ -282,7 +281,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
      *  @param genre is genre by which to filter films
      * */
     private fun getMoviesByGenre(genre: Long){
-
         viewModel.currentGenre = genre
         movieCollection = viewModel.filterMoviesByGenre()?: emptyList()
         movieAdapter.submitList(movieCollection.toList())
@@ -307,7 +305,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
      * */
     private fun prepareMovieRecycleView() {
         movieRecycler = view?.findViewById(R.id.rvMovieList)?: throw IllegalArgumentException("Recycler required")
-        movieAdapter = MovieAdapter(emptyListViewHolder)
+        movieAdapter = MovieAdapter()
         movieAdapter.initOnClickInterface(this)
         val itemDecorator = MovieItemDecoration(
                 topBottom = MOVIE_TOP_BOTTOM_OFFSET,

@@ -18,6 +18,5 @@ class ActorViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     fun bind(actor: ActorDto) {
         imgAvatar.load(IMAGE_BASE_URL+actor.avatarUrl)
         textName.text = actor.name
-
     }
 }

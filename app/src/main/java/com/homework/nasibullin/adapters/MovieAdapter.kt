@@ -10,22 +10,24 @@ import com.homework.nasibullin.dataclasses.MovieDto
 import com.homework.nasibullin.holders.EmptyListViewHolder
 import com.homework.nasibullin.holders.MovieViewHolder
 import com.homework.nasibullin.interfaces.OnMovieItemClickedCallback
+import java.lang.IllegalArgumentException
 
 /**
 * Class Adapter to movie list.
 */
 private const val TYPE_EMPTY = 0
 private const val TYPE_MOVIE = 1
-class MovieAdapter(
-    private var emptyListViewHolder: EmptyListViewHolder
-) : ListAdapter<MovieDto, RecyclerView.ViewHolder>(MovieCallback()) {
-
+class MovieAdapter: ListAdapter<MovieDto, RecyclerView.ViewHolder>(MovieCallback()) {
+    var emptyListViewHolder: EmptyListViewHolder? = null
     private lateinit var listener: OnMovieItemClickedCallback
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater: LayoutInflater = LayoutInflater.from(parent.context)
         return when (viewType) {
-            TYPE_EMPTY -> emptyListViewHolder
+            TYPE_EMPTY -> {
+                emptyListViewHolder=EmptyListViewHolder(inflater.inflate(R.layout.empty_list_movie, parent, false))
+                emptyListViewHolder ?: throw IllegalArgumentException("emptyListViewHolder required")
+            }
             else -> MovieViewHolder(inflater.inflate(R.layout.item_movie, parent, false))
         }
     }
