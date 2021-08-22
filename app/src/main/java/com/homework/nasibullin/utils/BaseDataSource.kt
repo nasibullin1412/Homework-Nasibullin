@@ -47,7 +47,8 @@ abstract class BaseDataSource {
                     mail = result.user.mail,
                     number = result.user.number,
                     genres = result.genres,
-                    password = result.user.password
+                    password = result.user.password,
+                    avatarPath = result.user.avatarPath
                 )
                 Resource.success(userDto)
             }

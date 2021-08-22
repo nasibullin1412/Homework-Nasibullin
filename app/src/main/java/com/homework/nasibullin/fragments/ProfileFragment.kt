@@ -11,6 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.transform.CircleCropTransformation
+import coil.transform.RoundedCornersTransformation
+import com.google.android.material.imageview.ShapeableImageView
 import com.homework.nasibullin.R
 import com.homework.nasibullin.adapters.GenreAdapter
 import com.homework.nasibullin.dataclasses.GenreDto
@@ -18,6 +22,7 @@ import com.homework.nasibullin.dataclasses.UserDto
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.decorations.GenreItemDecoration
 import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
+import com.homework.nasibullin.utils.NetworkConstants.IMAGE_BASE_URL
 import com.homework.nasibullin.utils.Utility
 import com.homework.nasibullin.viewmodels.ProfileFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -72,6 +77,12 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
         }
         view?.findViewById<ConstraintLayout>(R.id.clUserProfile)?.apply {
             visibility = View.VISIBLE
+        }
+        view?.findViewById<ShapeableImageView>(R.id.imgUserAvatar)?.apply {
+            load(IMAGE_BASE_URL+user.avatarPath){
+                crossfade(true)
+                transformations(CircleCropTransformation())
+            }
         }
         view?.findViewById<TextView>(R.id.tvUserName)?.apply {
             text = user.name

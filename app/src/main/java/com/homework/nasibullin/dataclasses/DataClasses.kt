@@ -93,14 +93,17 @@ data class UserDto(
         val mail:String,
         @ColumnInfo(name = "number", typeAffinity = TEXT)
         val number:String,
+        @ColumnInfo(name = "avatar_path", typeAffinity = TEXT)
+        val avatarPath:String,
         @Ignore val genres: List<GenreDto> = emptyList(),
         @Ignore var password:String
 ) {
-        constructor(id: Long, name:String, number: String, mail: String): this(
+        constructor(id: Long, name:String, number: String, mail: String, avatarPath: String): this(
                 id,
                 name,
                 mail,
                 number,
+                avatarPath,
                 emptyList(),
                 ""
         )
@@ -150,5 +153,3 @@ data class ActorDto(
         val avatarUrl: String,
         val name: String
 )
-
-

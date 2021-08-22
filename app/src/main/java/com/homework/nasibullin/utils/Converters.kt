@@ -67,7 +67,8 @@ object Converters {
                     id = it.id,
                     name = it.name,
                     number = "",
-                    mail = it.username
+                    mail = it.username,
+                    avatarPath = it.avatar.avatarPathDataResponse.avatarPath ?: ""
                 )
             )
         }?: Resource.failed(userData.message ?: "Error convert")
@@ -79,5 +80,3 @@ object Converters {
         }?: Resource.failed("Error convert")
     }
 }
-
-

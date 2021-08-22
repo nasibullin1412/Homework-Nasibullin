@@ -65,6 +65,7 @@
                 />
 
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgUserAvatar"
                 android:layout_width="@dimen/user_profile_icon_size"
                 android:layout_height="@dimen/user_profile_icon_size"
                 android:layout_marginTop="@dimen/user_profile_icon_margin_top"

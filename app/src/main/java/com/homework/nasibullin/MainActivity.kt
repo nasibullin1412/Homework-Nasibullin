@@ -61,6 +61,3 @@ class MainActivity : AppCompatActivity(), LoginFragmentCallbacks {
         outState.putString(CURRENT_MOVIE_KEY, currentMovieTitle)
     }
 }
-
-
-

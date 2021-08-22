@@ -16,6 +16,7 @@ class UserDataSourceImpl : UserDataSource {
             ),
             number = "+79179004155",
             password = "lolKek00",
-            mail = "konst.89@mail.com"
+            mail = "konst.89@mail.com",
+            avatarPath = ""
     )
 }
