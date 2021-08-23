@@ -8,25 +8,15 @@ import androidx.room.ForeignKey.CASCADE
 /**
  * actors table entity dataclass
  */
-@Entity(tableName = "actors",
-        foreignKeys = [ForeignKey(
-                entity = Movie::class,
-                parentColumns = arrayOf("backId"),
-                childColumns = arrayOf("movieId"),
-                onDelete = CASCADE //NO_ACTION, RESTRICT, SET_DEFAULT, SET_NULL
-        )] ,
-        indices = [Index(value = ["movieId"])]
-)
+@Entity(tableName = "actors")
 data class Actor(
         @PrimaryKey
-        @ColumnInfo(name="id")
+        @ColumnInfo(name="actor_id")
         val id: Long,
         @ColumnInfo(name = "avatar url", typeAffinity = TEXT)
         val avatarUrl: String,
         @ColumnInfo(name = "name", typeAffinity = TEXT)
-        val name: String,
-        @ColumnInfo(name = "movieId", typeAffinity = INTEGER)
-        val movieId: Long
+        val name: String
 )
 
 /**
@@ -35,8 +25,8 @@ data class Actor(
 @Entity(tableName = "movies", indices = [Index(value = ["backId"], unique = true)])
 data class Movie(
         @PrimaryKey
-        @ColumnInfo(name = "id")
-        val id: Long,
+        @ColumnInfo(name = "movie_id")
+        val movieId: Long,
         @ColumnInfo(name = "title", typeAffinity = TEXT)
         val title: String,
         @ColumnInfo(name = "description", typeAffinity = TEXT)
@@ -52,7 +42,9 @@ data class Movie(
         @ColumnInfo(name = "genre", typeAffinity = INTEGER)
         val genre: Long,
         @ColumnInfo(name = "backId", typeAffinity = INTEGER)
-        val backId: Long
+        val backId: Long,
+        @ColumnInfo(name = "releaseDate", typeAffinity = TEXT)
+        val releaseDate: String
 )
 
 /**
@@ -128,9 +120,10 @@ data class MovieWithActor(
         @Embedded val movie: Movie,
         @Relation(
                 parentColumn = "backId",
-                entityColumn = "movieId"
+                entityColumn = "actor_id",
+                associateBy = Junction(MovieToActorCrossRef::class)
         )
-        var actors: List<Actor>
+        val actors: List<Actor>
 )
 
 /**
@@ -145,6 +138,7 @@ data class MovieDto(
     val imageUrl: String,
     val posterUrl: String,
     val genre: Long,
+    val releaseDate: String,
     var actors: List<ActorDto>
 )
 

@@ -28,7 +28,8 @@ object Converters {
                         genre = movieResponse.genre_ids[0].toLong(),
                         actors = emptyList(),
                         imageUrl = movieResponse.poster_path,
-                        posterUrl = movieResponse.backdrop_path
+                        posterUrl = movieResponse.backdrop_path,
+                        releaseDate = movieResponse.release_date
                     )
                 }
             )

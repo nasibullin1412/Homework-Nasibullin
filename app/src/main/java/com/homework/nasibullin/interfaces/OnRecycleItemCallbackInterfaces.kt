@@ -5,5 +5,5 @@ interface OnGenreItemClickedCallback {
 }
 
 interface OnMovieItemClickedCallback {
-    fun onMovieClick(title: String)
+    fun onMovieClick(id: Long)
 }

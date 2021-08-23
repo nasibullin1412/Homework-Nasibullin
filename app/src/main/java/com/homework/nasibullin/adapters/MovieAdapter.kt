@@ -41,7 +41,6 @@ class MovieAdapter: ListAdapter<MovieDto, RecyclerView.ViewHolder>(MovieCallback
             currentList: MutableList<MovieDto>
     ) {
         super.onCurrentListChanged(previousList, currentList)
-
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -56,7 +55,7 @@ class MovieAdapter: ListAdapter<MovieDto, RecyclerView.ViewHolder>(MovieCallback
         when (holder) {
             is MovieViewHolder -> {
                 holder.itemView.setOnClickListener() {
-                    listener.onMovieClick(getItem(position).title)
+                    listener.onMovieClick(getItem(position).id)
                 }
                 holder.bind(getItem(position))
             }

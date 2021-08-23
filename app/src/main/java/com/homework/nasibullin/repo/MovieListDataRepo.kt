@@ -55,9 +55,8 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
     suspend fun updateDatabase(movieList: List<MovieDto>){
         val db = AppDatabase.instance
         val dbMovieList = movieList.mapIndexed{ index, movieDto ->
-            MovieWithActor(
-                movie = Movie(
-                    id = index.toLong(),
+                Movie(
+                    movieId = index.toLong(),
                     title = movieDto.title,
                     description = movieDto.description,
                     rateScore = movieDto.rateScore,
@@ -65,22 +64,17 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
                     genre = movieDto.genre,
                     imageUrl = movieDto.imageUrl,
                     posterUrl = movieDto.posterUrl,
-                    backId = movieDto.id
-                ),
-                actors = movieDto.actors.map { actor -> Actor(
-                    id = actor.id,
-                    name = actor.name,
-                    avatarUrl = actor.avatarUrl,
-                    movieId = movieDto.id
-                ) }
-            ) }
+                    backId = movieDto.id,
+                    releaseDate = movieDto.releaseDate
+                )
+        }
         if (db.movieDao().check() == null){
             Utility.showToast("insert", context = App.appContext)
-            updateDatabase { db.movieDao().insertMovieWithActors(dbMovieList.take(MOVIE_PAGE_SIZE))}
+            updateDatabase { db.movieDao().insertAll(dbMovieList.take(MOVIE_PAGE_SIZE))}
         }
         else{
             Utility.showToast("update", context = App.appContext)
-            updateDatabase { db.movieDao().updateMovieWithActors(dbMovieList.take(MOVIE_PAGE_SIZE))}
+            updateDatabase { db.movieDao().updateAll(dbMovieList.take(MOVIE_PAGE_SIZE))}
         }
     }
 }

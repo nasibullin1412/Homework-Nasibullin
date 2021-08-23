@@ -73,6 +73,7 @@ abstract class BaseDataSource {
                     imageUrl = result.movie.imageUrl,
                     posterUrl = result.movie.posterUrl,
                     genre = result.movie.genre,
+                    releaseDate = result.movie.releaseDate,
                     actors = result.actors.map { ActorDto(avatarUrl = it.avatarUrl, name = it.name, id=it.id) }
                 )
                 if (result.actors.isNotEmpty()){
@@ -111,6 +112,7 @@ abstract class BaseDataSource {
                 imageUrl = it.imageUrl,
                 posterUrl = it.posterUrl,
                 genre = it.genre,
+                releaseDate = it.releaseDate,
                 actors = emptyList()
             ) }
             if (resultDto.isEmpty()){
@@ -136,6 +138,5 @@ abstract class BaseDataSource {
 
     suspend fun getSafeUserPassword(sharedCall: suspend () -> String): String{
         return sharedCall()
-
     }
 }

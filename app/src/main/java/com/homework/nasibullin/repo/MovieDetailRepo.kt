@@ -2,11 +2,7 @@ package com.homework.nasibullin.repo
 
 import com.homework.nasibullin.App
 import com.homework.nasibullin.database.AppDatabase
-import com.homework.nasibullin.dataclasses.Actor
-import com.homework.nasibullin.dataclasses.MovieWithActor
-import com.homework.nasibullin.dataclasses.ActorDto
-import com.homework.nasibullin.dataclasses.Movie
-import com.homework.nasibullin.dataclasses.MovieDto
+import com.homework.nasibullin.dataclasses.*
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.utils.BaseDataSource
 import com.homework.nasibullin.utils.Converters
@@ -34,10 +30,10 @@ class MovieDetailRepo @Inject constructor(): BaseDataSource() {
     /**
      * get movie details from database
      */
-    suspend fun getLocalMovie(title: String): Flow<Resource<MovieDto>> {
+    suspend fun getLocalMovie(id:Long): Flow<Resource<MovieDto>> {
         return flow {
             val db = AppDatabase.instance
-            val result = getSafeLocalMovieDetail { db.movieDao().getMovieDetail(title) }
+            val result = getSafeLocalMovieDetail { db.movieDao().getMovieDetail(id) }
             emit(result)
         }.flowOn(Dispatchers.IO)
     }
@@ -48,26 +44,17 @@ class MovieDetailRepo @Inject constructor(): BaseDataSource() {
      */
     suspend fun addMovieWithActors(movieDto: MovieDto){
         val db = AppDatabase.instance
-        val movie = Movie(
-            id = getSafeMovieDbIndex { db.movieDao().getIndex(movieDto.title) },
-            title = movieDto.title,
-            genre = movieDto.genre,
-            description = movieDto.description,
-            rateScore = movieDto.rateScore,
-            ageRestriction = movieDto.ageRestriction,
-            imageUrl = movieDto.imageUrl,
-            posterUrl = movieDto.posterUrl,
-            backId = movieDto.id
-        )
+        val movieId = movieDto.id
         val actors = movieDto.actors.map{
             Actor(
                 id = it.id,
                 name = it.name,
-                avatarUrl = it.avatarUrl,
-                movieId = movieDto.id
+                avatarUrl = it.avatarUrl
         )
         }
-        val movieWithActor = MovieWithActor(movie, actors)
-        updateDatabase { db.movieDao().insertMovieWithActors(listOf(movieWithActor)) }
+        db.actorDao().insertAll(actors)
+        val movieToActorCrossRefList = ArrayList<MovieToActorCrossRef>()
+        actors.forEach{movieToActorCrossRefList.add(MovieToActorCrossRef(null, movieId, it.id))}
+        movieToActorCrossRefList.forEach{updateDatabase { db.movieDao().insertMovieToActorCrossRef(it) }}
     }
 }

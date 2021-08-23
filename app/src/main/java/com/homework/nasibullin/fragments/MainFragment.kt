@@ -20,7 +20,6 @@ import com.homework.nasibullin.adapters.GenreAdapter
 import com.homework.nasibullin.adapters.MovieAdapter
 import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.dataclasses.MovieDto
-import com.homework.nasibullin.datasourceimpl.MovieGenreSourceImpl
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.decorations.GenreItemDecoration
 import com.homework.nasibullin.decorations.MovieItemDecoration
@@ -88,7 +87,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
      * */
     private fun initDataSource() {
         movieCollection = emptyList()
-        genreModel = GenreModel(MovieGenreSourceImpl())
     }
 
     private fun initView(){
@@ -258,9 +256,9 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
      * implementation of item listener action
      * @param title of selected movie
      * */
-    override fun onMovieClick(title: String) {
-        Utility.showToast(title, context)
-        val bundle = bundleOf(MovieDetailsFragment.KEY_ARGUMENT to title)
+    override fun onMovieClick(id: Long) {
+        Utility.showToast(id.toString(), context)
+        val bundle = bundleOf(MovieDetailsFragment.KEY_ARGUMENT to id)
         navController.navigate(
             R.id.action_mainFragment_to_viewMovieDetails,
             bundle

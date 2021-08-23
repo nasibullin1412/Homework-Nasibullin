@@ -28,7 +28,7 @@ import java.lang.StringBuilder
 @AndroidEntryPoint
 class MovieDetailsFragment: Fragment() {
     private lateinit var cardView: CardView
-    private lateinit var title:String
+    private var id:Long = 0
     private lateinit var actorAdapter: ActorAdapter
     private lateinit var actorRecycler: RecyclerView
     private val viewModel: MovieDetailViewModel by viewModels()
@@ -43,7 +43,7 @@ class MovieDetailsFragment: Fragment() {
             savedInstanceState: Bundle?
     ): View {
         val movieDetailsView = inflater.inflate(R.layout.activity_movie_details, container, false)
-        title = arguments?.getString(KEY_ARGUMENT) ?: throw IllegalArgumentException("Title required")
+        id = arguments?.getLong(KEY_ARGUMENT) ?: throw IllegalArgumentException("Title required")
         return movieDetailsView
     }
 
@@ -61,8 +61,7 @@ class MovieDetailsFragment: Fragment() {
      * observer, which async wait of movie details loaded
      */
     private fun setupObserver(){
-
-        viewModel.getMovie(title)
+        viewModel.getMovie(id)
         viewModel.movieDetail.observe(viewLifecycleOwner, {
 
             when (it.status) {
@@ -113,6 +112,9 @@ class MovieDetailsFragment: Fragment() {
         }
         view?.findViewById<RatingBar>(R.id.rbMovieDetailStar)?.apply{
             rating = movie.rateScore.toFloat()
+        }
+        view?.findViewById<TextView>(R.id.tvDate)?.apply {
+            text = movie.releaseDate
         }
         view?.findViewById<TextView>(R.id.tvMovieName)?.apply {
             text = movie.title

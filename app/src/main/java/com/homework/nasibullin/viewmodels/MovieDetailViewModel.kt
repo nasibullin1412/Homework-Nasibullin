@@ -33,10 +33,10 @@ class MovieDetailViewModel @Inject constructor (
     /**
      * asynchronous request to take data about movie details
      */
-    fun getMovie(title:String){
+    fun getMovie(id: Long){
         viewModelScope.launch {
             var isNeedRemoteAction = false
-            repository.getLocalMovie(title)
+            repository.getLocalMovie(id)
                 .catch { e ->
                     _movieDetail.value = Resource.error(e.toString())
                 }.collect {

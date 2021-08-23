@@ -9,6 +9,7 @@ import androidx.room.Delete
 import androidx.room.Transaction
 import com.homework.nasibullin.dataclasses.Movie
 import com.homework.nasibullin.dataclasses.Actor
+import com.homework.nasibullin.dataclasses.MovieToActorCrossRef
 import com.homework.nasibullin.dataclasses.MovieWithActor
 
 @Dao
@@ -24,22 +25,16 @@ interface MovieDao {
      * check having movies in database
      * @return first movie in database
      */
-    @Query("SELECT * FROM movies WHERE id = 0")
+    @Query("SELECT * FROM movies WHERE movie_id = 0")
     suspend fun check(): Movie?
 
     /**
      * get database index of movie with need title
      * @param title is title of movie, which index need
      */
-    @Query("SELECT id FROM movies WHERE title = :title")
+    @Query("SELECT movie_id FROM movies WHERE title = :title")
     suspend fun getIndex(title: String): Long
 
-    /**
-     * insert actor in actors table
-     * @param actor is actor, which need to add
-     */
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(actor: Actor): Long
 
     /**
      * insert movie in movie table
@@ -55,17 +50,10 @@ interface MovieDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(movie: Movie)
 
-    /**
-     * update movie in table
-     * @param actor is actor, for which need to update
-     */
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun update(actor: Actor)
-
     @Delete
     suspend fun delete(movie: Movie)
 
-    @Query("DELETE FROM movies WHERE id = :movieId")
+    @Query("DELETE FROM movies WHERE movie_id = :movieId")
     suspend fun deleteById(movieId: Long)
 
     @Query("DELETE FROM movies")
@@ -73,36 +61,32 @@ interface MovieDao {
 
     /**
      * get movie with actor by title
-     * @param title is title for filter
-     */
-    @Query("SELECT * FROM movies WHERE movies.title = :title")
-    suspend fun getMovieDetail(title: String): MovieWithActor?
-
-    /**
-     * insert list of movies with actors
-     * @param movieWithActors is movie and actors, which insert
+     * @param backId is for filter of movies
      */
     @Transaction
-    suspend fun insertMovieWithActors(movieWithActors: List<MovieWithActor>) {
-        for (movieWithActor in movieWithActors){
-            insert(movieWithActor.movie)
-            for (actor in movieWithActor.actors){
-                insert(actor)
-            }
-        }
-    }
+    @Query("SELECT * FROM movies WHERE movies.backId = :backId")
+    suspend fun getMovieDetail(backId:Long): MovieWithActor?
 
     /**
-     * update list of movies with actors
-     * @param movieWithActors is movie and actors, which update
+     * insert element to MovieToActorCrossRef
+     * @param crossRef is relation of movie and actor
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertMovieToActorCrossRef(crossRef: MovieToActorCrossRef)
+
+    /**
+     * insert list of movie to movie table
+     * @param movieList is movie list, which will be insert
      */
     @Transaction
-    suspend fun updateMovieWithActors(movieWithActors: List<MovieWithActor>){
-        for (movieWithActor in movieWithActors){
-            update(movieWithActor.movie)
-            for (actor in movieWithActor.actors){
-                update(actor)
-            }
-        }
-    }
+    @Insert
+    fun insertAll(movieList: List<Movie>)
+
+    /**
+     * update all movies in movie table
+     * @param movieList is new entities for movie table
+     */
+    @Transaction
+    @Update
+    fun updateAll(movieList: List<Movie>)
 }
