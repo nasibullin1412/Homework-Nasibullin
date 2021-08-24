@@ -16,6 +16,7 @@ object SharedPreferenceUtils {
     const val PASSWORD_KEY = "user_mame_password"
     const val SESSION_ID = "session_id"
     const val DEFAULT_VALUE = "Not Available"
+    const val IS_AUTO_UPDATE = "auto_update"
 
     private val encryptSharedPref: SharedPreferences
     get(){

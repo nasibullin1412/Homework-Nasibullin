@@ -1,5 +1,6 @@
 package com.homework.nasibullin.repo
 
+import android.util.Log
 import com.homework.nasibullin.App
 import com.homework.nasibullin.database.AppDatabase
 import com.homework.nasibullin.dataclasses.*
@@ -7,7 +8,6 @@ import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.utils.BaseDataSource
 import com.homework.nasibullin.utils.Converters
 import com.homework.nasibullin.utils.NetworkConstants.MOVIE_PAGE_SIZE
-import com.homework.nasibullin.utils.Utility
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -69,11 +69,11 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
                 )
         }
         if (db.movieDao().check() == null){
-            Utility.showToast("insert", context = App.appContext)
+            Log.d("DB", "insert")
             updateDatabase { db.movieDao().insertAll(dbMovieList.take(MOVIE_PAGE_SIZE))}
         }
         else{
-            Utility.showToast("update", context = App.appContext)
+            Log.d("DB", "update")
             updateDatabase { db.movieDao().updateAll(dbMovieList.take(MOVIE_PAGE_SIZE))}
         }
     }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -22,6 +23,7 @@ import com.homework.nasibullin.dataclasses.UserDto
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.decorations.GenreItemDecoration
 import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
+import com.homework.nasibullin.security.SharedPreferenceUtils
 import com.homework.nasibullin.utils.NetworkConstants.IMAGE_BASE_URL
 import com.homework.nasibullin.utils.Utility
 import com.homework.nasibullin.viewmodels.ProfileFragmentViewModel
@@ -32,6 +34,11 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
     private val viewModel: ProfileFragmentViewModel by viewModels()
     private lateinit var movieGenreRecycler: RecyclerView
     private lateinit var movieGenreAdapter: GenreAdapter
+
+    companion object{
+        private const val IS_ON = "Выключить автоподгрузку"
+        private const val IS_OFF = "Включить автоподгрузку"
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -44,9 +51,13 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupObserver()
+        setupWorkerBtn()
         viewModel.loadUser()
     }
 
+    /**
+     * setup observer of user data
+     */
     private fun setupObserver(){
         viewModel.userDetail.observe(viewLifecycleOwner, {
             when(it.status){
@@ -66,6 +77,16 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
                 }
             }
         })
+    }
+
+    /**
+     * setup btnAutoUpdate onClickListener
+     */
+    private fun setupWorkerBtn(){
+        view?.findViewById<Button>(R.id.btnAutoUpdate)?.setOnClickListener {
+            viewModel.updateMovies()
+            updateButtonText()
+        }
     }
 
     /**
@@ -100,14 +121,28 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
             text = user.number
         }
         view?.findViewById<TextView>(R.id.etUserPassword)?.apply {
-            text = user.password
+            text = SharedPreferenceUtils.getEncryptedValue(SharedPreferenceUtils.PASSWORD_KEY)
         }
+        updateButtonText()
         setupGenreRecycleView(user.genres)
     }
 
     /**
+     * change btnAutoUpdate button text
+     */
+    private fun updateButtonText(){
+        view?.findViewById<Button>(R.id.btnAutoUpdate)?.apply {
+            text = if (viewModel.isOn){
+                IS_ON
+            }
+            else{
+                IS_OFF
+            }
+        }
+    }
+
+    /**
      * Genre recycle view with ListAdapter
-     *
      */
     private fun setupGenreRecycleView(interests: List<GenreDto>?){
         movieGenreRecycler = view?.findViewById(R.id.rvUserGenreList) ?: throw IllegalArgumentException("Recycler required")
