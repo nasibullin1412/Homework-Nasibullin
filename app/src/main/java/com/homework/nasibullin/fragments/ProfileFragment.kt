@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -34,6 +36,7 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
     private val viewModel: ProfileFragmentViewModel by viewModels()
     private lateinit var movieGenreRecycler: RecyclerView
     private lateinit var movieGenreAdapter: GenreAdapter
+    private lateinit var navController: NavController
 
     companion object{
         private const val IS_ON = "Выключить автоподгрузку"
@@ -50,9 +53,19 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
         setupObserver()
         setupWorkerBtn()
+        setupLogoutBtn()
         viewModel.loadUser()
+    }
+
+    private fun setupLogoutBtn(){
+        view?.findViewById<Button>(R.id.btnLogout)?.setOnClickListener{
+            navController.navigate(
+                R.id.action_logout
+            )
+        }
     }
 
     /**

@@ -39,7 +39,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     private lateinit var movieRecycler: RecyclerView
     private lateinit var genreAdapter: GenreAdapter
     private lateinit var movieAdapter: MovieAdapter
-    private lateinit var genreModel: GenreModel
     private lateinit var movieCollection: Collection<MovieDto>
     private lateinit var genreCollection: Collection<GenreDto>
     private lateinit var swipeRefreshLayout:SwipeRefreshLayout
@@ -254,7 +253,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
 
     /**
      * implementation of item listener action
-     * @param title of selected movie
+     * @param id of selected movie
      * */
     override fun onMovieClick(id: Long) {
         Utility.showToast(id.toString(), context)
