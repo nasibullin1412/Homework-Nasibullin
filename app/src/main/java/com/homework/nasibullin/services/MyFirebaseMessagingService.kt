@@ -38,12 +38,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
-
     override fun onNewToken(p0: String) {
         super.onNewToken(p0)
         Log.e("token","New Token")
     }
-
 
     private fun showNotification(
         context: Context,
@@ -99,5 +97,4 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
         return if (useWhiteIcon) R.mipmap.ic_launcher else R.mipmap.ic_launcher
     }
-
 }

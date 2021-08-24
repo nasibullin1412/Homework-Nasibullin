@@ -65,6 +65,7 @@
                 />
 
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgUserAvatar"
                 android:layout_width="@dimen/user_profile_icon_size"
                 android:layout_height="@dimen/user_profile_icon_size"
                 android:layout_marginTop="@dimen/user_profile_icon_margin_top"
@@ -111,6 +112,7 @@
                 android:layout_height="wrap_content"
                 android:minWidth="320dp"
                 app:helperTextEnabled="true"
+                android:textColor="@color/custom_text"
                 app:layout_constraintTop_toBottomOf="@id/tvPersonalData"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -120,6 +122,7 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="0dp"
                     android:paddingBottom="6dp"
+                    android:textColor="@color/custom_text"
                     android:background="@drawable/border_bottom"
                     android:hint="@string/hint_name"
                     tools:ignore="RtlSymmetry"/>
@@ -132,6 +135,7 @@
                     android:inputType="textPassword"
                     tools:text="00"
                     android:paddingBottom="6dp"
+                    android:textColor="@color/custom_text"
                     android:background="@drawable/border_bottom"
                     android:hint="@string/hint_password"
                     tools:ignore="RtlSymmetry"/>
@@ -143,6 +147,7 @@
                     android:paddingStart="0dp"
                     android:paddingBottom="6dp"
                     android:background="@drawable/border_bottom"
+                    android:textColor="@color/custom_text"
                     android:hint="@string/hint_mail"
                     tools:ignore="RtlSymmetry"/>
                 <TextView
@@ -153,6 +158,7 @@
                     android:paddingStart="0dp"
                     android:paddingBottom="6dp"
                     android:background="@drawable/border_bottom"
+                    android:textColor="@color/custom_text"
                     android:hint="@string/hint_number"
                     tools:ignore="RtlSymmetry"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -222,22 +228,34 @@
                 />
 
             <Button
-                android:id="@+id/btnLogout"
+                android:id="@+id/btnAutoUpdate"
                 style="@style/CustomUserProfileText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="96dp"
-                android:text="@string/logout"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:background="@drawable/logout_button_selector"
                 app:layout_constraintTop_toBottomOf="@id/spProblems"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
+
+            <Button
+                android:id="@+id/btnLogout"
+                style="@style/CustomUserProfileText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="96dp"
+                android:text="@string/logout"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:background="@drawable/logout_button_selector"
+                app:layout_constraintTop_toBottomOf="@id/btnAutoUpdate"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
     </androidx.core.widget.NestedScrollView>
 

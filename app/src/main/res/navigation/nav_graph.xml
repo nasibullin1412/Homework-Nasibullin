@@ -3,7 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/loginFragment">
+
+    <!-- MainFragment -->
+    <fragment android:id="@+id/loginFragment"
+        android:name="com.homework.nasibullin.fragments.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/login_fragment">
+        <action android:id="@+id/action_loginFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
 
     <!-- MainFragment -->
     <fragment android:id="@+id/mainFragment"
@@ -19,7 +35,6 @@
             />
     </fragment>
 
-
     <!-- ViewMovieDetails -->
     <fragment android:id="@+id/viewMovieDetails"
         android:name="com.homework.nasibullin.fragments.MovieDetailsFragment"
@@ -27,12 +42,20 @@
         tools:layout="@layout/activity_movie_details">
     </fragment>
 
-
     <!-- ViewUserProfile -->
     <fragment android:id="@+id/viewUserProfile"
         android:name="com.homework.nasibullin.fragments.ProfileFragment"
         android:label="fragment_view_user_profile"
         tools:layout="@layout/user_profile">
+        <action android:id="@+id/action_logout"
+            app:destination="@id/loginFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 
 

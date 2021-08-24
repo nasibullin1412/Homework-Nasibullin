@@ -25,5 +25,9 @@
     <string name="hint_name">Name</string>
     <string name="hint_password">Password</string>
     <string name="hint_mail">Mail</string>
-    <string name="hint_number">Phone</string>
+    <string name="hint_number">Number</string>
+    <string name="login_top_text">Welcome</string>
+    <string name="hint_login_username">Username</string>
+    <string name="hint_login_password">Password</string>
+    <string name="btn_string">Sign In</string>
 </resources>

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.homework.nasibullin.R
 import com.homework.nasibullin.dataclasses.MovieDto
+import com.homework.nasibullin.utils.NetworkConstants.IMAGE_BASE_URL
 import java.lang.StringBuilder
 
 class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -18,12 +19,9 @@ class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private var tvMovieRating: RatingBar = view.findViewById(R.id.rbMovieStar)
     private var tvAgeCategory: TextView = view.findViewById(R.id.tvListAgeCategory)
 
-
     // Do every time
     fun bind(movie: MovieDto) {
-        imgMoviePoster.load(movie.imageUrl){
-            placeholder(R.drawable.poster)
-        }
+        imgMoviePoster.load(IMAGE_BASE_URL + movie.imageUrl)
         tvMovieName.text = movie.title
         tvMovieRating.rating = movie.rateScore.toFloat()
         tvAgeCategory.text = StringBuilder().also {
@@ -31,6 +29,5 @@ class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             it.append("+")
         }
         tvMovieDescription.text = movie.description
-
     }
 }

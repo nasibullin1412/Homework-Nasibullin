@@ -8,35 +8,25 @@ import androidx.room.ForeignKey.CASCADE
 /**
  * actors table entity dataclass
  */
-@Entity(tableName = "actors",
-        foreignKeys = [ForeignKey(
-                entity = Movie::class,
-                parentColumns = arrayOf("id"),
-                childColumns = arrayOf("movieId"),
-                onDelete = CASCADE //NO_ACTION, RESTRICT, SET_DEFAULT, SET_NULL
-        )] ,
-        indices = [Index(value = ["movieId"])]
-)
+@Entity(tableName = "actors")
 data class Actor(
         @PrimaryKey
-        @ColumnInfo(name="id")
+        @ColumnInfo(name="actor_id")
         val id: Long,
         @ColumnInfo(name = "avatar url", typeAffinity = TEXT)
         val avatarUrl: String,
         @ColumnInfo(name = "name", typeAffinity = TEXT)
-        val name: String,
-        @ColumnInfo(name = "movieId", typeAffinity = INTEGER)
-        val movieId: Long
+        val name: String
 )
 
 /**
  * movie table entity dataclass
 * */
-@Entity(tableName = "movies")
+@Entity(tableName = "movies", indices = [Index(value = ["backId"], unique = true)])
 data class Movie(
         @PrimaryKey
-        @ColumnInfo(name = "id")
-        val id: Long,
+        @ColumnInfo(name = "movie_id")
+        val movieId: Long,
         @ColumnInfo(name = "title", typeAffinity = TEXT)
         val title: String,
         @ColumnInfo(name = "description", typeAffinity = TEXT)
@@ -49,8 +39,12 @@ data class Movie(
         val imageUrl: String,
         @ColumnInfo(name = "poster url", typeAffinity = TEXT)
         val posterUrl: String,
-        @ColumnInfo(name = "genre", typeAffinity = TEXT)
-        val genre: String
+        @ColumnInfo(name = "genre", typeAffinity = INTEGER)
+        val genre: Long,
+        @ColumnInfo(name = "backId", typeAffinity = INTEGER)
+        val backId: Long,
+        @ColumnInfo(name = "releaseDate", typeAffinity = TEXT)
+        val releaseDate: String
 )
 
 /**
@@ -70,6 +64,8 @@ data class GenreDto(
         @PrimaryKey
         @ColumnInfo(name = "genre", typeAffinity = TEXT)
         val title: String,
+        @ColumnInfo(name = "genreId")
+        val genreId: Long,
         @ColumnInfo(name = "userId", typeAffinity = INTEGER)
         val userId: Long
 )
@@ -85,24 +81,25 @@ data class UserDto(
         val id: Long,
         @ColumnInfo(name = "name", typeAffinity = TEXT)
         val name: String,
-        @ColumnInfo(name = "number", typeAffinity = TEXT)
-        val number:String,
         @ColumnInfo(name="mail", typeAffinity = TEXT)
         val mail:String,
+        @ColumnInfo(name = "number", typeAffinity = TEXT)
+        val number:String,
+        @ColumnInfo(name = "avatar_path", typeAffinity = TEXT)
+        val avatarPath:String,
         @Ignore val genres: List<GenreDto> = emptyList(),
         @Ignore var password:String
 ) {
-        constructor(id: Long, name:String, number: String, mail: String): this(
+        constructor(id: Long, name:String, number: String, mail: String, avatarPath: String): this(
                 id,
                 name,
                 mail,
                 number,
+                avatarPath,
                 emptyList(),
                 ""
         )
-
 }
-
 
 /**
  * UserDto and GenreDto tables entities relationships
@@ -122,29 +119,28 @@ data class UserWithGenres(
 data class MovieWithActor(
         @Embedded val movie: Movie,
         @Relation(
-                parentColumn = "id",
-                entityColumn = "movieId"
+                parentColumn = "backId",
+                entityColumn = "actor_id",
+                associateBy = Junction(MovieToActorCrossRef::class)
         )
-        var actors: List<Actor>
+        val actors: List<Actor>
 )
 
 /**
  * class describing movie data in the popular movie list
  */
 data class MovieDto(
-        val id: Long,
-        val title: String,
-        val description: String,
-        val rateScore: Int,
-        val ageRestriction: Int,
-        val imageUrl: String,
-        val posterUrl: String,
-        val genre: String,
-        val actors: List<ActorDto>
+    val id: Long,
+    val title: String,
+    val description: String,
+    val rateScore: Int,
+    val ageRestriction: Int,
+    val imageUrl: String,
+    val posterUrl: String,
+    val genre: Long,
+    val releaseDate: String,
+    var actors: List<ActorDto>
 )
-
-
-
 
 data class ActorDto(
         val id: Long,

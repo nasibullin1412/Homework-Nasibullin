@@ -1,25 +1,39 @@
 package com.homework.nasibullin.utils
 
-
-
 import com.homework.nasibullin.dataclasses.MovieDto
 import com.homework.nasibullin.dataclasses.MovieWithActor
 import com.homework.nasibullin.dataclasses.UserDto
 import com.homework.nasibullin.dataclasses.UserWithGenres
-import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.dataclasses.ActorDto
 import com.homework.nasibullin.dataclasses.Movie
+import com.homework.nasibullin.datasources.Resource
+import com.homework.nasibullin.utils.NetworkConstants.MOVIE_PAGE_SIZE
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import retrofit2.Response
 import java.lang.Exception
-
-
 
 abstract class BaseDataSource {
 
-    suspend fun getSafeUserData(databaseCall: suspend () -> UserDto): Resource<UserDto> {
+    suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): Resource<T>{
         return try {
-            Resource.success(databaseCall())
+            val response = withContext(Dispatchers.IO) {
+                apiCall()
+            }
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    Resource.success(body)
+                }
+                else{
+                    Resource.failed("Null body fail.")
+                }
+            }
+            else{
+                Resource.error(response.errorBody().toString())
+            }
         } catch (e: Exception) {
-            Resource.failed("Something went wrong, $e")
+            Resource.error(e.message.toString())
         }
     }
 
@@ -33,7 +47,8 @@ abstract class BaseDataSource {
                     mail = result.user.mail,
                     number = result.user.number,
                     genres = result.genres,
-                    password = result.user.password
+                    password = result.user.password,
+                    avatarPath = result.user.avatarPath
                 )
                 Resource.success(userDto)
             }
@@ -45,22 +60,12 @@ abstract class BaseDataSource {
         }
     }
 
-
-
-    suspend fun getSafeRemoteMovieDetail(apiCall: suspend () -> MovieDto): Resource<MovieDto> {
-        return try {
-            Resource.success(apiCall())
-        } catch (e: Exception) {
-            Resource.failed("Something went wrong, $e")
-        }
-    }
-
     suspend fun getSafeLocalMovieDetail(apiCall: suspend () -> MovieWithActor?): Resource<MovieDto> {
         return try {
             val result = apiCall()
-            if (result != null && result.actors.isNotEmpty()) {
+            if (result != null ) {
                 val movieDto = MovieDto(
-                    id = result.movie.id,
+                    id = result.movie.backId,
                     title = result.movie.title,
                     description = result.movie.description,
                     rateScore = result.movie.rateScore,
@@ -68,25 +73,30 @@ abstract class BaseDataSource {
                     imageUrl = result.movie.imageUrl,
                     posterUrl = result.movie.posterUrl,
                     genre = result.movie.genre,
+                    releaseDate = result.movie.releaseDate,
                     actors = result.actors.map { ActorDto(avatarUrl = it.avatarUrl, name = it.name, id=it.id) }
                 )
-                Resource.success(movieDto)
+                if (result.actors.isNotEmpty()){
+                    Resource.success(movieDto)
+                }
+                else{
+                    Resource.failed("No actors", movieDto)
+                }
             }
             else{
                 Resource.failed("No data")
             }
         } catch (e: Exception) {
-            Resource.failed("Something went wrong, $e")
+            Resource.error("Something went wrong, $e")
         }
     }
 
-
-    suspend fun getSafeRemoteMovies(apiCall: suspend () ->List<MovieDto>): Resource<List<MovieDto>>{
+    suspend fun getSafeMovieDbIndex(dbCall: suspend () -> Long): Long {
         return try {
-            Resource.success(apiCall())
+            dbCall()
         }
         catch (e: Exception){
-            Resource.failed("Houston we have a problem: $e" )
+            MOVIE_PAGE_SIZE.toLong()
         }
     }
 
@@ -94,7 +104,7 @@ abstract class BaseDataSource {
         return try {
             val result = dbCall()
             val resultDto = result.map{ MovieDto(
-                id = it.id,
+                id = it.backId,
                 title = it.title,
                 description = it.description,
                 rateScore = it.rateScore,
@@ -102,6 +112,7 @@ abstract class BaseDataSource {
                 imageUrl = it.imageUrl,
                 posterUrl = it.posterUrl,
                 genre = it.genre,
+                releaseDate = it.releaseDate,
                 actors = emptyList()
             ) }
             if (resultDto.isEmpty()){
@@ -127,8 +138,5 @@ abstract class BaseDataSource {
 
     suspend fun getSafeUserPassword(sharedCall: suspend () -> String): String{
         return sharedCall()
-
     }
-
-
 }
