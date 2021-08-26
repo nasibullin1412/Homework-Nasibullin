@@ -79,7 +79,7 @@ interface MovieDao {
      * @param movieList is movie list, which will be insert
      */
     @Transaction
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(movieList: List<Movie>)
 
     /**
@@ -87,6 +87,6 @@ interface MovieDao {
      * @param movieList is new entities for movie table
      */
     @Transaction
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateAll(movieList: List<Movie>)
 }

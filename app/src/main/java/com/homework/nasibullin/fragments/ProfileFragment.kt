@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
-import coil.transform.RoundedCornersTransformation
 import com.google.android.material.imageview.ShapeableImageView
 import com.homework.nasibullin.R
 import com.homework.nasibullin.adapters.GenreAdapter
@@ -63,7 +62,7 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
     private fun setupLogoutBtn(){
         view?.findViewById<Button>(R.id.btnLogout)?.setOnClickListener{
             navController.navigate(
-                R.id.action_logout
+                R.id.action_viewUserProfile_to_loginFragment
             )
         }
     }

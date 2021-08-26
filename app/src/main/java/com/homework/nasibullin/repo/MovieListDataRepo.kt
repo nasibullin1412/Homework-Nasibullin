@@ -68,13 +68,7 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
                     releaseDate = movieDto.releaseDate
                 )
         }
-        if (db.movieDao().check() == null){
-            Log.d("DB", "insert")
-            updateDatabase { db.movieDao().insertAll(dbMovieList.take(MOVIE_PAGE_SIZE))}
-        }
-        else{
-            Log.d("DB", "update")
-            updateDatabase { db.movieDao().updateAll(dbMovieList.take(MOVIE_PAGE_SIZE))}
-        }
+        Log.d("DB", "insert")
+        updateDatabase { db.movieDao().insertAll(dbMovieList.take(MOVIE_PAGE_SIZE))}
     }
 }
