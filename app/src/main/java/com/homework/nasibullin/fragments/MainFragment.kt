@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.homework.nasibullin.App
 import com.homework.nasibullin.R
 import com.homework.nasibullin.adapters.GenreAdapter
 import com.homework.nasibullin.adapters.MovieAdapter
@@ -33,7 +32,6 @@ import com.homework.nasibullin.holders.EmptyListViewHolder
 import com.homework.nasibullin.interfaces.MainFragmentCallbacks
 import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
 import com.homework.nasibullin.interfaces.OnMovieItemClickedCallback
-import com.homework.nasibullin.recycleview.GridRecyclerView
 import com.homework.nasibullin.utils.Utility
 import com.homework.nasibullin.viewmodels.MainFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint

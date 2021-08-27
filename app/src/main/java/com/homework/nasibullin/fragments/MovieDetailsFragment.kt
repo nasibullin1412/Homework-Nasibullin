@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.homework.nasibullin.R
 import com.homework.nasibullin.adapters.ActorAdapter
 import com.homework.nasibullin.dataclasses.MovieDto
@@ -55,17 +56,15 @@ class MovieDetailsFragment: Fragment() {
     private fun init() {
         setCorrectShapeToCardView()
         setupObserver()
+        viewModel.getMovie(id)
     }
 
     /**
      * observer, which async wait of movie details loaded
      */
     private fun setupObserver(){
-        viewModel.getMovie(id)
         viewModel.movieDetail.observe(viewLifecycleOwner, {
-
             when (it.status) {
-
                 Resource.Status.SUCCESS -> {
                     if (it.data != null){
                         setupView(it.data)
@@ -74,39 +73,19 @@ class MovieDetailsFragment: Fragment() {
                         Utility.showToast("Null data", context)
                     }
                 }
-
-                Resource.Status.ERROR -> {
-                    Utility.showToast(it.message, context)
-                }
-
-                Resource.Status.LOADING -> {
-                    Utility.showToast(it.message, context)
-                }
-
-                Resource.Status.FAILURE -> {
-                    Utility.showToast(it.message, context)
-                }
+                else -> Utility.showToast(it.message, context)
             }
-
-
         })
-
+        viewModel.signal.observe(viewLifecycleOwner, {
+            disableShimmer()
+        })
     }
 
     /**
      * Filling in the fields of movie details
      */
     private fun setupView(movie: MovieDto){
-        view?.findViewById<ProgressBar>(R.id.pbMovieDetail)?.apply {
-            visibility = View.GONE
-        }
         view?.findViewById<ImageView>(R.id.imgMoviePoster)?.load(IMAGE_BASE_URL + movie.posterUrl)
-        view?.findViewById<ImageView>(R.id.imgMoviePoster)?.apply {
-            visibility = View.VISIBLE
-        }
-        view?.findViewById<CardView>(R.id.cvMovieCard)?.apply {
-            visibility = View.VISIBLE
-        }
         view?.findViewById<TextView>(R.id.tvGenre)?.apply {
             text = viewModel.getGenreNameById(movie.genre)
         }
@@ -129,6 +108,19 @@ class MovieDetailsFragment: Fragment() {
             text = movie.description
         }
         prepareRecycleView(movie)
+    }
+
+    private fun disableShimmer(){
+        view?.findViewById<ShimmerFrameLayout>(R.id.sflMovieDetail)?.apply {
+            stopShimmer()
+            visibility = View.GONE
+        }
+        view?.findViewById<ImageView>(R.id.imgMoviePoster)?.apply {
+            visibility = View.VISIBLE
+        }
+        view?.findViewById<CardView>(R.id.cvMovieCard)?.apply {
+            visibility = View.VISIBLE
+        }
     }
 
     /**

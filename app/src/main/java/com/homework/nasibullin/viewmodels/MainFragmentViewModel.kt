@@ -32,7 +32,7 @@ class MainFragmentViewModel @Inject constructor (
     val signal: LiveData<Boolean> get() = _signal
     private val _signal = MutableLiveData<Boolean>()
 
-    private val waitAfterSubmit = 800
+    private val waitAfterSubmit = 2000
 
     fun getGenreList(){
         viewModelScope.launch {
@@ -50,10 +50,6 @@ class MainFragmentViewModel @Inject constructor (
         for (genre in genreList){
             SharedPreferenceUtils.setValueToSharedPreference(genre.genreId.toString(), genre.title)
         }
-    }
-
-    fun getGenreNameById(id: Long): String{
-        return SharedPreferenceUtils.getSharedPreference(id.toString())
     }
 
     /**
@@ -105,8 +101,8 @@ class MainFragmentViewModel @Inject constructor (
             if (currentMovieList.isNullOrEmpty() || isSwipe){
                 updateMovieList()
                 updateDatabase()
+                delay(waitAfterSubmit.toLong())
             }
-            delay(waitAfterSubmit.toLong())
             _signal.value = !(_signal.value?: true)
         }
     }

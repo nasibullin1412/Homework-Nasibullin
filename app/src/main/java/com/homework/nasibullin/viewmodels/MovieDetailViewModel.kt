@@ -11,6 +11,7 @@ import com.homework.nasibullin.repo.MovieDetailRepo
 import com.homework.nasibullin.security.SharedPreferenceUtils
 import com.homework.nasibullin.utils.Converters
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -25,6 +26,9 @@ class MovieDetailViewModel @Inject constructor (
     private var actorList: List<ActorDto>? = null
     val movieDetail: LiveData<Resource<MovieDto>> get() = _movieDetail
     private val _movieDetail = MutableLiveData<Resource<MovieDto>>()
+    val signal: LiveData<Boolean> get() = _signal
+    private val _signal = MutableLiveData<Boolean>()
+    private val shimmerTime = 1500
 
     fun getGenreNameById(id: Long): String{
         return SharedPreferenceUtils.getSharedPreference(id.toString())
@@ -65,7 +69,9 @@ class MovieDetailViewModel @Inject constructor (
                 if (movie != null){
                     repository.addMovieWithActors(movie ?: throw IllegalArgumentException("Movie required"))
                 }
+                delay(shimmerTime.toLong())
             }
+            _signal.value = !(_signal.value?: true)
         }
     }
 }
