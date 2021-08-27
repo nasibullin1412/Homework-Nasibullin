@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -34,7 +35,8 @@ import com.homework.nasibullin.viewmodels.MainFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedCallback {
+class MainFragment : Fragment(), OnMovieItemClickedCallback,
+    OnGenreItemClickedCallback{
     private lateinit var movieGenreRecycler: RecyclerView
     private lateinit var movieRecycler: RecyclerView
     private lateinit var shimmerRecycler: RecyclerView
@@ -45,6 +47,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     private lateinit var genreCollection: Collection<GenreDto>
     private lateinit var swipeRefreshLayout:SwipeRefreshLayout
     private lateinit var emptyListViewHolder: EmptyListViewHolder
+    private lateinit var searchView: SearchView
     private val viewModel: MainFragmentViewModel by viewModels()
     private lateinit var navController: NavController
     private var mainFragmentClickListener: MainFragmentCallbacks? = null
@@ -63,9 +66,9 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         requireContext()
         return inflater.inflate(R.layout.movie_list_fragment, container, false)
@@ -105,6 +108,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
         emptyListViewHolder = EmptyListViewHolder(this.layoutInflater.inflate(R.layout.empty_item,
                 view?.findViewById<RecyclerView>(R.id.rvMovieGenreList), false))
         calculateValues()
+        setupSearchMovies()
         prepareMovieGenreRecycleView()
         prepareMovieRecycleView()
         prepareShimmerRecycleView()
@@ -196,6 +200,11 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
                     updateMovieData(it.data?:throw java.lang.IllegalArgumentException("Live Data required"))
                     swipeRefreshLayout.isRefreshing =false
                 }
+                Resource.Status.FAILURE -> {
+                    unsuccessfulGetMovies(it.message)
+                    movieAdapter.submitList(emptyList())
+
+                }
                 else -> unsuccessfulGetMovies(it.message)
             }
         })
@@ -251,6 +260,28 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
             R.id.action_mainFragment_to_viewMovieDetails,
             bundle
         )
+    }
+
+    private fun setupSearchMovies(){
+        searchView = view?.findViewById(R.id.svSearchMovies) ?:
+                throw java.lang.IllegalArgumentException("search movies required")
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextChange(query: String): Boolean {
+                searchDatabase(query)
+                return true
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                searchDatabase(query)
+                return true
+            }
+        })
+    }
+
+    private fun searchDatabase(query: String?){
+        val searchQuery = "%$query%"
+        viewModel.filterMoviesByTitle(searchQuery)
     }
 
     /**

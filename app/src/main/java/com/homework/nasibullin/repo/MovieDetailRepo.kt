@@ -43,7 +43,6 @@ class MovieDetailRepo @Inject constructor(): BaseDataSource() {
      * @param movieDto movie details, which set to database
      */
     suspend fun addMovieWithActors(movieDto: MovieDto){
-        val db = AppDatabase.instance
         val movieId = movieDto.id
         val actors = movieDto.actors.map{
             Actor(
@@ -52,9 +51,12 @@ class MovieDetailRepo @Inject constructor(): BaseDataSource() {
                 avatarUrl = it.avatarUrl
         )
         }
-        db.actorDao().insertAll(actors)
+        AppDatabase.instance.actorDao().insertAll(actors)
         val movieToActorCrossRefList = ArrayList<MovieToActorCrossRef>()
         actors.forEach{movieToActorCrossRefList.add(MovieToActorCrossRef(null, movieId, it.id))}
-        movieToActorCrossRefList.forEach{updateDatabase { db.movieDao().insertMovieToActorCrossRef(it) }}
+        movieToActorCrossRefList.forEach{updateDatabase {
+            AppDatabase.instance.movieDao().insertMovieToActorCrossRef(it)
+        }
+        }
     }
 }

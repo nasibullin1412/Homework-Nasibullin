@@ -27,6 +27,7 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
             emit(resultDto)
         }.flowOn(Dispatchers.IO)
     }
+
     /**
      * get genre list from backend
      */
@@ -39,12 +40,26 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
     }
 
     /**
-     * downloading movie data from the local database
+     * downloading movies from the local database
      */
     suspend fun getLocalData(): Flow<Resource<List<MovieDto>>> {
         return flow {
-            val db = AppDatabase.instance
-            val result = getSafeLocalMovies { db.movieDao().getAll()}
+            val result = getSafeLocalMovies {
+                AppDatabase.instance.movieDao().getAll()
+            }
+            emit(result)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    /**
+     * downloading searched movies data from the local database
+     * @param query is query by which movies will be searched
+     */
+    suspend fun getSearchMovies(query: String): Flow<Resource<List<MovieDto>>>{
+        return flow {
+            val result = getSafeLocalMovies {
+                AppDatabase.instance.movieDao().searchDatabase(query)
+            }
             emit(result)
         }.flowOn(Dispatchers.IO)
     }
@@ -53,7 +68,6 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
      * update data base with actual movies
      */
     suspend fun updateDatabase(movieList: List<MovieDto>){
-        val db = AppDatabase.instance
         val dbMovieList = movieList.mapIndexed{ index, movieDto ->
                 Movie(
                     movieId = index.toLong(),
@@ -69,6 +83,6 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
                 )
         }
         Log.d("DB", "insert")
-        updateDatabase { db.movieDao().insertAll(dbMovieList.take(MOVIE_PAGE_SIZE))}
+        updateDatabase { AppDatabase.instance.movieDao().insertAll(dbMovieList.take(MOVIE_PAGE_SIZE))}
     }
 }

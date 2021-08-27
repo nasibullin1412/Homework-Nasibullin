@@ -89,4 +89,7 @@ interface MovieDao {
     @Transaction
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateAll(movieList: List<Movie>)
+
+    @Query("SELECT * FROM movies WHERE title LIKE :searchQuery")
+    fun searchDatabase(searchQuery: String): List<Movie>
 }

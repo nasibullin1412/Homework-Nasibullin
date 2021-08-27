@@ -130,4 +130,16 @@ class MainFragmentViewModel @Inject constructor (
             currentMovieList?.toList()
         }
     }
+
+    fun filterMoviesByTitle(query:String){
+        viewModelScope.launch {
+            repository.getSearchMovies(query)
+                .catch { e ->
+                    _movieList.value = Resource.error(e.toString())
+                }
+                .collect {
+                    _movieList.value = it
+                }
+        }
+    }
 }
