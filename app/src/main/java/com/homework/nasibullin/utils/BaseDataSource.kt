@@ -7,7 +7,6 @@ import com.homework.nasibullin.dataclasses.UserWithGenres
 import com.homework.nasibullin.dataclasses.ActorDto
 import com.homework.nasibullin.dataclasses.Movie
 import com.homework.nasibullin.datasources.Resource
-import com.homework.nasibullin.utils.NetworkConstants.MOVIE_PAGE_SIZE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
@@ -88,15 +87,6 @@ abstract class BaseDataSource {
             }
         } catch (e: Exception) {
             Resource.error("Something went wrong, $e")
-        }
-    }
-
-    suspend fun getSafeMovieDbIndex(dbCall: suspend () -> Long): Long {
-        return try {
-            dbCall()
-        }
-        catch (e: Exception){
-            MOVIE_PAGE_SIZE.toLong()
         }
     }
 

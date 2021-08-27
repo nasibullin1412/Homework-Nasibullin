@@ -75,7 +75,7 @@
         android:layout_marginBottom="100dp">
 
         <!-- movie recycle view-->
-        <androidx.recyclerview.widget.RecyclerView
+        <com.homework.nasibullin.recycleview.GridRecyclerView
             android:id="@+id/rvMovieList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

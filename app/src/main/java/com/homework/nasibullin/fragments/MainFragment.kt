@@ -1,21 +1,25 @@
 package com.homework.nasibullin.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.homework.nasibullin.App
 import com.homework.nasibullin.R
 import com.homework.nasibullin.adapters.GenreAdapter
 import com.homework.nasibullin.adapters.MovieAdapter
@@ -29,7 +33,7 @@ import com.homework.nasibullin.holders.EmptyListViewHolder
 import com.homework.nasibullin.interfaces.MainFragmentCallbacks
 import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
 import com.homework.nasibullin.interfaces.OnMovieItemClickedCallback
-import com.homework.nasibullin.utils.NetworkConstants.MOVIE_PAGE_SIZE
+import com.homework.nasibullin.recycleview.GridRecyclerView
 import com.homework.nasibullin.utils.Utility
 import com.homework.nasibullin.viewmodels.MainFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -245,7 +249,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
      * @param id selected genre
      * */
     override fun onGenreClick(id: Long) {
-        Utility.showToast(viewModel.getGenreNameById(id), context)
         getMoviesByGenre(id)
     }
 
@@ -254,7 +257,6 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
      * @param id of selected movie
      * */
     override fun onMovieClick(id: Long) {
-        Utility.showToast(id.toString(), context)
         val bundle = bundleOf(MovieDetailsFragment.KEY_ARGUMENT to id)
         navController.navigate(
             R.id.action_mainFragment_to_viewMovieDetails,
@@ -289,8 +291,19 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
      * @param movieList is list of new films,
      */
     private fun updateMovieData(movieList: List<MovieDto>){
-        movieCollection = movieList.take(MOVIE_PAGE_SIZE)
+        movieCollection = movieList
         movieAdapter.submitList(movieCollection.toList())
+        runLayoutAnimation()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun runLayoutAnimation() {
+        val context = movieRecycler.context
+        val animation =
+            AnimationUtils.loadLayoutAnimation(context, R.anim.grid_layout_animation_from_bottom)
+        movieRecycler.layoutAnimation = animation
+        movieRecycler.adapter?.notifyDataSetChanged()
+        movieRecycler.scheduleLayoutAnimation()
     }
 
     /**
@@ -301,6 +314,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
         viewModel.currentGenre = genre
         movieCollection = viewModel.filterMoviesByGenre()?: emptyList()
         movieAdapter.submitList(movieCollection.toList())
+        runLayoutAnimation()
     }
 
     /**
@@ -363,12 +377,15 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
         )
         movieRecycler.addItemDecoration(itemDecorator)
         movieRecycler.adapter = movieAdapter
+        movieRecycler.itemAnimator = DefaultItemAnimator()
         movieRecycler.layoutManager = GridLayoutManager(
                 context,
                 getSpanNumber(),
                 RecyclerView.VERTICAL,
                 false
         )
+        movieRecycler.layoutAnimation = AnimationUtils.loadLayoutAnimation(
+            movieRecycler.context, R.anim.grid_layout_animation_from_bottom)
     }
 
     /**

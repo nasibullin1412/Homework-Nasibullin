@@ -7,7 +7,6 @@ import com.homework.nasibullin.dataclasses.*
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.utils.BaseDataSource
 import com.homework.nasibullin.utils.Converters
-import com.homework.nasibullin.utils.NetworkConstants.MOVIE_PAGE_SIZE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -83,6 +82,6 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
                 )
         }
         Log.d("DB", "insert")
-        updateDatabase { AppDatabase.instance.movieDao().insertAll(dbMovieList.take(MOVIE_PAGE_SIZE))}
+        updateDatabase { AppDatabase.instance.movieDao().insertAll(dbMovieList)}
     }
 }
