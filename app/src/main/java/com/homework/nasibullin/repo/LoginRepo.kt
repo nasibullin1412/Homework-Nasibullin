@@ -52,10 +52,10 @@ class LoginRepo @Inject constructor(): BaseDataSource() {
     /**
      * set session id to Encrypted Shared Preference
      */
-    fun setSessionId(sessionId:String){
+    fun setEncryptedData(key: String, value: String){
         SharedPreferenceUtils.setEncryptedValue(
-            SharedPreferenceUtils.SESSION_ID,
-            sessionId
+            key,
+            value
         )
     }
 }

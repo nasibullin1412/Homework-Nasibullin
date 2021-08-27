@@ -17,6 +17,7 @@ import com.homework.nasibullin.dataclasses.AuthenticateResponse
 import com.homework.nasibullin.dataclasses.UserLogin
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.interfaces.LoginFragmentCallbacks
+import com.homework.nasibullin.security.SharedPreferenceUtils
 import com.homework.nasibullin.utils.Utility
 import com.homework.nasibullin.viewmodels.LoginFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -86,18 +87,7 @@ class LoginFragment : Fragment() {
                                 context)
                         }
                     }
-                    Resource.Status.ERROR -> {
-                        Utility.showToast(it.message, context)
-
-                    }
-                    Resource.Status.LOADING -> {
-                        Utility.showToast(it.message, context)
-
-                    }
-                    Resource.Status.FAILURE -> {
-                        Utility.showToast(it.message, context)
-
-                    }
+                    else -> Utility.showToast(it.message, context)
                 }
             }
         )
@@ -113,18 +103,7 @@ class LoginFragment : Fragment() {
                             context)
                     }
                 }
-                Resource.Status.ERROR -> {
-                    Utility.showToast(it.message, context)
-
-                }
-                Resource.Status.LOADING -> {
-                    Utility.showToast(it.message, context)
-
-                }
-                Resource.Status.FAILURE -> {
-                    Utility.showToast(it.message, context)
-
-                }
+                else -> Utility.showToast(it.message, context)
             }
         }
         )
@@ -141,22 +120,10 @@ class LoginFragment : Fragment() {
                                 context)
                         }
                     }
-                    Resource.Status.ERROR -> {
-                        Utility.showToast(it.message, context)
-
-                    }
-                    Resource.Status.LOADING -> {
-                        Utility.showToast(it.message, context)
-
-                    }
-                    Resource.Status.FAILURE -> {
-                        Utility.showToast(it.message, context)
-
-                    }
+                    else -> Utility.showToast(it.message, context)
                 }
             }
         )
-
     }
 
     /**
@@ -186,7 +153,11 @@ class LoginFragment : Fragment() {
      * go to fragment with movies after success authorization
      */
     private fun successSessionId(sessionId: String) {
-        viewModel.setSessionIdToEncryptedSharedPref(sessionId)
+        viewModel.setToEncryptedSharedPref(SharedPreferenceUtils.SESSION_ID, sessionId)
+        viewModel.setToEncryptedSharedPref(
+            SharedPreferenceUtils.PASSWORD_KEY,
+            view?.findViewById<EditText>(R.id.etPassword)?.text.toString()
+        )
         loginFragmentCallbacks?.onLoginEnd()
         navController.navigate(
             R.id.action_loginFragment_to_mainFragment

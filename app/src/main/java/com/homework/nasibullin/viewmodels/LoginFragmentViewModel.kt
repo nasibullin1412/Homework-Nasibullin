@@ -61,9 +61,11 @@ class LoginFragmentViewModel @Inject constructor(
         }
     }
 
-    fun setSessionIdToEncryptedSharedPref(sessionId:String){
+    fun setToEncryptedSharedPref(key: String, value: String){
         viewModelScope.launch {
-            repository.setSessionId(sessionId)
+            repository.setEncryptedData(key, value)
         }
     }
+
+
 }
