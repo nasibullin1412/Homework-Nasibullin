@@ -42,7 +42,7 @@ class MovieDetailsFragment: Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        val movieDetailsView = inflater.inflate(R.layout.activity_movie_details, container, false)
+        val movieDetailsView = inflater.inflate(R.layout.movie_details_fragment, container, false)
         id = arguments?.getLong(KEY_ARGUMENT) ?: throw IllegalArgumentException("Title required")
         return movieDetailsView
     }

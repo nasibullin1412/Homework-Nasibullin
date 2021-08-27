@@ -12,9 +12,11 @@ import com.homework.nasibullin.repo.MovieListDataRepo
 import com.homework.nasibullin.security.SharedPreferenceUtils
 import com.homework.nasibullin.utils.NetworkConstants.MOVIE_PAGE_SIZE
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import okhttp3.internal.wait
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
@@ -29,6 +31,10 @@ class MainFragmentViewModel @Inject constructor (
     var currentGenre: Long = 0
     val genreList: LiveData<Resource<List<GenreDto>>> get() = _genreList
     private val _genreList = MutableLiveData<Resource<List<GenreDto>>>()
+    val signal: LiveData<Boolean> get() = _signal
+    private val _signal = MutableLiveData<Boolean>()
+
+    private val waitAfterSubmit = 800
 
     fun getGenreList(){
         viewModelScope.launch {
@@ -102,7 +108,8 @@ class MainFragmentViewModel @Inject constructor (
                 updateMovieList()
                 updateDatabase()
             }
-
+            delay(waitAfterSubmit.toLong())
+            _signal.value = !(_signal.value?: true)
         }
     }
 

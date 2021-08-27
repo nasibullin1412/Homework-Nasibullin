@@ -20,7 +20,7 @@ class GenreAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenreViewHolder {
         val inflater: LayoutInflater = LayoutInflater.from(parent.context)
-        return GenreViewHolder(inflater.inflate(R.layout.genre_list_item, parent, false))
+        return GenreViewHolder(inflater.inflate(R.layout.genre_item, parent, false))
     }
 
     fun initOnClickInterface(listener: OnGenreItemClickedCallback){
@@ -28,9 +28,9 @@ class GenreAdapter(
     }
 
     override fun onBindViewHolder(holder: GenreViewHolder, position: Int) {
-        holder.itemView.setOnClickListener(View.OnClickListener {
+        holder.itemView.setOnClickListener {
             listener.onGenreClick(getItem(position).genreId) // Trigger the call back
-        })
+        }
         holder.bind(getItem(position))
     }
 }

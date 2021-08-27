@@ -47,7 +47,7 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.user_profile, container, false)
+        return inflater.inflate(R.layout.user_profile_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

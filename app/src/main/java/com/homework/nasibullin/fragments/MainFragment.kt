@@ -18,6 +18,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.homework.nasibullin.R
 import com.homework.nasibullin.adapters.GenreAdapter
 import com.homework.nasibullin.adapters.MovieAdapter
+import com.homework.nasibullin.adapters.ShimmerAdapter
 import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.dataclasses.MovieDto
 import com.homework.nasibullin.datasources.Resource
@@ -27,7 +28,6 @@ import com.homework.nasibullin.holders.EmptyListViewHolder
 import com.homework.nasibullin.interfaces.MainFragmentCallbacks
 import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
 import com.homework.nasibullin.interfaces.OnMovieItemClickedCallback
-import com.homework.nasibullin.models.GenreModel
 import com.homework.nasibullin.utils.NetworkConstants.MOVIE_PAGE_SIZE
 import com.homework.nasibullin.utils.Utility
 import com.homework.nasibullin.viewmodels.MainFragmentViewModel
@@ -37,8 +37,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedCallback {
     private lateinit var movieGenreRecycler: RecyclerView
     private lateinit var movieRecycler: RecyclerView
+    private lateinit var shimmerRecycler: RecyclerView
     private lateinit var genreAdapter: GenreAdapter
     private lateinit var movieAdapter: MovieAdapter
+    private lateinit var shimmerAdapter: ShimmerAdapter
     private lateinit var movieCollection: Collection<MovieDto>
     private lateinit var genreCollection: Collection<GenreDto>
     private lateinit var swipeRefreshLayout:SwipeRefreshLayout
@@ -66,7 +68,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
             savedInstanceState: Bundle?
     ): View {
         requireContext()
-        return inflater.inflate(R.layout.list_of_movies, container, false)
+        return inflater.inflate(R.layout.movie_list_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,20 +92,22 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
 
     private fun initView(){
         setupViews()
-        setupGenreObserver()
-        setupObserver()
+        setupObservers()
         handleSwipe()
+        viewModel.getGenreList()
+        viewModel.getMovieList(false)
     }
 
     /**
      *  prepare genre and movie recycle views
      * */
     private fun setupViews() {
-        emptyListViewHolder = EmptyListViewHolder(this.layoutInflater.inflate(R.layout.empty_list_movie,
+        emptyListViewHolder = EmptyListViewHolder(this.layoutInflater.inflate(R.layout.empty_item,
                 view?.findViewById<RecyclerView>(R.id.rvMovieGenreList), false))
         calculateValues()
         prepareMovieGenreRecycleView()
         prepareMovieRecycleView()
+        prepareShimmerRecycleView()
         createAdapterObserver()
     }
 
@@ -154,35 +158,11 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     private fun handleSwipe(){
         swipeRefreshLayout = view?.findViewById(R.id.srlMovieList) ?: throw IllegalArgumentException("swipeRefresh required")
         swipeRefreshLayout.setOnRefreshListener {
+            movieRecycler.visibility = View.GONE
+            shimmerRecycler.visibility = View.VISIBLE
+            shimmerAdapter.enableShimmer()
             viewModel.getMovieList(true)
         }
-    }
-
-    /**
-     * setup observer for genres
-     */
-    private fun setupGenreObserver() {
-        viewModel.getGenreList()
-        viewModel.genreList.observe(viewLifecycleOwner, {
-            when(it.status){
-                Resource.Status.SUCCESS -> {
-                    if (it.data != null) {
-                        updateGenreData(ArrayList(it.data))
-                    }
-                }
-                Resource.Status.ERROR -> {
-                    Utility.showToast(it.message, context)
-                }
-
-                Resource.Status.LOADING -> {
-                    Utility.showToast(it.message, context)
-                }
-
-                Resource.Status.FAILURE -> {
-                    Utility.showToast(it.message, context)
-                }
-            }
-        })
     }
 
     /**
@@ -197,34 +177,43 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     }
 
     /**
-     * observer, which async wait of data update
+     * observers, which async wait of data update
      */
-    private fun setupObserver() {
-        viewModel.getMovieList(false)
+    private fun setupObservers() {
+        viewModel.genreList.observe(viewLifecycleOwner, {
+            when(it.status){
+                Resource.Status.SUCCESS -> {
+                    if (it.data != null) {
+                        updateGenreData(ArrayList(it.data))
+                    }
+                }
+                else -> Utility.showToast(it.message, context)
+            }
+        })
         viewModel.movieList.observe(viewLifecycleOwner, {
-
             when(it.status){
                 Resource.Status.SUCCESS -> {
                     updateMovieData(it.data?:throw java.lang.IllegalArgumentException("Live Data required"))
                     swipeRefreshLayout.isRefreshing =false
                 }
-
-                Resource.Status.ERROR -> {
-                    Utility.showToast(it.message, context)
-                    swipeRefreshLayout.isRefreshing =false
-                }
-
-                Resource.Status.LOADING -> {
-                    Utility.showToast(it.message, context)
-                    swipeRefreshLayout.isRefreshing =false
-                }
-
-                Resource.Status.FAILURE -> {
-                    Utility.showToast(it.message, context)
-                    swipeRefreshLayout.isRefreshing =false
-                }
+                else -> unsuccessfulGetMovies(it.message)
             }
         })
+        viewModel.signal.observe(viewLifecycleOwner, {
+            afterUpdateActions()
+        })
+    }
+
+    private fun unsuccessfulGetMovies(message: String?){
+        Utility.showToast(message, context)
+        swipeRefreshLayout.isRefreshing =false
+    }
+
+    private fun afterUpdateActions(){
+        shimmerAdapter.disableShimmer()
+        shimmerRecycler.visibility = View.GONE
+        movieRecycler.visibility = View.VISIBLE
+
     }
 
     /**
@@ -300,8 +289,40 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback, OnGenreItemClickedC
     /**
      * Movie recycle view with ListAdapter
      * */
+    private fun prepareShimmerRecycleView() {
+        shimmerRecycler = view?.findViewById(R.id.rvShimmerList)
+            ?: throw IllegalArgumentException("Recycler required")
+        shimmerAdapter = ShimmerAdapter()
+        val itemDecorator = MovieItemDecoration(
+            topBottom = MOVIE_TOP_BOTTOM_OFFSET,
+            right = calculateOffset(),
+            spanNumber = getSpanNumber() - 1
+        )
+        shimmerRecycler.addItemDecoration(itemDecorator)
+        shimmerRecycler.adapter = shimmerAdapter
+        shimmerRecycler.layoutManager = GridLayoutManager(
+            context,
+            getSpanNumber(),
+            RecyclerView.VERTICAL,
+            false
+        )
+        val shimmerList = mutableListOf<MovieDto>().apply {
+            repeat(10) {
+                this.add(MovieDto(
+                    0, "", "", 0, 0,
+                    "", "", 0, "", emptyList()
+                ))
+            }
+        }
+        shimmerAdapter.submitList(shimmerList)
+    }
+
+    /**
+     * Movie recycle view with ListAdapter
+     * */
     private fun prepareMovieRecycleView() {
         movieRecycler = view?.findViewById(R.id.rvMovieList)?: throw IllegalArgumentException("Recycler required")
+        movieRecycler.visibility = View.GONE
         movieAdapter = MovieAdapter()
         movieAdapter.initOnClickInterface(this)
         val itemDecorator = MovieItemDecoration(
