@@ -43,10 +43,11 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
      */
     suspend fun getLocalData(): Flow<Resource<List<MovieDto>>> {
         return flow {
-            val result = getSafeLocalMovies {
+            val result = getSafeLocalData {
                 AppDatabase.instance.movieDao().getAll()
             }
-            emit(result)
+            val resultDto = Converters.fromMovieListToMovieDtoList(result)
+            emit(resultDto)
         }.flowOn(Dispatchers.IO)
     }
 
@@ -56,10 +57,11 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
      */
     suspend fun getSearchMovies(query: String): Flow<Resource<List<MovieDto>>>{
         return flow {
-            val result = getSafeLocalMovies {
+            val result = getSafeLocalData {
                 AppDatabase.instance.movieDao().searchDatabase(query)
             }
-            emit(result)
+            val resultDto = Converters.fromMovieListToMovieDtoList(result)
+            emit(resultDto)
         }.flowOn(Dispatchers.IO)
     }
 

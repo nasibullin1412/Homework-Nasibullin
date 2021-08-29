@@ -1,13 +1,6 @@
 package com.homework.nasibullin.utils
 
-import com.homework.nasibullin.dataclasses.GenreDto
-import com.homework.nasibullin.dataclasses.UserDto
-import com.homework.nasibullin.dataclasses.MovieResponse
-import com.homework.nasibullin.dataclasses.MovieDto
-import com.homework.nasibullin.dataclasses.GenreResponse
-import com.homework.nasibullin.dataclasses.AccountDetailResponse
-import com.homework.nasibullin.dataclasses.ActorDto
-import com.homework.nasibullin.dataclasses.CastResponse
+import com.homework.nasibullin.dataclasses.*
 import com.homework.nasibullin.datasources.Resource
 
 object Converters {
@@ -80,4 +73,57 @@ object Converters {
             Resource.success(movieDto)
         }?: Resource.failed("Error convert")
     }
+
+    fun fromMovieWithActorsToMovieDto(movieWithActor: Resource<MovieWithActor>): Resource<MovieDto>
+        = movieWithActor.data?.let {
+            Resource.success(
+                MovieDto(
+                    id = it.movie.backId,
+                    title = it.movie.title,
+                    description = it.movie.description,
+                    rateScore = it.movie.rateScore,
+                    ageRestriction = it.movie.ageRestriction,
+                    imageUrl = it.movie.imageUrl,
+                    posterUrl = it.movie.posterUrl,
+                    genre = it.movie.genre,
+                    releaseDate = it.movie.releaseDate,
+                    actors = it.actors.map { actor -> ActorDto(avatarUrl = actor.avatarUrl, name = actor.name, id=actor.id) }
+                )
+            )
+        } ?: Resource.failed(movieWithActor.message ?: "Error convert")
+
+    fun fromUserWithGenresToUserDto(userWithGenres: Resource<UserWithGenres>): Resource<UserDto> =
+        userWithGenres.data?.let {
+            Resource.success(
+                UserDto(
+                id = 0,
+                name = it.user.name,
+                mail = it.user.mail,
+                number = it.user.number,
+                genres = it.genres,
+                password = it.user.password,
+                avatarPath = it.user.avatarPath
+                )
+            )
+        } ?: Resource.failed(userWithGenres.message ?: "Error convert")
+
+    fun fromMovieListToMovieDtoList(movieList: Resource<List<Movie>>): Resource<List<MovieDto>> =
+        movieList.data?.let {
+            Resource.success(
+                it.map { movie ->
+                    MovieDto(
+                        id = movie.backId,
+                        title = movie.title,
+                        description = movie.description,
+                        rateScore = movie.rateScore,
+                        ageRestriction = movie.ageRestriction,
+                        imageUrl = movie.imageUrl,
+                        posterUrl = movie.posterUrl,
+                        genre = movie.genre,
+                        releaseDate = movie.releaseDate,
+                        actors = emptyList()
+                    )
+                }
+            )
+        }?: Resource.failed(movieList.message ?: "Error convert")
 }

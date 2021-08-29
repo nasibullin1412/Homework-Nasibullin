@@ -1,11 +1,5 @@
 package com.homework.nasibullin.utils
 
-import com.homework.nasibullin.dataclasses.MovieDto
-import com.homework.nasibullin.dataclasses.MovieWithActor
-import com.homework.nasibullin.dataclasses.UserDto
-import com.homework.nasibullin.dataclasses.UserWithGenres
-import com.homework.nasibullin.dataclasses.ActorDto
-import com.homework.nasibullin.dataclasses.Movie
 import com.homework.nasibullin.datasources.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -36,20 +30,11 @@ abstract class BaseDataSource {
         }
     }
 
-    suspend fun getSafeLocalUserData(dbCall: suspend () -> UserWithGenres?): Resource<UserDto> {
+    suspend fun <T> getSafeLocalData(dbCall: suspend () -> T?): Resource<T> {
         return try {
             val result = dbCall()
-            if (result != null && result.genres.isNotEmpty()) {
-                val userDto = UserDto(
-                    id = 0,
-                    name = result.user.name,
-                    mail = result.user.mail,
-                    number = result.user.number,
-                    genres = result.genres,
-                    password = result.user.password,
-                    avatarPath = result.user.avatarPath
-                )
-                Resource.success(userDto)
+            if (result != null) {
+                Resource.success(result)
             }
             else{
                 Resource.failed("No data")
@@ -59,63 +44,6 @@ abstract class BaseDataSource {
         }
     }
 
-    suspend fun getSafeLocalMovieDetail(apiCall: suspend () -> MovieWithActor?): Resource<MovieDto> {
-        return try {
-            val result = apiCall()
-            if (result != null ) {
-                val movieDto = MovieDto(
-                    id = result.movie.backId,
-                    title = result.movie.title,
-                    description = result.movie.description,
-                    rateScore = result.movie.rateScore,
-                    ageRestriction = result.movie.ageRestriction,
-                    imageUrl = result.movie.imageUrl,
-                    posterUrl = result.movie.posterUrl,
-                    genre = result.movie.genre,
-                    releaseDate = result.movie.releaseDate,
-                    actors = result.actors.map { ActorDto(avatarUrl = it.avatarUrl, name = it.name, id=it.id) }
-                )
-                if (result.actors.isNotEmpty()){
-                    Resource.success(movieDto)
-                }
-                else{
-                    Resource.failed("No actors", movieDto)
-                }
-            }
-            else{
-                Resource.failed("No data")
-            }
-        } catch (e: Exception) {
-            Resource.error("Something went wrong, $e")
-        }
-    }
-
-    suspend fun getSafeLocalMovies(dbCall: suspend () ->List<Movie>): Resource<List<MovieDto>>{
-        return try {
-            val result = dbCall()
-            val resultDto = result.map{ MovieDto(
-                id = it.backId,
-                title = it.title,
-                description = it.description,
-                rateScore = it.rateScore,
-                ageRestriction = it.ageRestriction,
-                imageUrl = it.imageUrl,
-                posterUrl = it.posterUrl,
-                genre = it.genre,
-                releaseDate = it.releaseDate,
-                actors = emptyList()
-            ) }
-            if (resultDto.isEmpty()){
-                Resource.failed("Empty movie list")
-            }
-            else{
-                Resource.success(resultDto)
-            }
-        }
-        catch (e: Exception){
-            Resource.failed("Houston we have a problem: $e" )
-        }
-    }
     suspend fun updateDatabase(dbCall: suspend () ->Unit): Boolean{
         return try {
             dbCall()
@@ -124,9 +52,5 @@ abstract class BaseDataSource {
         catch (e: Exception){
             false
         }
-    }
-
-    suspend fun getSafeUserPassword(sharedCall: suspend () -> String): String{
-        return sharedCall()
     }
 }

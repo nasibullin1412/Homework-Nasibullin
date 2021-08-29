@@ -36,15 +36,9 @@ class UserDataRepo @Inject constructor(): BaseDataSource() {
      */
     suspend fun getLocalUser(): Flow<Resource<UserDto>> {
         return flow {
-            val db = AppDatabase.instance
-            val result = getSafeLocalUserData{ db.userDao().getUserData() }
-            if (result.data != null){
-                result.data.password = getSafeUserPassword {
-                    SharedPreferenceUtils.getEncryptedValue(SharedPreferenceUtils.PASSWORD_KEY)
-                        ?: throw IllegalArgumentException("Pass required")
-                }
-            }
-            emit(result)
+            val result = getSafeLocalData{ AppDatabase.instance.userDao().getUserData() }
+            val resultDto = Converters.fromUserWithGenresToUserDto(result)
+            emit(resultDto)
         }.flowOn(Dispatchers.IO)
     }
 
@@ -52,9 +46,8 @@ class UserDataRepo @Inject constructor(): BaseDataSource() {
      * insert user data to database
      */
     suspend fun insertUser(userDto: UserDto){
-        val db = AppDatabase.instance
         updateDatabase {
-            db.userDao().insertUserWithGenres(
+            AppDatabase.instance.userDao().insertUserWithGenres(
                 UserWithGenres(
                     user = userDto,
                     genres = listOf(

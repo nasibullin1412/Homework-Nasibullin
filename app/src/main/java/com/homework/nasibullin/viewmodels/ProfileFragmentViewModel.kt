@@ -121,7 +121,7 @@ class ProfileFragmentViewModel @Inject constructor(
                     _userData.value = Resource.error(e.toString())
                 }
                 .collect {
-                    if (it.status != Resource.Status.FAILURE) {
+                    if (it.status != Resource.Status.FAILURE && !it.data?.genres.isNullOrEmpty()) {
                         _userData.value = it
                     }
                     else{

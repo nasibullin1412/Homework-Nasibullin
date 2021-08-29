@@ -44,7 +44,7 @@ class MovieDetailViewModel @Inject constructor (
                 .catch { e ->
                     _movieDetail.value = Resource.error(e.toString())
                 }.collect {
-                    if (it.status != Resource.Status.FAILURE) {
+                    if (it.status != Resource.Status.FAILURE && !it.data?.actors.isNullOrEmpty()) {
                         movie = it.data
                         _movieDetail.value = it
                     }
@@ -54,24 +54,28 @@ class MovieDetailViewModel @Inject constructor (
                     }
 
                 }
-            if (isNeedRemoteAction){
-                repository.getRemoteCast(backId = movie?.id ?: throw IllegalArgumentException("Movie required"))
-                    .catch {
-                            e ->
-                        _movieDetail.value = Resource.error(e.toString())
-                    }
-                    .collect {
-                        if (it.status == Resource.Status.SUCCESS){
-                            actorList = it.data?.take(5) ?: throw IllegalArgumentException("Cast required")
-                        }
-                        _movieDetail.value = Converters.fromMovieDtoAndActorListToMovieDto(movie, actorList)
-                    }
-                if (movie != null){
-                    repository.addMovieWithActors(movie ?: throw IllegalArgumentException("Movie required"))
-                }
-                delay(shimmerTime.toLong())
+            if (isNeedRemoteAction) {
+                doGetRemoteAction()
             }
             _signal.value = !(_signal.value?: true)
         }
+    }
+
+    private suspend fun doGetRemoteAction(){
+        repository.getRemoteCast(backId = movie?.id ?: throw IllegalArgumentException("Movie required"))
+            .catch {
+                    e ->
+                _movieDetail.value = Resource.error(e.toString())
+            }
+            .collect {
+                if (it.status == Resource.Status.SUCCESS){
+                    actorList = it.data?.take(5) ?: throw IllegalArgumentException("Cast required")
+                }
+                _movieDetail.value = Converters.fromMovieDtoAndActorListToMovieDto(movie, actorList)
+            }
+        if (movie != null){
+            repository.addMovieWithActors(movie ?: throw IllegalArgumentException("Movie required"))
+        }
+        delay(shimmerTime.toLong())
     }
 }

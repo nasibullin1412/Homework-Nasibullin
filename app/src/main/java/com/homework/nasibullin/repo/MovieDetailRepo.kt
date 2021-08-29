@@ -32,9 +32,9 @@ class MovieDetailRepo @Inject constructor(): BaseDataSource() {
      */
     suspend fun getLocalMovie(id:Long): Flow<Resource<MovieDto>> {
         return flow {
-            val db = AppDatabase.instance
-            val result = getSafeLocalMovieDetail { db.movieDao().getMovieDetail(id) }
-            emit(result)
+            val result = getSafeLocalData { AppDatabase.instance.movieDao().getMovieDetail(id) }
+            val resultDto = Converters.fromMovieWithActorsToMovieDto(result)
+            emit(resultDto)
         }.flowOn(Dispatchers.IO)
     }
 
