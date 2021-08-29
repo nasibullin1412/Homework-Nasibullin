@@ -176,7 +176,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
      * @param genreDtoList is list with genres
      */
     private fun updateGenreData(genreDtoList: ArrayList<GenreDto>){
-        genreDtoList.add(0, GenreDto(ALL_GENRE, ALL_GENRE_ID.toLong(), 5))
+        genreDtoList.add(0, GenreDto(null, ALL_GENRE_ID.toLong(), ALL_GENRE))
         viewModel.setGenreListToSharedPref(genreDtoList)
         genreCollection = genreDtoList
         genreAdapter.submitList(genreCollection.toList())
@@ -322,7 +322,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
         movieGenreRecycler = view?.findViewById(R.id.rvMovieGenreList) ?: throw IllegalArgumentException("Recycler required")
         genreAdapter = GenreAdapter()
         genreAdapter.initOnClickInterface(this)
-        genreAdapter.submitList(listOf(GenreDto(title = ALL_GENRE, ALL_GENRE_ID.toLong(), 5)))
+        genreAdapter.submitList(listOf(GenreDto(null, title = ALL_GENRE, genreId = ALL_GENRE_ID.toLong())))
         val itemDecorator = GenreItemDecoration(leftRight = GENRE_LEFT_RIGHT_OFFSET)
         movieGenreRecycler.addItemDecoration(itemDecorator)
         movieGenreRecycler.adapter = genreAdapter
@@ -353,7 +353,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
             repeat(10) {
                 this.add(MovieDto(
                     0, "", "", 0, 0,
-                    "", "", 0, "", emptyList()
+                    "", "", GenreDto(null, 0, ""), "", emptyList()
                 ))
             }
         }

@@ -52,7 +52,6 @@ class MovieDetailViewModel @Inject constructor (
                         isNeedRemoteAction = true
                         movie = it.data
                     }
-
                 }
             if (isNeedRemoteAction) {
                 doGetRemoteAction()

@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.Room
 import com.homework.nasibullin.App
 import com.homework.nasibullin.database.dao.ActorDao
+import com.homework.nasibullin.database.dao.GenreDao
 import com.homework.nasibullin.database.dao.MovieDao
 import com.homework.nasibullin.database.dao.UserDao
 import com.homework.nasibullin.dataclasses.*
@@ -14,14 +15,16 @@ import com.homework.nasibullin.dataclasses.*
     Actor::class,
     UserDto::class,
     GenreDto::class,
-    MovieToActorCrossRef::class
+    MovieToActorCrossRef::class,
+    GenreToMovieCrossRef::class
     ],
-    version = 2
+    version = 4
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
     abstract fun userDao(): UserDao
     abstract fun actorDao(): ActorDao
+    abstract fun genreDao(): GenreDao
     companion object {
         private const val DATABASE_NAME = "Movies.db"
 

@@ -36,15 +36,39 @@ class MainFragmentViewModel @Inject constructor (
 
     fun getGenreList(){
         viewModelScope.launch {
-            repository.getRemoteGenres()
+            var isNeedRemoteAction = false
+            repository.getLocalGenres()
                 .catch { e->
                     _genreList.value = Resource.error(e.toString())
                 }
-                .collect{
-                    _genreList.value = it
+                .collect {
+                    if (it.status != Resource.Status.FAILURE && !it.data.isNullOrEmpty()) {
+                        _genreList.value = it
+                    }
+                    else{
+                        isNeedRemoteAction = true
+                    }
                 }
+            if (isNeedRemoteAction){
+                doGetRemoteGenre()
+            }
         }
     }
+
+    private suspend fun doGetRemoteGenre(){
+        repository.getRemoteGenres()
+            .catch { e->
+                _genreList.value = Resource.error(e.toString())
+            }
+            .collect{
+                _genreList.value = it
+            }
+        if (_genreList.value?.status == Resource.Status.SUCCESS && _genreList.value?.data != null){
+            repository.updateGenreDatabase(_genreList.value?.data
+                ?: throw IllegalArgumentException("Value required"))
+        }
+    }
+
 
     fun setGenreListToSharedPref(genreList: List<GenreDto>){
         for (genre in genreList){
@@ -86,6 +110,7 @@ class MainFragmentViewModel @Inject constructor (
             repository.updateDatabase(
                 currentMovieList?.toList() ?: throw IllegalArgumentException("currentMovieList")
             )
+
         }
     }
 
@@ -99,6 +124,7 @@ class MainFragmentViewModel @Inject constructor (
                 initMovieList()
             }
             if (currentMovieList.isNullOrEmpty() || isSwipe){
+                doGetRemoteGenre()
                 updateMovieList()
                 updateDatabase()
                 delay(waitAfterSubmit.toLong())
@@ -119,7 +145,7 @@ class MainFragmentViewModel @Inject constructor (
      */
     fun filterMoviesByGenre(): List<MovieDto>? {
         return if (currentGenre != MainFragment.ALL_GENRE_ID.toLong()) {
-            currentMovieList?.filter { it.genre == currentGenre }
+            currentMovieList?.filter { it.genre.genreId == currentGenre }
         } else {
             currentMovieList?.toList()
         }

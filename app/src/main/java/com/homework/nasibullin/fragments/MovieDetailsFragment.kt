@@ -87,7 +87,7 @@ class MovieDetailsFragment: Fragment() {
     private fun setupView(movie: MovieDto){
         view?.findViewById<ImageView>(R.id.imgMoviePoster)?.load(IMAGE_BASE_URL + movie.posterUrl)
         view?.findViewById<TextView>(R.id.tvGenre)?.apply {
-            text = viewModel.getGenreNameById(movie.genre)
+            text = movie.genre.title
         }
         view?.findViewById<RatingBar>(R.id.rbMovieDetailStar)?.apply{
             rating = movie.rateScore.toFloat()

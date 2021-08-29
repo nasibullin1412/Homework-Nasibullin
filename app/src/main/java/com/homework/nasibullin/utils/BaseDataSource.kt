@@ -1,5 +1,6 @@
 package com.homework.nasibullin.utils
 
+import android.util.Log
 import com.homework.nasibullin.datasources.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -50,6 +51,7 @@ abstract class BaseDataSource {
             true
         }
         catch (e: Exception){
+            Log.e("E/DB", e.message.toString())
             false
         }
     }

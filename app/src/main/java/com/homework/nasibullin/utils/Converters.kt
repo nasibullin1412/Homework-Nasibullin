@@ -18,7 +18,7 @@ object Converters {
                         } else {
                             12
                         },
-                        genre = movieResponse.genre_ids[0].toLong(),
+                        genre = GenreDto(null, movieResponse.genre_ids[0].toLong(), ""),
                         actors = emptyList(),
                         imageUrl = movieResponse.poster_path,
                         posterUrl = movieResponse.backdrop_path,
@@ -33,9 +33,9 @@ object Converters {
             Resource.success(
                 it.genres.map { genreResponse->
                     GenreDto(
+                        id = null,
                         genreId = genreResponse.id,
-                        title = genreResponse.name,
-                        userId = 5
+                        title = genreResponse.name
                     )
                 }
             )
@@ -74,8 +74,8 @@ object Converters {
         }?: Resource.failed("Error convert")
     }
 
-    fun fromMovieWithActorsToMovieDto(movieWithActor: Resource<MovieWithActor>): Resource<MovieDto>
-        = movieWithActor.data?.let {
+    fun fromMovieWithActorsToMovieDto(movieWithActorWithGenre: Resource<MovieWithActorWithGenre>): Resource<MovieDto>
+        = movieWithActorWithGenre.data?.let {
             Resource.success(
                 MovieDto(
                     id = it.movie.backId,
@@ -85,27 +85,13 @@ object Converters {
                     ageRestriction = it.movie.ageRestriction,
                     imageUrl = it.movie.imageUrl,
                     posterUrl = it.movie.posterUrl,
-                    genre = it.movie.genre,
+                    genre = it.genre,
                     releaseDate = it.movie.releaseDate,
                     actors = it.actors.map { actor -> ActorDto(avatarUrl = actor.avatarUrl, name = actor.name, id=actor.id) }
                 )
             )
-        } ?: Resource.failed(movieWithActor.message ?: "Error convert")
+        } ?: Resource.failed(movieWithActorWithGenre.message ?: "Error convert")
 
-    fun fromUserWithGenresToUserDto(userWithGenres: Resource<UserWithGenres>): Resource<UserDto> =
-        userWithGenres.data?.let {
-            Resource.success(
-                UserDto(
-                id = 0,
-                name = it.user.name,
-                mail = it.user.mail,
-                number = it.user.number,
-                genres = it.genres,
-                password = it.user.password,
-                avatarPath = it.user.avatarPath
-                )
-            )
-        } ?: Resource.failed(userWithGenres.message ?: "Error convert")
 
     fun fromMovieListToMovieDtoList(movieList: Resource<List<Movie>>): Resource<List<MovieDto>> =
         movieList.data?.let {
@@ -119,7 +105,7 @@ object Converters {
                         ageRestriction = movie.ageRestriction,
                         imageUrl = movie.imageUrl,
                         posterUrl = movie.posterUrl,
-                        genre = movie.genre,
+                        genre = GenreDto(null, movie.genre,""),
                         releaseDate = movie.releaseDate,
                         actors = emptyList()
                     )

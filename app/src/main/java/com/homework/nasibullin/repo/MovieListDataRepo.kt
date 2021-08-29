@@ -38,6 +38,13 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
         }.flowOn(Dispatchers.IO)
     }
 
+    suspend fun getLocalGenres(): Flow<Resource<List<GenreDto>>> {
+        return flow {
+            val result = getSafeLocalData { AppDatabase.instance.genreDao().getAllGenres() }
+            emit(result)
+        }.flowOn(Dispatchers.IO)
+    }
+
     /**
      * downloading movies from the local database
      */
@@ -65,6 +72,10 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
         }.flowOn(Dispatchers.IO)
     }
 
+    suspend fun updateGenreDatabase(genreList: List<GenreDto>){
+        updateDatabase {AppDatabase.instance.genreDao().insertAll(genreList)}
+    }
+
     /**
      * update data base with actual movies
      */
@@ -76,7 +87,7 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
                     description = movieDto.description,
                     rateScore = movieDto.rateScore,
                     ageRestriction = movieDto.ageRestriction,
-                    genre = movieDto.genre,
+                    genre = movieDto.genre.genreId,
                     imageUrl = movieDto.imageUrl,
                     posterUrl = movieDto.posterUrl,
                     backId = movieDto.id,
@@ -85,5 +96,12 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
         }
         Log.d("DB", "insert")
         updateDatabase { AppDatabase.instance.movieDao().insertAll(dbMovieList)}
+        val genreToMovieCrossRef = ArrayList<GenreToMovieCrossRef>()
+        movieList.forEach{genreToMovieCrossRef.add(GenreToMovieCrossRef(null, it.genre.genreId, it.id))}
+        genreToMovieCrossRef.forEach {
+            updateDatabase {
+                AppDatabase.instance.genreDao().insertGenreToMovieAcrossRef(it)
+            }
+        }
     }
 }

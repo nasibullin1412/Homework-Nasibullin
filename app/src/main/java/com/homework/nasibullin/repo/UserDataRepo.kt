@@ -4,7 +4,6 @@ import com.homework.nasibullin.App
 import com.homework.nasibullin.database.AppDatabase
 import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.dataclasses.UserDto
-import com.homework.nasibullin.dataclasses.UserWithGenres
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.fragments.MainFragment.Companion.ALL_GENRE
 import com.homework.nasibullin.security.SharedPreferenceUtils
@@ -14,7 +13,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -36,9 +34,8 @@ class UserDataRepo @Inject constructor(): BaseDataSource() {
      */
     suspend fun getLocalUser(): Flow<Resource<UserDto>> {
         return flow {
-            val result = getSafeLocalData{ AppDatabase.instance.userDao().getUserData() }
-            val resultDto = Converters.fromUserWithGenresToUserDto(result)
-            emit(resultDto)
+            val result = getSafeLocalData { AppDatabase.instance.userDao().getUserData() }
+            emit(result)
         }.flowOn(Dispatchers.IO)
     }
 
@@ -47,17 +44,8 @@ class UserDataRepo @Inject constructor(): BaseDataSource() {
      */
     suspend fun insertUser(userDto: UserDto){
         updateDatabase {
-            AppDatabase.instance.userDao().insertUserWithGenres(
-                UserWithGenres(
-                    user = userDto,
-                    genres = listOf(
-                        GenreDto(
-                            title = ALL_GENRE,
-                            genreId = 0,
-                            userId = userDto.id
-                        )
-                    )
-                )
+            AppDatabase.instance.userDao().insert(
+                userDto
             )
         }
         updateDatabase {

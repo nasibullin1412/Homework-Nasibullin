@@ -23,6 +23,7 @@ import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.dataclasses.UserDto
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.decorations.GenreItemDecoration
+import com.homework.nasibullin.fragments.MainFragment.Companion.ALL_GENRE
 import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
 import com.homework.nasibullin.security.SharedPreferenceUtils
 import com.homework.nasibullin.utils.NetworkConstants.IMAGE_BASE_URL
@@ -136,7 +137,7 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
             text = SharedPreferenceUtils.getEncryptedValue(SharedPreferenceUtils.PASSWORD_KEY)
         }
         updateButtonText()
-        setupGenreRecycleView(user.genres)
+        setupGenreRecycleView(listOf(GenreDto(null, 0, ALL_GENRE)))
     }
 
     /**
