@@ -35,6 +35,7 @@ import com.homework.nasibullin.interfaces.OnMovieItemClickedCallback
 import com.homework.nasibullin.utils.Utility
 import com.homework.nasibullin.viewmodels.MainFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.internal.notifyAll
 
 @AndroidEntryPoint
 class MainFragment : Fragment(), OnMovieItemClickedCallback,
@@ -46,7 +47,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
     private lateinit var movieAdapter: MovieAdapter
     private lateinit var shimmerAdapter: ShimmerAdapter
     private lateinit var movieCollection: Collection<MovieDto>
-    private lateinit var genreCollection: Collection<GenreDto>
+    private lateinit var genreCollection: ArrayList<GenreDto>
     private lateinit var swipeRefreshLayout:SwipeRefreshLayout
     private lateinit var emptyListViewHolder: EmptyListViewHolder
     private lateinit var searchView: SearchView
@@ -120,7 +121,8 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
     /**
      * adapter observer, do actions after changes in recycle view
      */
-    private fun createAdapterObserver()= movieAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+    private fun createAdapterObserver()= movieAdapter.registerAdapterDataObserver(
+        object : RecyclerView.AdapterDataObserver() {
         override fun onChanged() {
             super.onChanged()
             observerActions()
@@ -176,8 +178,14 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
      * @param genreDtoList is list with genres
      */
     private fun updateGenreData(genreDtoList: ArrayList<GenreDto>){
-        genreDtoList.add(0, GenreDto(null, ALL_GENRE_ID.toLong(), ALL_GENRE))
-        viewModel.setGenreListToSharedPref(genreDtoList)
+        genreDtoList.add(0,
+            GenreDto(
+                0,
+                ALL_GENRE_ID.toLong(),
+                ALL_GENRE,
+                true
+            )
+        )
         genreCollection = genreDtoList
         genreAdapter.submitList(genreCollection.toList())
     }
@@ -199,7 +207,8 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
         viewModel.movieList.observe(viewLifecycleOwner, {
             when(it.status){
                 Resource.Status.SUCCESS -> {
-                    updateMovieData(it.data?:throw java.lang.IllegalArgumentException("Live Data required"))
+                    updateMovieData(it.data
+                        ?:throw java.lang.IllegalArgumentException("Live Data required"))
                     swipeRefreshLayout.isRefreshing =false
                 }
                 Resource.Status.FAILURE -> {
@@ -248,6 +257,25 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
      * */
     override fun onGenreClick(id: Long) {
         getMoviesByGenre(id)
+        val idx: Int = genreCollection.first{ it.genreId == id }.id?.toInt()
+            ?: throw java.lang.IllegalArgumentException("Genre required")
+        when(idx){
+            0 -> {
+                if (genreCollection[idx].isSelected.not()){
+                    genreCollection.forEach { it.isSelected = false }
+                    genreAdapter.notifyDataSetChanged()
+                }
+                else{
+                    return
+                }
+            }
+            else -> {
+                genreCollection[0].isSelected = false
+                genreAdapter.notifyItemChanged(0)
+            }
+        }
+        genreCollection[idx].isSelected = genreCollection[idx].isSelected.not()
+        genreAdapter.notifyItemChanged(idx)
     }
 
     /**
@@ -319,14 +347,26 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
      * Movie genre recycle view with ListAdapter
      * */
     private fun prepareMovieGenreRecycleView() {
-        movieGenreRecycler = view?.findViewById(R.id.rvMovieGenreList) ?: throw IllegalArgumentException("Recycler required")
+        movieGenreRecycler = view?.findViewById(R.id.rvMovieGenreList) ?:
+        throw IllegalArgumentException("Recycler required")
         genreAdapter = GenreAdapter()
         genreAdapter.initOnClickInterface(this)
-        genreAdapter.submitList(listOf(GenreDto(null, title = ALL_GENRE, genreId = ALL_GENRE_ID.toLong())))
+        genreAdapter.submitList(
+            listOf(
+                GenreDto(
+                    null,
+                    title = ALL_GENRE,
+                    genreId = ALL_GENRE_ID.toLong(),
+                    isSelected = false)
+            )
+        )
         val itemDecorator = GenreItemDecoration(leftRight = GENRE_LEFT_RIGHT_OFFSET)
         movieGenreRecycler.addItemDecoration(itemDecorator)
         movieGenreRecycler.adapter = genreAdapter
-        movieGenreRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        movieGenreRecycler.layoutManager = LinearLayoutManager(
+            context,
+            RecyclerView.HORIZONTAL,
+            false)
     }
 
     /**
@@ -353,7 +393,8 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
             repeat(10) {
                 this.add(MovieDto(
                     0, "", "", 0, 0,
-                    "", "", GenreDto(null, 0, ""), "", emptyList()
+                    "", "", GenreDto(null, 0, "", false),
+                    "", emptyList()
                 ))
             }
         }
@@ -364,7 +405,8 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
      * Movie recycle view with ListAdapter
      * */
     private fun prepareMovieRecycleView() {
-        movieRecycler = view?.findViewById(R.id.rvMovieList)?: throw IllegalArgumentException("Recycler required")
+        movieRecycler = view?.findViewById(R.id.rvMovieList)
+            ?: throw IllegalArgumentException("Recycler required")
         movieRecycler.visibility = View.GONE
         movieAdapter = MovieAdapter()
         movieAdapter.initOnClickInterface(this)
@@ -403,7 +445,8 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
      * Get number of span depending on orientation
      * */
     private fun getSpanNumber(): Int =
-            if (orientation) PORTRAIT_ORIENTATION_SPAN_NUMBER else LANDSCAPE_ORIENTATION_SPAN_NUMBER
+            if (orientation) PORTRAIT_ORIENTATION_SPAN_NUMBER
+            else LANDSCAPE_ORIENTATION_SPAN_NUMBER
 
     /**
      * Calculate offset item movies depending on orientation

@@ -18,7 +18,7 @@ object Converters {
                         } else {
                             12
                         },
-                        genre = GenreDto(null, movieResponse.genre_ids[0].toLong(), ""),
+                        genre = GenreDto(null, movieResponse.genre_ids[0].toLong(), "", false),
                         actors = emptyList(),
                         imageUrl = movieResponse.poster_path,
                         posterUrl = movieResponse.backdrop_path,
@@ -31,11 +31,12 @@ object Converters {
     fun fromListGenreResponseToListGenreDto(genreData: Resource<GenreResponse>): Resource<List<GenreDto>> =
         genreData.data?.let {
             Resource.success(
-                it.genres.map { genreResponse->
+                it.genres.mapIndexed { index, genreResponse->
                     GenreDto(
-                        id = null,
+                        id = (index+1).toLong(),
                         genreId = genreResponse.id,
-                        title = genreResponse.name
+                        title = genreResponse.name,
+                        false
                     )
                 }
             )
@@ -87,7 +88,8 @@ object Converters {
                     posterUrl = it.movie.posterUrl,
                     genre = it.genre,
                     releaseDate = it.movie.releaseDate,
-                    actors = it.actors.map { actor -> ActorDto(avatarUrl = actor.avatarUrl, name = actor.name, id=actor.id) }
+                    actors = it.actors.map { actor -> ActorDto(avatarUrl = actor.avatarUrl,
+                        name = actor.name, id=actor.id) }
                 )
             )
         } ?: Resource.failed(movieWithActorWithGenre.message ?: "Error convert")
@@ -105,7 +107,7 @@ object Converters {
                         ageRestriction = movie.ageRestriction,
                         imageUrl = movie.imageUrl,
                         posterUrl = movie.posterUrl,
-                        genre = GenreDto(null, movie.genre,""),
+                        genre = GenreDto(null, movie.genre,"", false),
                         releaseDate = movie.releaseDate,
                         actors = emptyList()
                     )

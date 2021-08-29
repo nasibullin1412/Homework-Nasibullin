@@ -30,10 +30,6 @@ class MovieDetailViewModel @Inject constructor (
     private val _signal = MutableLiveData<Boolean>()
     private val shimmerTime = 1500
 
-    fun getGenreNameById(id: Long): String{
-        return SharedPreferenceUtils.getSharedPreference(id.toString())
-    }
-
     /**
      * asynchronous request to take data about movie details
      */

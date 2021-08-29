@@ -137,7 +137,7 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
             text = SharedPreferenceUtils.getEncryptedValue(SharedPreferenceUtils.PASSWORD_KEY)
         }
         updateButtonText()
-        setupGenreRecycleView(listOf(GenreDto(null, 0, ALL_GENRE)))
+        setupGenreRecycleView(listOf(GenreDto(null, 0, ALL_GENRE, false)))
     }
 
     /**
