@@ -25,7 +25,7 @@ class MainFragmentViewModel @Inject constructor (
     private var numberOfVariant: Int = 0
     val movieList: LiveData<Resource<List<MovieDto>>> get() = _movieList
     private val _movieList = MutableLiveData<Resource<List<MovieDto>>>()
-    var currentMovieList: Collection<MovieDto>? = null
+    private var currentMovieList: Collection<MovieDto>? = null
     var currentGenre: Long = 0
     val genreList: LiveData<Resource<List<GenreDto>>> get() = _genreList
     private val _genreList = MutableLiveData<Resource<List<GenreDto>>>()
@@ -66,13 +66,6 @@ class MainFragmentViewModel @Inject constructor (
         if (_genreList.value?.status == Resource.Status.SUCCESS && _genreList.value?.data != null){
             repository.updateGenreDatabase(_genreList.value?.data
                 ?: throw IllegalArgumentException("Value required"))
-        }
-    }
-
-
-    fun setGenreListToSharedPref(genreList: List<GenreDto>){
-        for (genre in genreList){
-            SharedPreferenceUtils.setValueToSharedPreference(genre.genreId.toString(), genre.title)
         }
     }
 
@@ -162,4 +155,11 @@ class MainFragmentViewModel @Inject constructor (
                 }
         }
     }
+
+    fun doUpdateGenres(genreList: List<GenreDto>){
+        viewModelScope.launch {
+            repository.updateGenreDatabase(genreList)
+        }
+    }
+
 }

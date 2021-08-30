@@ -35,7 +35,6 @@ import com.homework.nasibullin.interfaces.OnMovieItemClickedCallback
 import com.homework.nasibullin.utils.Utility
 import com.homework.nasibullin.viewmodels.MainFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.internal.notifyAll
 
 @AndroidEntryPoint
 class MainFragment : Fragment(), OnMovieItemClickedCallback,
@@ -57,6 +56,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
     private var movieItemWidth: Int = 0
     private var movieItemMargin: Int = 0
     private var screenWidth: Int = 0
+
 
         companion object {
             const val GENRE_LEFT_RIGHT_OFFSET = 6
@@ -98,10 +98,10 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
 
     private fun initView(){
         setupViews()
-        setupObservers()
         handleSwipe()
         viewModel.getGenreList()
         viewModel.getMovieList(false)
+        setupObservers()
     }
 
     /**
@@ -127,27 +127,22 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
             super.onChanged()
             observerActions()
         }
-
         override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
             super.onItemRangeRemoved(positionStart, itemCount)
             observerActions()
         }
-
         override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
             super.onItemRangeMoved(fromPosition, toPosition, itemCount)
             observerActions()
         }
-
         override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
             super.onItemRangeInserted(positionStart, itemCount)
             observerActions()
         }
-
         override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
             super.onItemRangeChanged(positionStart, itemCount)
             observerActions()
         }
-
         override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
             super.onItemRangeChanged(positionStart, itemCount, payload)
             observerActions()
@@ -178,14 +173,16 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
      * @param genreDtoList is list with genres
      */
     private fun updateGenreData(genreDtoList: ArrayList<GenreDto>){
-        genreDtoList.add(0,
-            GenreDto(
+        genreDtoList.add(
                 0,
-                ALL_GENRE_ID.toLong(),
-                ALL_GENRE,
-                true
-            )
+                GenreDto(
+                    0,
+                    ALL_GENRE_ID.toLong(),
+                    ALL_GENRE,
+                    false
+                )
         )
+        genreDtoList.first{viewModel.currentGenre == it.genreId}.isSelected = true
         genreCollection = genreDtoList
         genreAdapter.submitList(genreCollection.toList())
     }
@@ -259,22 +256,14 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
         getMoviesByGenre(id)
         val idx: Int = genreCollection.first{ it.genreId == id }.id?.toInt()
             ?: throw java.lang.IllegalArgumentException("Genre required")
-        when(idx){
-            0 -> {
-                if (genreCollection[idx].isSelected.not()){
-                    genreCollection.forEach { it.isSelected = false }
-                    genreAdapter.notifyDataSetChanged()
-                }
-                else{
-                    return
-                }
-            }
-            else -> {
-                genreCollection[0].isSelected = false
-                genreAdapter.notifyItemChanged(0)
-            }
-        }
+        changeCurrentSelected()
         genreCollection[idx].isSelected = genreCollection[idx].isSelected.not()
+        genreAdapter.notifyItemChanged(idx)
+    }
+
+    private fun changeCurrentSelected(){
+        val idx = genreCollection.first { it.isSelected }.id?.toInt() ?: 0
+        genreCollection[idx].isSelected = false
         genreAdapter.notifyItemChanged(idx)
     }
 

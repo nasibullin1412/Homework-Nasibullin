@@ -5,9 +5,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Transaction
 import androidx.room.Query
+import androidx.room.Update
 import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.dataclasses.GenreToMovieCrossRef
-import com.homework.nasibullin.dataclasses.MovieToActorCrossRef
 
 @Dao
 interface GenreDao {
@@ -28,4 +28,8 @@ interface GenreDao {
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertGenreToMovieAcrossRef(crossRef: GenreToMovieCrossRef)
+
+    @Transaction
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun updateGenres(genreDtoList: List<GenreDto>)
 }
