@@ -50,6 +50,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
     private lateinit var swipeRefreshLayout:SwipeRefreshLayout
     private lateinit var emptyListViewHolder: EmptyListViewHolder
     private lateinit var searchView: SearchView
+    private var prevQuery: String? = null
     private val viewModel: MainFragmentViewModel by viewModels()
     private lateinit var navController: NavController
     private var mainFragmentClickListener: MainFragmentCallbacks? = null
@@ -285,7 +286,10 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextChange(query: String): Boolean {
-                searchDatabase(query)
+                if (prevQuery.isNullOrEmpty().not() || query.isNotEmpty()){
+                    searchDatabase(query)
+                }
+                prevQuery = query
                 return true
             }
 

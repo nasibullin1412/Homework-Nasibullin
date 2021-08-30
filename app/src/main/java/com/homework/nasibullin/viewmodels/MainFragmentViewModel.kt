@@ -9,7 +9,6 @@ import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.fragments.MainFragment
 import com.homework.nasibullin.repo.MovieListDataRepo
-import com.homework.nasibullin.security.SharedPreferenceUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -155,11 +154,4 @@ class MainFragmentViewModel @Inject constructor (
                 }
         }
     }
-
-    fun doUpdateGenres(genreList: List<GenreDto>){
-        viewModelScope.launch {
-            repository.updateGenreDatabase(genreList)
-        }
-    }
-
 }
