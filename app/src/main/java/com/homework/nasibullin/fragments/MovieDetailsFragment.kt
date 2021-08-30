@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -43,7 +42,11 @@ class MovieDetailsFragment: Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        val movieDetailsView = inflater.inflate(R.layout.movie_details_fragment, container, false)
+        val movieDetailsView = inflater.inflate(
+            R.layout.movie_details_fragment,
+            container,
+            false
+        )
         id = arguments?.getLong(KEY_ARGUMENT) ?: throw IllegalArgumentException("Title required")
         return movieDetailsView
     }
@@ -85,7 +88,8 @@ class MovieDetailsFragment: Fragment() {
      * Filling in the fields of movie details
      */
     private fun setupView(movie: MovieDto){
-        view?.findViewById<ImageView>(R.id.imgMoviePoster)?.load(IMAGE_BASE_URL + movie.posterUrl)
+        view?.findViewById<ImageView>(R.id.imgMoviePoster)
+            ?.load(IMAGE_BASE_URL + movie.posterUrl)
         view?.findViewById<TextView>(R.id.tvGenre)?.apply {
             text = movie.genre.title
         }
@@ -127,7 +131,8 @@ class MovieDetailsFragment: Fragment() {
     * This function gives the correct shape (with top-right and top-left radius) to card view
     * */
     private fun setCorrectShapeToCardView() {
-        cardView = view?.findViewById(R.id.cvMovieCard) ?: throw IllegalArgumentException("CardView required")
+        cardView = view?.findViewById(R.id.cvMovieCard)
+            ?: throw IllegalArgumentException("CardView required")
         cardView.setBackgroundResource(R.drawable.sh_card_view_back)
     }
 
@@ -136,12 +141,17 @@ class MovieDetailsFragment: Fragment() {
      * @param movie is movie of which actors need to set in recycle view
      * */
     private fun prepareRecycleView(movie: MovieDto) {
-        actorRecycler = view?.findViewById(R.id.rvActorsList) ?: throw IllegalArgumentException("CrvActorList required")
+        actorRecycler = view?.findViewById(R.id.rvActorsList)
+            ?: throw IllegalArgumentException("CrvActorList required")
         actorAdapter = ActorAdapter()
         actorAdapter.submitList(movie.actors)
         val itemDecorator = ActorItemDecoration(leftRight = 12)
         actorRecycler.addItemDecoration(itemDecorator)
         actorRecycler.adapter = actorAdapter
-        actorRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        actorRecycler.layoutManager = LinearLayoutManager(
+            context,
+            RecyclerView.HORIZONTAL,
+            false
+        )
     }
 }

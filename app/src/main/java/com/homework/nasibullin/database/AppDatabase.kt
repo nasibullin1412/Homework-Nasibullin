@@ -8,7 +8,12 @@ import com.homework.nasibullin.database.dao.ActorDao
 import com.homework.nasibullin.database.dao.GenreDao
 import com.homework.nasibullin.database.dao.MovieDao
 import com.homework.nasibullin.database.dao.UserDao
-import com.homework.nasibullin.dataclasses.*
+import com.homework.nasibullin.dataclasses.Actor
+import com.homework.nasibullin.dataclasses.GenreDto
+import com.homework.nasibullin.dataclasses.Movie
+import com.homework.nasibullin.dataclasses.UserDto
+import com.homework.nasibullin.dataclasses.MovieToActorCrossRef
+import com.homework.nasibullin.dataclasses.GenreToMovieCrossRef
 
 @Database(entities = [
     Movie::class,

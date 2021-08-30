@@ -104,8 +104,4 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
             }
         }
     }
-
-    private suspend fun updateGenres(genreList: List<GenreDto>){
-        updateDatabase { AppDatabase.instance.genreDao().updateGenres(genreList) }
-    }
 }

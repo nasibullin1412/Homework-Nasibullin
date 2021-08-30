@@ -16,9 +16,7 @@ import com.homework.nasibullin.MainActivity
 import com.homework.nasibullin.R
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
-
     companion object {
-        private const val TAG = "FireBaseMessagingService"
         private const val NOTIFICATION_CHANNEL_ID = "com.homework.nasibullin"
         private const val NOTIFICATION_ID = 100
     }

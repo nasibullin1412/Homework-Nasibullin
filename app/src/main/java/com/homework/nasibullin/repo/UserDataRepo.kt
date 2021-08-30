@@ -2,10 +2,8 @@ package com.homework.nasibullin.repo
 
 import com.homework.nasibullin.App
 import com.homework.nasibullin.database.AppDatabase
-import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.dataclasses.UserDto
 import com.homework.nasibullin.datasources.Resource
-import com.homework.nasibullin.fragments.MainFragment.Companion.ALL_GENRE
 import com.homework.nasibullin.security.SharedPreferenceUtils
 import com.homework.nasibullin.utils.BaseDataSource
 import com.homework.nasibullin.utils.Converters

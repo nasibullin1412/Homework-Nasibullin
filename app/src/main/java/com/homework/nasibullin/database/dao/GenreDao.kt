@@ -28,8 +28,4 @@ interface GenreDao {
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertGenreToMovieAcrossRef(crossRef: GenreToMovieCrossRef)
-
-    @Transaction
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun updateGenres(genreDtoList: List<GenreDto>)
 }

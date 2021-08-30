@@ -137,7 +137,11 @@ class LoginFragment : Fragment() {
             Utility.showToast("Empty email or password!", App.appContext)
             return
         }
-        val userLogin = UserLogin(username = username.toString(), password = password.toString(), authenticateResponse.request_token)
+        val userLogin = UserLogin(
+            username = username.toString(),
+            password = password.toString(),
+            authenticateResponse.request_token
+        )
         viewModel.doLoginUser(userLogin)
     }
 

@@ -4,7 +4,8 @@ import com.homework.nasibullin.dataclasses.*
 import com.homework.nasibullin.datasources.Resource
 
 object Converters {
-    fun fromListMovieResponseToListMovieDto(movieData: Resource<MovieResponse>): Resource<List<MovieDto>> =
+    fun fromListMovieResponseToListMovieDto(movieData: Resource<MovieResponse>)
+    : Resource<List<MovieDto>> =
         movieData.data?.let {
             Resource.success(
                 it.results.map { movieResponse ->
@@ -18,7 +19,12 @@ object Converters {
                         } else {
                             12
                         },
-                        genre = GenreDto(null, movieResponse.genre_ids[0].toLong(), "", false),
+                        genre = GenreDto(
+                            null,
+                            movieResponse.genre_ids[0].toLong(),
+                            "",
+                            false
+                        ),
                         actors = emptyList(),
                         imageUrl = movieResponse.poster_path,
                         posterUrl = movieResponse.backdrop_path,
@@ -28,7 +34,8 @@ object Converters {
             )
         } ?: Resource.failed(movieData.message ?: "Error convert")
 
-    fun fromListGenreResponseToListGenreDto(genreData: Resource<GenreResponse>): Resource<List<GenreDto>> =
+    fun fromListGenreResponseToListGenreDto(genreData: Resource<GenreResponse>)
+    : Resource<List<GenreDto>> =
         genreData.data?.let {
             Resource.success(
                 it.genres.mapIndexed { index, genreResponse->
@@ -42,7 +49,8 @@ object Converters {
             )
         }?: Resource.failed(genreData.message ?: "Error convert")
 
-    fun fromListCastResponseToActorDto(actorData: Resource<CastResponse>): Resource<List<ActorDto>> =
+    fun fromListCastResponseToActorDto(actorData: Resource<CastResponse>)
+    : Resource<List<ActorDto>> =
         actorData.data?.let {
             Resource.success(
                 it.cast.map { actorResponse ->
@@ -68,14 +76,16 @@ object Converters {
             )
         }?: Resource.failed(userData.message ?: "Error convert")
 
-    fun fromMovieDtoAndActorListToMovieDto(movieDto: MovieDto?, cast: List<ActorDto>?): Resource<MovieDto> {
+    fun fromMovieDtoAndActorListToMovieDto(movieDto: MovieDto?, cast: List<ActorDto>?)
+    : Resource<MovieDto> {
         movieDto?.actors = cast ?: return Resource.failed("Cast required")
         return movieDto?.let {
             Resource.success(movieDto)
         }?: Resource.failed("Error convert")
     }
 
-    fun fromMovieWithActorsToMovieDto(movieWithActorWithGenre: Resource<MovieWithActorWithGenre>): Resource<MovieDto>
+    fun fromMovieWithActorsToMovieDto(movieWithActorWithGenre: Resource<MovieWithActorWithGenre>)
+    : Resource<MovieDto>
         = movieWithActorWithGenre.data?.let {
             Resource.success(
                 MovieDto(

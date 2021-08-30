@@ -8,7 +8,6 @@ import retrofit2.Response
 import java.lang.Exception
 
 abstract class BaseDataSource {
-
     suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): Resource<T>{
         return try {
             val response = withContext(Dispatchers.IO) {

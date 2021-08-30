@@ -30,7 +30,8 @@ class ProfileFragmentViewModel @Inject constructor(
 
     val isOn: Boolean
         get(){
-            return when (SharedPreferenceUtils.getSharedPreference(SharedPreferenceUtils.IS_AUTO_UPDATE)) {
+            return when (SharedPreferenceUtils
+                .getSharedPreference(SharedPreferenceUtils.IS_AUTO_UPDATE)) {
                 "1" -> true
                 SharedPreferenceUtils.DEFAULT_VALUE -> {
                     SharedPreferenceUtils.setValueToSharedPreference(
@@ -121,7 +122,8 @@ class ProfileFragmentViewModel @Inject constructor(
                     _userData.value = Resource.error(e.toString())
                 }
                 .collect {
-                    if (it.status != Resource.Status.FAILURE && !it.data?.genres.isNullOrEmpty()) {
+                    if (it.status != Resource.Status.FAILURE &&
+                        !it.data?.genres.isNullOrEmpty()) {
                         _userData.value = it
                     }
                     else{
@@ -135,7 +137,8 @@ class ProfileFragmentViewModel @Inject constructor(
     }
 
     private suspend fun loadRemoteUser(){
-        val sessionId = SharedPreferenceUtils.getEncryptedValue(SharedPreferenceUtils.SESSION_ID)
+        val sessionId = SharedPreferenceUtils
+            .getEncryptedValue(SharedPreferenceUtils.SESSION_ID)
         if (sessionId == null ||sessionId == SharedPreferenceUtils.DEFAULT_VALUE){
             return
         }
@@ -148,7 +151,8 @@ class ProfileFragmentViewModel @Inject constructor(
                     _userData.value = it
                 }
         if (_userData.value?.status == Resource.Status.SUCCESS) {
-            userDataRepo.insertUser(userDto = _userData.value?.data ?: throw IllegalArgumentException("Value required"))
+            userDataRepo.insertUser(userDto = _userData.value?.data
+                ?: throw IllegalArgumentException("Value required"))
         }
     }
 }

@@ -12,8 +12,7 @@ import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
 /**
 * Class Adapter to genre list
 */
-class GenreAdapter(
-) : ListAdapter<GenreDto, GenreViewHolder>(GenreCallback()) {
+class GenreAdapter: ListAdapter<GenreDto, GenreViewHolder>(GenreCallback()) {
 
     private lateinit var listener: OnGenreItemClickedCallback
 
@@ -28,7 +27,7 @@ class GenreAdapter(
 
     override fun onBindViewHolder(holder: GenreViewHolder, position: Int) {
         holder.itemView.setOnClickListener {
-            listener.onGenreClick(getItem(position).genreId) // Trigger the call back
+            listener.onGenreClick(getItem(position).genreId)
         }
         holder.bind(getItem(position))
     }

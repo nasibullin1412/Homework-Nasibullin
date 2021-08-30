@@ -2,7 +2,6 @@ package com.homework.nasibullin.dataclasses
 
 import androidx.room.ColumnInfo.INTEGER
 import androidx.room.ColumnInfo.TEXT
-import androidx.room.ColumnInfo.BINARY
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.ColumnInfo
@@ -56,7 +55,7 @@ data class Movie(
 
 /**
  * GenreDto table entity dataclass
-* class describing genre data in the movies genre list
+ * class describing genre data in the movies genre list
 * */
 @Entity(tableName = "GenreDto")
 data class GenreDto(

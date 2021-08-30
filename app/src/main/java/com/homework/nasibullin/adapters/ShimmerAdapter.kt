@@ -17,7 +17,11 @@ class ShimmerAdapter: ListAdapter<MovieDto, RecyclerView.ViewHolder>(MovieCallba
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater: LayoutInflater = LayoutInflater.from(parent.context)
-        shimmerViewHolder = MovieViewHolder(inflater.inflate(R.layout.shimmer_item, parent, false))
+        shimmerViewHolder = MovieViewHolder(
+            inflater.inflate(R.layout.shimmer_item,
+                parent,
+                false)
+        )
         enableShimmer()
         return shimmerViewHolder ?: throw IllegalArgumentException("Movie View Holder required")
     }
@@ -27,12 +31,13 @@ class ShimmerAdapter: ListAdapter<MovieDto, RecyclerView.ViewHolder>(MovieCallba
     }
 
     fun enableShimmer(){
-        shimmerViewHolder?.itemView?.findViewById<ShimmerFrameLayout>(R.id.shimmerFrameLayout)?.startShimmer()
+        shimmerViewHolder?.itemView
+            ?.findViewById<ShimmerFrameLayout>(R.id.shimmerFrameLayout)?.startShimmer()
     }
 
     fun disableShimmer(){
-            shimmerViewHolder?.itemView?.findViewById<ShimmerFrameLayout>(R.id.shimmerFrameLayout)
+            shimmerViewHolder?.itemView
+                ?.findViewById<ShimmerFrameLayout>(R.id.shimmerFrameLayout)
                 ?.stopShimmer()
     }
-
 }

@@ -158,14 +158,19 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
      * Genre recycle view with ListAdapter
      */
     private fun setupGenreRecycleView(interests: List<GenreDto>?){
-        movieGenreRecycler = view?.findViewById(R.id.rvUserGenreList) ?: throw IllegalArgumentException("Recycler required")
+        movieGenreRecycler = view?.findViewById(R.id.rvUserGenreList)
+            ?: throw IllegalArgumentException("Recycler required")
         movieGenreAdapter = GenreAdapter()
         movieGenreAdapter.initOnClickInterface(this)
         movieGenreAdapter.submitList(interests)
         val itemDecorator = GenreItemDecoration(leftRight = MainFragment.GENRE_LEFT_RIGHT_OFFSET)
         movieGenreRecycler.addItemDecoration(itemDecorator)
         movieGenreRecycler.adapter = movieGenreAdapter
-        movieGenreRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        movieGenreRecycler.layoutManager = LinearLayoutManager(
+            context,
+            RecyclerView.HORIZONTAL,
+            false
+        )
     }
 
     /**

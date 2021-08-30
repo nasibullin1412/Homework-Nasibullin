@@ -8,7 +8,6 @@ import com.homework.nasibullin.App
 import com.homework.nasibullin.fragments.MainFragment.Companion.ALL_GENRE
 
 object SharedPreferenceUtils {
-
     private val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
     private val masterKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
     private const val SHARED_PREF_NAME = "Genres"

@@ -36,7 +36,6 @@ class LoginFragmentViewModel @Inject constructor(
                         _requestToken.value = it
                     }
         }
-
     }
 
     fun doLoginUser(userLogin: UserLogin){
@@ -66,6 +65,4 @@ class LoginFragmentViewModel @Inject constructor(
             repository.setEncryptedData(key, value)
         }
     }
-
-
 }

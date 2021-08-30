@@ -160,7 +160,8 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
      * setup on refresh listener
      */
     private fun handleSwipe(){
-        swipeRefreshLayout = view?.findViewById(R.id.srlMovieList) ?: throw IllegalArgumentException("swipeRefresh required")
+        swipeRefreshLayout = view?.findViewById(R.id.srlMovieList)
+            ?: throw IllegalArgumentException("swipeRefresh required")
         swipeRefreshLayout.setOnRefreshListener {
             movieRecycler.visibility = View.GONE
             shimmerRecycler.visibility = View.VISIBLE

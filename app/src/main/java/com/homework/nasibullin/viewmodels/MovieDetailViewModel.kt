@@ -57,19 +57,22 @@ class MovieDetailViewModel @Inject constructor (
     }
 
     private suspend fun doGetRemoteAction(){
-        repository.getRemoteCast(backId = movie?.id ?: throw IllegalArgumentException("Movie required"))
+        repository.getRemoteCast(backId = movie?.id
+            ?: throw IllegalArgumentException("Movie required"))
             .catch {
                     e ->
                 _movieDetail.value = Resource.error(e.toString())
             }
             .collect {
                 if (it.status == Resource.Status.SUCCESS){
-                    actorList = it.data?.take(5) ?: throw IllegalArgumentException("Cast required")
+                    actorList = it.data?.take(5)
+                        ?: throw IllegalArgumentException("Cast required")
                 }
                 _movieDetail.value = Converters.fromMovieDtoAndActorListToMovieDto(movie, actorList)
             }
         if (movie != null){
-            repository.addMovieWithActors(movie ?: throw IllegalArgumentException("Movie required"))
+            repository.addMovieWithActors(movie
+                ?: throw IllegalArgumentException("Movie required"))
         }
         delay(shimmerTime.toLong())
     }
