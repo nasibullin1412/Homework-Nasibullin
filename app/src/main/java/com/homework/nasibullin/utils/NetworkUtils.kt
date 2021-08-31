@@ -22,7 +22,6 @@ fun Retrofit.Builder.setClient() = apply {
         .readTimeout(30, TimeUnit.SECONDS)
         .writeTimeout(30, TimeUnit.SECONDS)
         .build()
-
     this.client(okHttpClient)
 }
 
@@ -33,7 +32,6 @@ private fun OkHttpClient.Builder.addQueryInterceptor() = apply {
         request = request.newBuilder().url(url).build()
         chain.proceed(request)
     }
-
     this.addInterceptor(interceptor)
 }
 

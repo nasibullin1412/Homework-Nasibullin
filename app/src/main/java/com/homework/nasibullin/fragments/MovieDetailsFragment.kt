@@ -59,7 +59,7 @@ class MovieDetailsFragment: Fragment() {
     private fun init() {
         setCorrectShapeToCardView()
         setupObserver()
-        viewModel.getMovie(id)
+        viewModel.doGetMovie(id)
     }
 
     /**
@@ -114,6 +114,9 @@ class MovieDetailsFragment: Fragment() {
         prepareRecycleView(movie)
     }
 
+    /**
+     * disable shimmer after data loading end
+     */
     private fun disableShimmer(){
         view?.findViewById<ShimmerFrameLayout>(R.id.sflMovieDetail)?.apply {
             stopShimmer()

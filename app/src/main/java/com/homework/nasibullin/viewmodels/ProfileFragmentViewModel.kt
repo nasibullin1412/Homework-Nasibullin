@@ -131,12 +131,15 @@ class ProfileFragmentViewModel @Inject constructor(
                     }
                 }
             if (isNeedRemote){
-               loadRemoteUser()
+               doLoadRemoteUser()
             }
         }
     }
 
-    private suspend fun loadRemoteUser(){
+    /**
+     * do load remote user
+     */
+    private suspend fun doLoadRemoteUser(){
         val sessionId = SharedPreferenceUtils
             .getEncryptedValue(SharedPreferenceUtils.SESSION_ID)
         if (sessionId == null ||sessionId == SharedPreferenceUtils.DEFAULT_VALUE){

@@ -27,6 +27,9 @@ class LoginFragmentViewModel @Inject constructor(
     val sessionToken: LiveData<Resource<SessionIdResponse>> get() = _sessionToken
     private val _sessionToken = MutableLiveData<Resource<SessionIdResponse>>()
 
+    /**
+     * do get request token
+     */
     fun doGetRequestToken(){
         viewModelScope.launch {
             repository.getRequest()
@@ -38,6 +41,9 @@ class LoginFragmentViewModel @Inject constructor(
         }
     }
 
+    /**
+     * do login user
+     */
     fun doLoginUser(userLogin: UserLogin){
         viewModelScope.launch {
             repository.loginUserFlow(userLogin)
@@ -49,6 +55,9 @@ class LoginFragmentViewModel @Inject constructor(
         }
     }
 
+    /**
+     * do create session id
+     */
     fun doCreateSessionId(requestToken: String){
         viewModelScope.launch {
             repository.getSessionId(requestToken)
@@ -60,7 +69,10 @@ class LoginFragmentViewModel @Inject constructor(
         }
     }
 
-    fun setToEncryptedSharedPref(key: String, value: String){
+    /**
+     * do set to encrypted shared reference
+     */
+    fun doSetToEncryptedSharedPref(key: String, value: String){
         viewModelScope.launch {
             repository.setEncryptedData(key, value)
         }

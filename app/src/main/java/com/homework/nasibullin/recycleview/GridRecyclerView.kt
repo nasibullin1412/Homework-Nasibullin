@@ -18,6 +18,9 @@ class GridRecyclerView : RecyclerView {
         defStyle
     )
 
+    /**
+     * override attach for GridLayoutAnimation support
+     */
     override fun attachLayoutAnimationParameters(
         child: View,
         params: ViewGroup.LayoutParams,

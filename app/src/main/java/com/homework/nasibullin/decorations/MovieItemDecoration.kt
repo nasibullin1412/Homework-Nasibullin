@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 /**
 * Item decoration for Movie Recycle View
 * */
-
 class MovieItemDecoration(private val topBottom: Int = 0,
                           private val right: Int = 0,
                           private val spanNumber: Int = 0, )

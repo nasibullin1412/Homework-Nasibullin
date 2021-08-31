@@ -72,9 +72,17 @@ interface ApiService {
         @Query("language") language: String = LANGUAGE)
     : Response<CastResponse>
 
+    /**
+     * Post user session id
+     * @Body userRequest is object with user username and password
+     */
     @POST("authentication/session/new")
     suspend fun postUserSessionId(@Body userRequest: UserRequest): Response<SessionIdResponse>
 
+    /**
+     * Get user detail data
+     * @Query sessionId is session id of user
+     */
     @GET("account")
     suspend fun getUserDetails(@Query("session_id") sessionId: String): Response<AccountDetailResponse>
 

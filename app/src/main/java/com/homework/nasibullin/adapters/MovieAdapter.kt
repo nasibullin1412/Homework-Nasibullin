@@ -51,7 +51,6 @@ class MovieAdapter: ListAdapter<MovieDto, RecyclerView.ViewHolder>(MovieCallback
             itemCount-1 -> TYPE_EMPTY
             else -> TYPE_MOVIE
         }
-
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

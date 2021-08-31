@@ -38,6 +38,9 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
         }.flowOn(Dispatchers.IO)
     }
 
+    /**
+     * get local genres from database
+     */
     suspend fun getLocalGenres(): Flow<Resource<List<GenreDto>>> {
         return flow {
             val result = getSafeLocalData { AppDatabase.instance.genreDao().getAllGenres() }
@@ -72,12 +75,17 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
         }.flowOn(Dispatchers.IO)
     }
 
+    /**
+     * insert genre list to database
+     * @param genreList is list, which need to insert in database
+     */
     suspend fun updateGenreDatabase(genreList: List<GenreDto>){
         updateDatabase {AppDatabase.instance.genreDao().insertAll(genreList)}
     }
 
     /**
      * update data base with actual movies
+     * @param movieList is list of movies, which need insert in database
      */
     suspend fun updateDatabase(movieList: List<MovieDto>){
         val dbMovieList = movieList.mapIndexed{ index, movieDto ->

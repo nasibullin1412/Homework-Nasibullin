@@ -33,7 +33,10 @@ class MainFragmentViewModel @Inject constructor (
 
     private val waitAfterSubmit = 2000
 
-    fun getGenreList(){
+    /**
+     * do get genre list
+     */
+    fun doGetGenreList(){
         viewModelScope.launch {
             var isNeedRemoteAction = false
             repository.getLocalGenres()
@@ -54,6 +57,9 @@ class MainFragmentViewModel @Inject constructor (
         }
     }
 
+    /**
+     * do get remote genre list
+     */
     private suspend fun doGetRemoteGenre(){
         repository.getRemoteGenres()
             .catch { e->
@@ -71,7 +77,7 @@ class MainFragmentViewModel @Inject constructor (
     /**
      * fetching local movie list data
      */
-    private suspend fun initMovieList() {
+    private suspend fun doInitMovieList() {
         repository.getLocalData()
                 .catch { e ->
                     _movieList.value=Resource.error(e.toString())
@@ -85,7 +91,7 @@ class MainFragmentViewModel @Inject constructor (
     /**
      * fetching update movie list data on server
      */
-    private suspend fun updateMovieList(){
+    private suspend fun doUpdateMovieList(){
         numberOfVariant++
         repository.getRemoteData()
             .catch { e ->
@@ -97,7 +103,10 @@ class MainFragmentViewModel @Inject constructor (
             }
     }
 
-    private suspend fun updateDatabase() {
+    /**
+     * do update movie database
+     */
+    private suspend fun doUpdateDatabase() {
         if (!currentMovieList.isNullOrEmpty()) {
             repository.updateDatabase(
                 currentMovieList?.toList() ?: throw IllegalArgumentException("currentMovieList")
@@ -110,15 +119,15 @@ class MainFragmentViewModel @Inject constructor (
      * asynchronous request to take data about the list of movies
      * @param isSwipe: false, when need to init data, true, when need to update data
      */
-    fun getMovieList(isSwipe: Boolean){
+    fun doGetMovieList(isSwipe: Boolean){
         viewModelScope.launch {
             if (!isSwipe) {
-                initMovieList()
+                doInitMovieList()
             }
             if (currentMovieList.isNullOrEmpty() || isSwipe){
                 doGetRemoteGenre()
-                updateMovieList()
-                updateDatabase()
+                doUpdateMovieList()
+                doUpdateDatabase()
                 delay(waitAfterSubmit.toLong())
             }
             _signal.value = !(_signal.value?: true)
@@ -143,7 +152,11 @@ class MainFragmentViewModel @Inject constructor (
         }
     }
 
-    fun filterMoviesByTitle(query:String){
+    /**
+     * do filter movie by query
+     * @param query is query with movie name, which need to find
+     */
+    fun doFilterMoviesByTitle(query:String){
         viewModelScope.launch {
             repository.getSearchMovies(query)
                 .catch { e ->

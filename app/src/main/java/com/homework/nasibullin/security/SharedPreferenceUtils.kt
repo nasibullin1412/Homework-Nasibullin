@@ -62,6 +62,7 @@ object SharedPreferenceUtils {
 
     /**
      * get value from shared pref by key
+     * @param key is the key by which the value will be get
      */
     fun getSharedPreference(key: String): String{
         val sharedPreferences = App.appContext.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE)

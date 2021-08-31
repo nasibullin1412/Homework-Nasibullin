@@ -60,6 +60,9 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
         viewModel.loadUser()
     }
 
+    /**
+     * setup listener for btnLogout
+     */
     private fun setupLogoutBtn(){
         view?.findViewById<Button>(R.id.btnLogout)?.setOnClickListener{
             navController.navigate(
@@ -104,6 +107,7 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
 
     /**
      * Filling in the fields of profile details
+     * @param user is user data to view
      */
     private fun setupView(user: UserDto){
         view?.findViewById<ProgressBar>(R.id.pbUserProfile)?.apply {

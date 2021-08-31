@@ -40,7 +40,7 @@ class LoginRepo @Inject constructor(): BaseDataSource() {
 
     /**
      * get session id of user
-     * @param
+     * @param requestToken is request token of current user
      */
     suspend fun getSessionId(requestToken: String): Flow<Resource<SessionIdResponse>> {
         return flow {

@@ -8,6 +8,10 @@ import retrofit2.Response
 import java.lang.Exception
 
 abstract class BaseDataSource {
+
+    /**
+     * generic for safe remote api call
+     */
     suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): Resource<T>{
         return try {
             val response = withContext(Dispatchers.IO) {
@@ -30,6 +34,9 @@ abstract class BaseDataSource {
         }
     }
 
+    /**
+     * generic for safe database call
+     */
     suspend fun <T> getSafeLocalData(dbCall: suspend () -> T?): Resource<T> {
         return try {
             val result = dbCall()
@@ -44,6 +51,9 @@ abstract class BaseDataSource {
         }
     }
 
+    /**
+     * generic for safe database update
+     */
     suspend fun updateDatabase(dbCall: suspend () ->Unit): Boolean{
         return try {
             dbCall()

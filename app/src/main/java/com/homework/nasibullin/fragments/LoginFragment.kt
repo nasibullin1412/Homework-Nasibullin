@@ -157,8 +157,8 @@ class LoginFragment : Fragment() {
      * go to fragment with movies after success authorization
      */
     private fun successSessionId(sessionId: String) {
-        viewModel.setToEncryptedSharedPref(SharedPreferenceUtils.SESSION_ID, sessionId)
-        viewModel.setToEncryptedSharedPref(
+        viewModel.doSetToEncryptedSharedPref(SharedPreferenceUtils.SESSION_ID, sessionId)
+        viewModel.doSetToEncryptedSharedPref(
             SharedPreferenceUtils.PASSWORD_KEY,
             view?.findViewById<EditText>(R.id.etPassword)?.text.toString()
         )

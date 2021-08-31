@@ -11,6 +11,9 @@ import com.homework.nasibullin.dataclasses.MovieDto
 import com.homework.nasibullin.holders.MovieViewHolder
 import java.lang.IllegalArgumentException
 
+/**
+ * Adapter class for Shimmer recycleView
+ */
 class ShimmerAdapter: ListAdapter<MovieDto, RecyclerView.ViewHolder>(MovieCallback()) {
 
     private var shimmerViewHolder: MovieViewHolder? = null

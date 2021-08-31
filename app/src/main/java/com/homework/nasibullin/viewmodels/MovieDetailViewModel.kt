@@ -33,7 +33,7 @@ class MovieDetailViewModel @Inject constructor (
     /**
      * asynchronous request to take data about movie details
      */
-    fun getMovie(id: Long){
+    fun doGetMovie(id: Long){
         viewModelScope.launch {
             var isNeedRemoteAction = false
             repository.getLocalMovie(id)
@@ -56,6 +56,9 @@ class MovieDetailViewModel @Inject constructor (
         }
     }
 
+    /**
+     * get remote movie detail
+     */
     private suspend fun doGetRemoteAction(){
         repository.getRemoteCast(backId = movie?.id
             ?: throw IllegalArgumentException("Movie required"))

@@ -100,14 +100,14 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
     private fun initView(){
         setupViews()
         handleSwipe()
-        viewModel.getGenreList()
-        viewModel.getMovieList(false)
+        viewModel.doGetGenreList()
+        viewModel.doGetMovieList(false)
         setupObservers()
     }
 
     /**
      *  prepare genre and movie recycle views
-     * */
+     */
     private fun setupViews() {
         emptyListViewHolder = EmptyListViewHolder(this.layoutInflater.inflate(R.layout.empty_item,
                 view?.findViewById<RecyclerView>(R.id.rvMovieGenreList), false))
@@ -151,6 +151,9 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
     }
     )
 
+    /**
+     * after movie list recycle view changes actions
+     */
     private fun observerActions(){
         movieRecycler.scrollToPosition(0)
         movieAdapter.emptyListViewHolder?.bind(movieCollection.size)
@@ -166,7 +169,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
             movieRecycler.visibility = View.GONE
             shimmerRecycler.visibility = View.VISIBLE
             shimmerAdapter.enableShimmer()
-            viewModel.getMovieList(true)
+            viewModel.doGetMovieList(true)
         }
     }
 
@@ -237,7 +240,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
 
     /**
      * signature of the activity as a listener
-     * */
+     */
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is MainFragmentCallbacks){
@@ -253,7 +256,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
     /**
      * implementation of item listener action
      * @param id selected genre
-     * */
+     */
     override fun onGenreClick(id: Long) {
         getMoviesByGenre(id)
         val idx: Int = genreCollection.first{ it.genreId == id }.id?.toInt()
@@ -272,7 +275,7 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
     /**
      * implementation of item listener action
      * @param id of selected movie
-     * */
+     */
     override fun onMovieClick(id: Long) {
         val bundle = bundleOf(MovieDetailsFragment.KEY_ARGUMENT to id)
         navController.navigate(
@@ -281,6 +284,9 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
         )
     }
 
+    /**
+     * setup listeners for query text change in search view
+     */
     private fun setupSearchMovies(){
         searchView = view?.findViewById(R.id.svSearchMovies) ?:
                 throw java.lang.IllegalArgumentException("search movies required")
@@ -301,9 +307,13 @@ class MainFragment : Fragment(), OnMovieItemClickedCallback,
         })
     }
 
+    /**
+     * generate string for searching movies in database
+     * @param query is current string in search view
+     */
     private fun searchDatabase(query: String?){
         val searchQuery = "%$query%"
-        viewModel.filterMoviesByTitle(searchQuery)
+        viewModel.doFilterMoviesByTitle(searchQuery)
     }
 
     /**

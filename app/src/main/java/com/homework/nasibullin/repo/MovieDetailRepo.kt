@@ -29,6 +29,7 @@ class MovieDetailRepo @Inject constructor(): BaseDataSource() {
 
     /**
      * get movie details from database
+     * @param id is id of movie, which detail need load from database
      */
     suspend fun getLocalMovie(id:Long): Flow<Resource<MovieDto>> {
         return flow {
