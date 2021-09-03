@@ -19,7 +19,7 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
     /**
      * get remote popular movies
      */
-    suspend fun getRemoteData(): Flow<Resource<List<MovieDto>>> {
+    fun getRemoteData(): Flow<Resource<List<MovieDto>>> {
         return flow {
             val result = safeApiCall { App.instance.apiService.getPopularMovies()}
             val resultDto = Converters.fromListMovieResponseToListMovieDto(result)
@@ -30,7 +30,7 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
     /**
      * get genre list from backend
      */
-    suspend fun getRemoteGenres(): Flow<Resource<List<GenreDto>>> {
+    fun getRemoteGenres(): Flow<Resource<List<GenreDto>>> {
         return flow {
             val result = safeApiCall { App.instance.apiService.getGenres() }
             val resultDto = Converters.fromListGenreResponseToListGenreDto(result)
@@ -41,7 +41,7 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
     /**
      * get local genres from database
      */
-    suspend fun getLocalGenres(): Flow<Resource<List<GenreDto>>> {
+    fun getLocalGenres(): Flow<Resource<List<GenreDto>>> {
         return flow {
             val result = getSafeLocalData { AppDatabase.instance.genreDao().getAllGenres() }
             emit(result)
@@ -51,7 +51,7 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
     /**
      * downloading movies from the local database
      */
-    suspend fun getLocalData(): Flow<Resource<List<MovieDto>>> {
+    fun getLocalData(): Flow<Resource<List<MovieDto>>> {
         return flow {
             val result = getSafeLocalData {
                 AppDatabase.instance.movieDao().getAll()
@@ -65,7 +65,7 @@ class MovieListDataRepo @Inject constructor(): BaseDataSource() {
      * downloading searched movies data from the local database
      * @param query is query by which movies will be searched
      */
-    suspend fun getSearchMovies(query: String): Flow<Resource<List<MovieDto>>>{
+    fun getSearchMovies(query: String): Flow<Resource<List<MovieDto>>>{
         return flow {
             val result = getSafeLocalData {
                 AppDatabase.instance.movieDao().searchDatabase(query)

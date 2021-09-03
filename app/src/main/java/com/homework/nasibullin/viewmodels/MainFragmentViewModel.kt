@@ -163,7 +163,8 @@ class MainFragmentViewModel @Inject constructor (
                     _movieList.value = Resource.error(e.toString())
                 }
                 .collect {
-                    _movieList.value = it
+                    currentMovieList = it.data
+                    _movieList.value = filterMoviesByGenre(it)
                 }
         }
     }

@@ -19,7 +19,7 @@ class UserDataRepo @Inject constructor(): BaseDataSource() {
     /**
      * emulate get remote user
      */
-        suspend fun getRemoteUser(sessionId: String): Flow<Resource<UserDto>> {
+        fun getRemoteUser(sessionId: String): Flow<Resource<UserDto>> {
             return flow {
                 val result = safeApiCall { App.instance.apiService.getUserDetails(sessionId) }
                 val resultDto = Converters.fromAccountDetailToUserDto(result)
@@ -30,7 +30,7 @@ class UserDataRepo @Inject constructor(): BaseDataSource() {
     /**
      * get user data from database
      */
-    suspend fun getLocalUser(): Flow<Resource<UserDto>> {
+    fun getLocalUser(): Flow<Resource<UserDto>> {
         return flow {
             val result = getSafeLocalData { AppDatabase.instance.userDao().getUserData() }
             emit(result)
