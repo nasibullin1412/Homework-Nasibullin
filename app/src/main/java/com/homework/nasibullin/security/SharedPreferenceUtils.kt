@@ -8,7 +8,6 @@ import com.homework.nasibullin.App
 import com.homework.nasibullin.fragments.MainFragment.Companion.ALL_GENRE
 
 object SharedPreferenceUtils {
-
     private val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
     private val masterKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
     private const val SHARED_PREF_NAME = "Genres"
@@ -63,6 +62,7 @@ object SharedPreferenceUtils {
 
     /**
      * get value from shared pref by key
+     * @param key is the key by which the value will be get
      */
     fun getSharedPreference(key: String): String{
         val sharedPreferences = App.appContext.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE)

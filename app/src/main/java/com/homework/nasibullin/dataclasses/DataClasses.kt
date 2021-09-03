@@ -1,9 +1,15 @@
 package com.homework.nasibullin.dataclasses
 
-import androidx.room.*
 import androidx.room.ColumnInfo.INTEGER
 import androidx.room.ColumnInfo.TEXT
-import androidx.room.ForeignKey.CASCADE
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.ColumnInfo
+import androidx.room.Index
+import androidx.room.Embedded
+import androidx.room.Relation
+import androidx.room.Junction
+import androidx.room.Ignore
 
 /**
  * actors table entity dataclass
@@ -49,25 +55,19 @@ data class Movie(
 
 /**
  * GenreDto table entity dataclass
-* class describing genre data in the movies genre list
+ * class describing genre data in the movies genre list
 * */
-@Entity(tableName = "GenreDto",
-        foreignKeys = [ForeignKey(
-                entity = UserDto::class,
-                parentColumns = arrayOf("id"),
-                childColumns = arrayOf("userId"),
-                onDelete = CASCADE //NO_ACTION, RESTRICT, SET_DEFAULT, SET_NULL
-        )] ,
-        indices = [Index(value = ["userId"])]
-)
+@Entity(tableName = "GenreDto")
 data class GenreDto(
-        @PrimaryKey
-        @ColumnInfo(name = "genre", typeAffinity = TEXT)
-        val title: String,
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "id")
+        val id: Long?,
         @ColumnInfo(name = "genreId")
         val genreId: Long,
-        @ColumnInfo(name = "userId", typeAffinity = INTEGER)
-        val userId: Long
+        @ColumnInfo(name = "genre", typeAffinity = TEXT)
+        val title: String,
+        @ColumnInfo(name = "selected", typeAffinity = INTEGER)
+        var isSelected: Boolean
 )
 
 /**
@@ -102,28 +102,22 @@ data class UserDto(
 }
 
 /**
- * UserDto and GenreDto tables entities relationships
- */
-data class UserWithGenres(
-        @Embedded val user: UserDto,
-        @Relation(
-                parentColumn = "id",
-                entityColumn = "userId"
-        )
-        var genres: List<GenreDto>
-)
-
-/**
  * movie and actors tables entities relationships
  */
-data class MovieWithActor(
+data class MovieWithActorWithGenre(
         @Embedded val movie: Movie,
         @Relation(
                 parentColumn = "backId",
                 entityColumn = "actor_id",
                 associateBy = Junction(MovieToActorCrossRef::class)
         )
-        val actors: List<Actor>
+        val actors: List<Actor>,
+        @Relation(
+                parentColumn = "backId",
+                entityColumn = "genreId",
+                associateBy = Junction(GenreToMovieCrossRef::class)
+        )
+        val genre: GenreDto
 )
 
 /**
@@ -137,7 +131,7 @@ data class MovieDto(
     val ageRestriction: Int,
     val imageUrl: String,
     val posterUrl: String,
-    val genre: Long,
+    val genre: GenreDto,
     val releaseDate: String,
     var actors: List<ActorDto>
 )

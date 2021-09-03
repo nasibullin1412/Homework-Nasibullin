@@ -1,17 +1,14 @@
 package com.homework.nasibullin.utils
 
-import com.homework.nasibullin.dataclasses.GenreDto
-import com.homework.nasibullin.dataclasses.UserDto
-import com.homework.nasibullin.dataclasses.MovieResponse
-import com.homework.nasibullin.dataclasses.MovieDto
-import com.homework.nasibullin.dataclasses.GenreResponse
-import com.homework.nasibullin.dataclasses.AccountDetailResponse
-import com.homework.nasibullin.dataclasses.ActorDto
-import com.homework.nasibullin.dataclasses.CastResponse
+import com.homework.nasibullin.dataclasses.*
 import com.homework.nasibullin.datasources.Resource
 
 object Converters {
-    fun fromListMovieResponseToListMovieDto(movieData: Resource<MovieResponse>): Resource<List<MovieDto>> =
+    /**
+     * convert from Resource<MovieResponse> to Resource<List<MovieDto>>
+     */
+    fun fromListMovieResponseToListMovieDto(movieData: Resource<MovieResponse>)
+    : Resource<List<MovieDto>> =
         movieData.data?.let {
             Resource.success(
                 it.results.map { movieResponse ->
@@ -25,7 +22,12 @@ object Converters {
                         } else {
                             12
                         },
-                        genre = movieResponse.genre_ids[0].toLong(),
+                        genre = GenreDto(
+                            null,
+                            movieResponse.genre_ids[0].toLong(),
+                            "",
+                            false
+                        ),
                         actors = emptyList(),
                         imageUrl = movieResponse.poster_path,
                         posterUrl = movieResponse.backdrop_path,
@@ -35,20 +37,29 @@ object Converters {
             )
         } ?: Resource.failed(movieData.message ?: "Error convert")
 
-    fun fromListGenreResponseToListGenreDto(genreData: Resource<GenreResponse>): Resource<List<GenreDto>> =
+    /**
+     * convert from Resource<GenreResponse> to Resource<List<GenreDto>>
+     */
+    fun fromListGenreResponseToListGenreDto(genreData: Resource<GenreResponse>)
+    : Resource<List<GenreDto>> =
         genreData.data?.let {
             Resource.success(
-                it.genres.map { genreResponse->
+                it.genres.mapIndexed { index, genreResponse->
                     GenreDto(
+                        id = (index+1).toLong(),
                         genreId = genreResponse.id,
                         title = genreResponse.name,
-                        userId = 5
+                        false
                     )
                 }
             )
         }?: Resource.failed(genreData.message ?: "Error convert")
 
-    fun fromListCastResponseToActorDto(actorData: Resource<CastResponse>): Resource<List<ActorDto>> =
+    /**
+     * convert from Resource<CastResponse> to Resource<List<ActorDto>>
+     */
+    fun fromListCastResponseToActorDto(actorData: Resource<CastResponse>)
+    : Resource<List<ActorDto>> =
         actorData.data?.let {
             Resource.success(
                 it.cast.map { actorResponse ->
@@ -61,6 +72,9 @@ object Converters {
             )
         }?: Resource.failed(actorData.message ?: "Error convert")
 
+    /**
+     * convert from Resource<AccountDetailResponse> to Resource<UserDto>
+     */
     fun fromAccountDetailToUserDto(userData: Resource<AccountDetailResponse>): Resource<UserDto> =
         userData.data?.let {
             Resource.success(
@@ -74,10 +88,60 @@ object Converters {
             )
         }?: Resource.failed(userData.message ?: "Error convert")
 
-    fun fromMovieDtoAndActorListToMovieDto(movieDto: MovieDto?, cast: List<ActorDto>?): Resource<MovieDto> {
+    /**
+     * convert from MovieDto and List<ActorDto> to Resource<MovieDto>
+     */
+    fun fromMovieDtoAndActorListToMovieDto(movieDto: MovieDto?, cast: List<ActorDto>?)
+    : Resource<MovieDto> {
         movieDto?.actors = cast ?: return Resource.failed("Cast required")
         return movieDto?.let {
             Resource.success(movieDto)
         }?: Resource.failed("Error convert")
     }
+
+    /**
+     * convert from Resource<MovieWithActorWithGenre> to Resource<MovieDto>
+     */
+    fun fromMovieWithActorsToMovieDto(movieWithActorWithGenre: Resource<MovieWithActorWithGenre>)
+    : Resource<MovieDto>
+        = movieWithActorWithGenre.data?.let {
+            Resource.success(
+                MovieDto(
+                    id = it.movie.backId,
+                    title = it.movie.title,
+                    description = it.movie.description,
+                    rateScore = it.movie.rateScore,
+                    ageRestriction = it.movie.ageRestriction,
+                    imageUrl = it.movie.imageUrl,
+                    posterUrl = it.movie.posterUrl,
+                    genre = it.genre,
+                    releaseDate = it.movie.releaseDate,
+                    actors = it.actors.map { actor -> ActorDto(avatarUrl = actor.avatarUrl,
+                        name = actor.name, id=actor.id) }
+                )
+            )
+        } ?: Resource.failed(movieWithActorWithGenre.message ?: "Error convert")
+
+    /**
+     * convert from Resource<List<Movie>> to Resource<List<MovieDto>>
+     */
+    fun fromMovieListToMovieDtoList(movieList: Resource<List<Movie>>): Resource<List<MovieDto>> =
+        movieList.data?.let {
+            Resource.success(
+                it.map { movie ->
+                    MovieDto(
+                        id = movie.backId,
+                        title = movie.title,
+                        description = movie.description,
+                        rateScore = movie.rateScore,
+                        ageRestriction = movie.ageRestriction,
+                        imageUrl = movie.imageUrl,
+                        posterUrl = movie.posterUrl,
+                        genre = GenreDto(null, movie.genre,"", false),
+                        releaseDate = movie.releaseDate,
+                        actors = emptyList()
+                    )
+                }
+            )
+        }?: Resource.failed(movieList.message ?: "Error convert")
 }

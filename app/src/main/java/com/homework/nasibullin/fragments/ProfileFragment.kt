@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
-import coil.transform.RoundedCornersTransformation
 import com.google.android.material.imageview.ShapeableImageView
 import com.homework.nasibullin.R
 import com.homework.nasibullin.adapters.GenreAdapter
@@ -24,6 +23,7 @@ import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.dataclasses.UserDto
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.decorations.GenreItemDecoration
+import com.homework.nasibullin.fragments.MainFragment.Companion.ALL_GENRE
 import com.homework.nasibullin.interfaces.OnGenreItemClickedCallback
 import com.homework.nasibullin.security.SharedPreferenceUtils
 import com.homework.nasibullin.utils.NetworkConstants.IMAGE_BASE_URL
@@ -48,7 +48,7 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.user_profile, container, false)
+        return inflater.inflate(R.layout.user_profile_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,10 +60,13 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
         viewModel.loadUser()
     }
 
+    /**
+     * setup listener for btnLogout
+     */
     private fun setupLogoutBtn(){
         view?.findViewById<Button>(R.id.btnLogout)?.setOnClickListener{
             navController.navigate(
-                R.id.action_logout
+                R.id.action_viewUserProfile_to_loginFragment
             )
         }
     }
@@ -104,6 +107,7 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
 
     /**
      * Filling in the fields of profile details
+     * @param user is user data to view
      */
     private fun setupView(user: UserDto){
         view?.findViewById<ProgressBar>(R.id.pbUserProfile)?.apply {
@@ -137,7 +141,7 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
             text = SharedPreferenceUtils.getEncryptedValue(SharedPreferenceUtils.PASSWORD_KEY)
         }
         updateButtonText()
-        setupGenreRecycleView(user.genres)
+        setupGenreRecycleView(listOf(GenreDto(null, 0, ALL_GENRE, false)))
     }
 
     /**
@@ -158,14 +162,19 @@ class ProfileFragment:Fragment(), OnGenreItemClickedCallback {
      * Genre recycle view with ListAdapter
      */
     private fun setupGenreRecycleView(interests: List<GenreDto>?){
-        movieGenreRecycler = view?.findViewById(R.id.rvUserGenreList) ?: throw IllegalArgumentException("Recycler required")
+        movieGenreRecycler = view?.findViewById(R.id.rvUserGenreList)
+            ?: throw IllegalArgumentException("Recycler required")
         movieGenreAdapter = GenreAdapter()
         movieGenreAdapter.initOnClickInterface(this)
         movieGenreAdapter.submitList(interests)
         val itemDecorator = GenreItemDecoration(leftRight = MainFragment.GENRE_LEFT_RIGHT_OFFSET)
         movieGenreRecycler.addItemDecoration(itemDecorator)
         movieGenreRecycler.adapter = movieGenreAdapter
-        movieGenreRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        movieGenreRecycler.layoutManager = LinearLayoutManager(
+            context,
+            RecyclerView.HORIZONTAL,
+            false
+        )
     }
 
     /**

@@ -2,11 +2,8 @@ package com.homework.nasibullin.repo
 
 import com.homework.nasibullin.App
 import com.homework.nasibullin.database.AppDatabase
-import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.dataclasses.UserDto
-import com.homework.nasibullin.dataclasses.UserWithGenres
 import com.homework.nasibullin.datasources.Resource
-import com.homework.nasibullin.fragments.MainFragment.Companion.ALL_GENRE
 import com.homework.nasibullin.security.SharedPreferenceUtils
 import com.homework.nasibullin.utils.BaseDataSource
 import com.homework.nasibullin.utils.Converters
@@ -14,7 +11,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,7 +19,7 @@ class UserDataRepo @Inject constructor(): BaseDataSource() {
     /**
      * emulate get remote user
      */
-        suspend fun getRemoteUser(sessionId: String): Flow<Resource<UserDto>> {
+        fun getRemoteUser(sessionId: String): Flow<Resource<UserDto>> {
             return flow {
                 val result = safeApiCall { App.instance.apiService.getUserDetails(sessionId) }
                 val resultDto = Converters.fromAccountDetailToUserDto(result)
@@ -34,16 +30,9 @@ class UserDataRepo @Inject constructor(): BaseDataSource() {
     /**
      * get user data from database
      */
-    suspend fun getLocalUser(): Flow<Resource<UserDto>> {
+    fun getLocalUser(): Flow<Resource<UserDto>> {
         return flow {
-            val db = AppDatabase.instance
-            val result = getSafeLocalUserData{ db.userDao().getUserData() }
-            if (result.data != null){
-                result.data.password = getSafeUserPassword {
-                    SharedPreferenceUtils.getEncryptedValue(SharedPreferenceUtils.PASSWORD_KEY)
-                        ?: throw IllegalArgumentException("Pass required")
-                }
-            }
+            val result = getSafeLocalData { AppDatabase.instance.userDao().getUserData() }
             emit(result)
         }.flowOn(Dispatchers.IO)
     }
@@ -52,19 +41,9 @@ class UserDataRepo @Inject constructor(): BaseDataSource() {
      * insert user data to database
      */
     suspend fun insertUser(userDto: UserDto){
-        val db = AppDatabase.instance
         updateDatabase {
-            db.userDao().insertUserWithGenres(
-                UserWithGenres(
-                    user = userDto,
-                    genres = listOf(
-                        GenreDto(
-                            title = ALL_GENRE,
-                            genreId = 0,
-                            userId = userDto.id
-                        )
-                    )
-                )
+            AppDatabase.instance.userDao().insert(
+                userDto
             )
         }
         updateDatabase {

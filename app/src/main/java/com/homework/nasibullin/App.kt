@@ -36,5 +36,4 @@ class App : Application(), Configuration.Provider {
         .setWorkerFactory(workerFactory)
         .setMinimumLoggingLevel(android.util.Log.DEBUG)
         .build()
-
 }

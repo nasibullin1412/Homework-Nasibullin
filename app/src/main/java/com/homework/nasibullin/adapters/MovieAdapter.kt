@@ -25,8 +25,11 @@ class MovieAdapter: ListAdapter<MovieDto, RecyclerView.ViewHolder>(MovieCallback
         val inflater: LayoutInflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             TYPE_EMPTY -> {
-                emptyListViewHolder=EmptyListViewHolder(inflater.inflate(R.layout.empty_list_movie, parent, false))
-                emptyListViewHolder ?: throw IllegalArgumentException("emptyListViewHolder required")
+                emptyListViewHolder=EmptyListViewHolder(
+                    inflater.inflate(R.layout.empty_item, parent, false)
+                )
+                emptyListViewHolder
+                    ?: throw IllegalArgumentException("emptyListViewHolder required")
             }
             else -> MovieViewHolder(inflater.inflate(R.layout.item_movie, parent, false))
         }
@@ -48,7 +51,6 @@ class MovieAdapter: ListAdapter<MovieDto, RecyclerView.ViewHolder>(MovieCallback
             itemCount-1 -> TYPE_EMPTY
             else -> TYPE_MOVIE
         }
-
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -61,7 +63,6 @@ class MovieAdapter: ListAdapter<MovieDto, RecyclerView.ViewHolder>(MovieCallback
             }
             is EmptyListViewHolder -> holder.bind(position)
         }
-
     }
 
     fun initOnClickInterface(listener: OnMovieItemClickedCallback) {

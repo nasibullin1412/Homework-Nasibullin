@@ -1,33 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">My Application</string>
-    <string name="str_movie_genre">thrillers</string>
+    <string name="app_name">Моё приложение</string>
+    <string name="str_movie_genre">боевики</string>
     <string name="str_release_date">22.04.2021</string>
-    <string name="str_movie_name">Wrath of Man</string>
-    <string name="str_age_category">R</string>
+    <string name="str_movie_name">Гнев человеческий</string>
+    <string name="str_age_category">18+</string>
     <string name="str_movie_description">
-        H is a mysterious and cold-looking gentleman, but inside him a thirst for justice burns. In pursuit of his motives, he infiltrates a cash collection company to find accomplices in a series of multimillion-dollar robberies that shook Los Angeles. In this confusing game, everyone has a role to play, but everyone is under suspicion.
+        Эйч — загадочный и холодный на вид джентльмен, но внутри него пылает жажда справедливости.
+        Преследуя свои мотивы, он внедряется в инкассаторскую компанию, чтобы выйти на соучастников серии многомиллионных ограблений,
+        потрясших Лос-Анджелес. В этой запутанной игре у каждого своя роль, но под подозрением оказываются все
+        . Виновных же обязательно постигнет гнев человеческий.
     </string>
-    <string name="str_fill_rating_star">Filled rating star</string>
-    <string name="str_unpainted_rating_star">Unpainted rating star</string>
-    <string name="str_first_actor_name">Jason Statham</string>
-    <string name="str_second_actor_name">Holt McCallany</string>
-    <string name="str_third_actor_name">Josh Hartnett</string>
-    <string name="str_actor_img_description">Actor img</string>
-    <string name="str_actors_list_name">Actors</string>
-    <string name="page_name_list_movie">Popular now</string>
-    <string name="empty_list_message">Sorry, but we are not on your filter, but while our directors are filming
-        a new film, just look at Jason Statham</string>
-    <string name="personal_data">Personal data</string>
-    <string name="settings">Settings</string>
-    <string name="app">App</string>
-    <string name="logout">Logout</string>
-    <string name="interest">Interests</string>
-    <string name="hint_name">Name</string>
-    <string name="hint_password">Password</string>
-    <string name="hint_mail">Mail</string>
-    <string name="hint_number">Number</string>
-    <string name="login_top_text">Welcome</string>
-    <string name="hint_login_username">Username</string>
-    <string name="hint_login_password">Password</string>
-    <string name="btn_string">Sign In</string>
+    <string name="str_fill_rating_star">Закрашенная звезда рейтинга</string>
+    <string name="str_unpainted_rating_star">Незакрашенная звезда рейтинга</string>
+    <string name="str_first_actor_name">Джейсон Стэйтем</string>
+    <string name="str_second_actor_name">Холт Маккэлани</string>
+    <string name="str_third_actor_name">Джош Харнет</string>
+    <string name="str_actor_img_description">Фото актёра</string>
+    <string name="str_actors_list_name">Актёры</string>
+    <string name="page_name_list_movie">Популярное сейчас</string>
+    <string name="empty_list_message" >Простите, но мы ничего не по вашему фильтру не нашли,
+        а пока наши режисёры снимают новый фильм просто посмотрите на Джейсона Стетхема</string>
+    <string name="personal_data">Личные данные</string>
+    <string name="settings">Настройки</string>
+    <string name="app">Приложение</string>
+    <string name="logout">Выйти</string>
+    <string name="interest">Интересы</string>
+    <string name="hint_name">Имя</string>
+    <string name="hint_password">Пароль</string>
+    <string name="hint_mail">Почта</string>
+    <string name="hint_number">Телефон</string>
+    <string name="login_top_text">Вход</string>
+    <string name="hint_login_username">Логин</string>
+    <string name="hint_login_password">Пароль</string>
+    <string name="btn_string">Войти</string>
 </resources>

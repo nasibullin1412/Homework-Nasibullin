@@ -11,6 +11,7 @@ import com.homework.nasibullin.repo.MovieDetailRepo
 import com.homework.nasibullin.security.SharedPreferenceUtils
 import com.homework.nasibullin.utils.Converters
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -25,22 +26,21 @@ class MovieDetailViewModel @Inject constructor (
     private var actorList: List<ActorDto>? = null
     val movieDetail: LiveData<Resource<MovieDto>> get() = _movieDetail
     private val _movieDetail = MutableLiveData<Resource<MovieDto>>()
-
-    fun getGenreNameById(id: Long): String{
-        return SharedPreferenceUtils.getSharedPreference(id.toString())
-    }
+    val signal: LiveData<Boolean> get() = _signal
+    private val _signal = MutableLiveData<Boolean>()
+    private val shimmerTime = 1500
 
     /**
      * asynchronous request to take data about movie details
      */
-    fun getMovie(id: Long){
+    fun doGetMovie(id: Long){
         viewModelScope.launch {
             var isNeedRemoteAction = false
             repository.getLocalMovie(id)
                 .catch { e ->
                     _movieDetail.value = Resource.error(e.toString())
                 }.collect {
-                    if (it.status != Resource.Status.FAILURE) {
+                    if (it.status != Resource.Status.FAILURE && !it.data?.actors.isNullOrEmpty()) {
                         movie = it.data
                         _movieDetail.value = it
                     }
@@ -48,24 +48,35 @@ class MovieDetailViewModel @Inject constructor (
                         isNeedRemoteAction = true
                         movie = it.data
                     }
-
                 }
-            if (isNeedRemoteAction){
-                repository.getRemoteCast(backId = movie?.id ?: throw IllegalArgumentException("Movie required"))
-                    .catch {
-                            e ->
-                        _movieDetail.value = Resource.error(e.toString())
-                    }
-                    .collect {
-                        if (it.status == Resource.Status.SUCCESS){
-                            actorList = it.data?.take(5) ?: throw IllegalArgumentException("Cast required")
-                        }
-                        _movieDetail.value = Converters.fromMovieDtoAndActorListToMovieDto(movie, actorList)
-                    }
-                if (movie != null){
-                    repository.addMovieWithActors(movie ?: throw IllegalArgumentException("Movie required"))
-                }
+            if (isNeedRemoteAction) {
+                doGetRemoteAction()
             }
+            _signal.value = !(_signal.value?: true)
         }
+    }
+
+    /**
+     * get remote movie detail
+     */
+    private suspend fun doGetRemoteAction(){
+        repository.getRemoteCast(backId = movie?.id
+            ?: throw IllegalArgumentException("Movie required"))
+            .catch {
+                    e ->
+                _movieDetail.value = Resource.error(e.toString())
+            }
+            .collect {
+                if (it.status == Resource.Status.SUCCESS){
+                    actorList = it.data?.take(5)
+                        ?: throw IllegalArgumentException("Cast required")
+                }
+                _movieDetail.value = Converters.fromMovieDtoAndActorListToMovieDto(movie, actorList)
+            }
+        if (movie != null){
+            repository.addMovieWithActors(movie
+                ?: throw IllegalArgumentException("Movie required"))
+        }
+        delay(shimmerTime.toLong())
     }
 }

@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/custom_movie_card"
     >
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glTicketList"
         android:layout_width="wrap_content"
@@ -15,10 +16,9 @@
         app:layout_constraintGuide_begin="@dimen/list_of_guideline_left"
         android:orientation="vertical"/>
 
-
-
     <!-- search view with icon-->
     <androidx.appcompat.widget.SearchView
+        android:id="@+id/svSearchMovies"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxHeight="@dimen/search_menu_max_height"
@@ -75,12 +75,23 @@
         android:layout_marginBottom="100dp">
 
         <!-- movie recycle view-->
-        <androidx.recyclerview.widget.RecyclerView
+        <com.homework.nasibullin.recycleview.GridRecyclerView
             android:id="@+id/rvMovieList"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <!-- movie recycle view-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvShimmerList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/glTicketList"
+        app:layout_constraintTop_toBottomOf="@id/rvMovieGenreList"
+        android:minHeight="@dimen/rv_film_list_min_height"
+        android:paddingBottom="@dimen/rv_film_list_padding_bottom"
+        android:layout_marginTop="@dimen/rv_film_list_margin_top"
+        android:layout_marginBottom="100dp" />
 
 
 

@@ -3,7 +3,30 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/avatar_icon_background.xml" value="0.2263888888888889" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/bg_spinner.xml" value="0.2263888888888889" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/border_bottom.xml" value="0.2263888888888889" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/bottom_nav_tab_background.xml" value="0.2263888888888889" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/btn_selector.xml" value="0.2263888888888889" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/logout_button_selector.xml" value="0.2263888888888889" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/sh_age_category_sm.xml" value="0.2263888888888889" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/sh_card_view_back.xml" value="0.2263888888888889" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/sh_selected_genre_rectangle.xml" value="0.18009259259259258" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/activity_main.xml" value="0.12635869565217392" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/actor_item.xml" value="0.21203703703703702" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/empty_item.xml" value="0.1" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/empty_list_movie.xml" value="0.1308876811594203" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/genre_item.xml" value="0.21203703703703702" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/item_movie.xml" value="0.2" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/list_of_movies.xml" value="0.136" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/login_fragment.xml" value="0.13903985507246377" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/movie_details_fragment.xml" value="0.21203703703703702" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/movie_list_fragment.xml" value="0.1" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/shimmer_item.xml" value="0.20972222222222223" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/shimmer_layout.xml" value="0.21203703703703702" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/shimmer_movie_details.xml" value="0.21203703703703702" />
         <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/user_profile.xml" value="0.176" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/user_profile_fragment.xml" value="0.1" />
       </map>
     </option>
   </component>

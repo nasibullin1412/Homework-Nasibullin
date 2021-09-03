@@ -8,9 +8,8 @@ import androidx.room.Update
 import androidx.room.Delete
 import androidx.room.Transaction
 import com.homework.nasibullin.dataclasses.Movie
-import com.homework.nasibullin.dataclasses.Actor
 import com.homework.nasibullin.dataclasses.MovieToActorCrossRef
-import com.homework.nasibullin.dataclasses.MovieWithActor
+import com.homework.nasibullin.dataclasses.MovieWithActorWithGenre
 
 @Dao
 interface MovieDao {
@@ -65,7 +64,7 @@ interface MovieDao {
      */
     @Transaction
     @Query("SELECT * FROM movies WHERE movies.backId = :backId")
-    suspend fun getMovieDetail(backId:Long): MovieWithActor?
+    suspend fun getMovieDetail(backId:Long): MovieWithActorWithGenre?
 
     /**
      * insert element to MovieToActorCrossRef
@@ -79,7 +78,7 @@ interface MovieDao {
      * @param movieList is movie list, which will be insert
      */
     @Transaction
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(movieList: List<Movie>)
 
     /**
@@ -87,6 +86,12 @@ interface MovieDao {
      * @param movieList is new entities for movie table
      */
     @Transaction
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateAll(movieList: List<Movie>)
+
+    /**
+     * filter movies by title
+     */
+    @Query("SELECT * FROM movies WHERE title LIKE :searchQuery")
+    fun searchDatabase(searchQuery: String): List<Movie>
 }

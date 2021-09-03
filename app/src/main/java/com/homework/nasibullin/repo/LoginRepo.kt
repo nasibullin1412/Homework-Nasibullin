@@ -21,7 +21,7 @@ class LoginRepo @Inject constructor(): BaseDataSource() {
      * get user session Id
      * @param userLogin with user login, pass and request token
      */
-    suspend fun loginUserFlow(userLogin: UserLogin): Flow<Resource<AuthenticateResponse>> {
+    fun loginUserFlow(userLogin: UserLogin): Flow<Resource<AuthenticateResponse>> {
         return flow {
             val result = safeApiCall{ App.instance.apiService.postUserRequestKey(userLogin = userLogin)}
             emit(result)
@@ -31,7 +31,7 @@ class LoginRepo @Inject constructor(): BaseDataSource() {
     /**
      * get request token
      */
-    suspend fun getRequest(): Flow<Resource<AuthenticateResponse>> {
+    fun getRequest(): Flow<Resource<AuthenticateResponse>> {
         return flow {
             val result = safeApiCall{ App.instance.apiService.getRequestKey()}
             emit(result)
@@ -40,9 +40,9 @@ class LoginRepo @Inject constructor(): BaseDataSource() {
 
     /**
      * get session id of user
-     * @param
+     * @param requestToken is request token of current user
      */
-    suspend fun getSessionId(requestToken: String): Flow<Resource<SessionIdResponse>> {
+    fun getSessionId(requestToken: String): Flow<Resource<SessionIdResponse>> {
         return flow {
             val result = safeApiCall{ App.instance.apiService.postUserSessionId(UserRequest(requestToken))}
             emit(result)
@@ -52,10 +52,10 @@ class LoginRepo @Inject constructor(): BaseDataSource() {
     /**
      * set session id to Encrypted Shared Preference
      */
-    fun setSessionId(sessionId:String){
+    fun setEncryptedData(key: String, value: String){
         SharedPreferenceUtils.setEncryptedValue(
-            SharedPreferenceUtils.SESSION_ID,
-            sessionId
+            key,
+            value
         )
     }
 }

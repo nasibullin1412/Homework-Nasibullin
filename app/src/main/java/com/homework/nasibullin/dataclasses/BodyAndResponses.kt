@@ -1,4 +1,5 @@
 package com.homework.nasibullin.dataclasses
+
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

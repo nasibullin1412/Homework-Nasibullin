@@ -9,9 +9,8 @@ import com.homework.nasibullin.dataclasses.GenreDto
 import com.homework.nasibullin.datasources.Resource
 import com.homework.nasibullin.fragments.MainFragment
 import com.homework.nasibullin.repo.MovieListDataRepo
-import com.homework.nasibullin.security.SharedPreferenceUtils
-import com.homework.nasibullin.utils.NetworkConstants.MOVIE_PAGE_SIZE
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -25,37 +24,60 @@ class MainFragmentViewModel @Inject constructor (
     private var numberOfVariant: Int = 0
     val movieList: LiveData<Resource<List<MovieDto>>> get() = _movieList
     private val _movieList = MutableLiveData<Resource<List<MovieDto>>>()
-    var currentMovieList: Collection<MovieDto>? = null
+    private var currentMovieList: Collection<MovieDto>? = null
     var currentGenre: Long = 0
     val genreList: LiveData<Resource<List<GenreDto>>> get() = _genreList
     private val _genreList = MutableLiveData<Resource<List<GenreDto>>>()
+    val signal: LiveData<Boolean> get() = _signal
+    private val _signal = MutableLiveData<Boolean>()
 
-    fun getGenreList(){
+    private val waitAfterSubmit = 2000
+
+    /**
+     * do get genre list
+     */
+    fun doGetGenreList(){
         viewModelScope.launch {
-            repository.getRemoteGenres()
+            var isNeedRemoteAction = false
+            repository.getLocalGenres()
                 .catch { e->
                     _genreList.value = Resource.error(e.toString())
                 }
-                .collect{
-                    _genreList.value = it
+                .collect {
+                    if (it.status != Resource.Status.FAILURE && !it.data.isNullOrEmpty()) {
+                        _genreList.value = it
+                    }
+                    else{
+                        isNeedRemoteAction = true
+                    }
                 }
+            if (isNeedRemoteAction){
+                doGetRemoteGenre()
+            }
         }
     }
 
-    fun setGenreListToSharedPref(genreList: List<GenreDto>){
-        for (genre in genreList){
-            SharedPreferenceUtils.setValueToSharedPreference(genre.genreId.toString(), genre.title)
+    /**
+     * do get remote genre list
+     */
+    private suspend fun doGetRemoteGenre(){
+        repository.getRemoteGenres()
+            .catch { e->
+                _genreList.value = Resource.error(e.toString())
+            }
+            .collect{
+                _genreList.value = it
+            }
+        if (_genreList.value?.status == Resource.Status.SUCCESS && _genreList.value?.data != null){
+            repository.updateGenreDatabase(_genreList.value?.data
+                ?: throw IllegalArgumentException("Value required"))
         }
-    }
-
-    fun getGenreNameById(id: Long): String{
-        return SharedPreferenceUtils.getSharedPreference(id.toString())
     }
 
     /**
      * fetching local movie list data
      */
-    private suspend fun initMovieList() {
+    private suspend fun doInitMovieList() {
         repository.getLocalData()
                 .catch { e ->
                     _movieList.value=Resource.error(e.toString())
@@ -69,23 +91,27 @@ class MainFragmentViewModel @Inject constructor (
     /**
      * fetching update movie list data on server
      */
-    private suspend fun updateMovieList(){
+    private suspend fun doUpdateMovieList(){
         numberOfVariant++
         repository.getRemoteData()
             .catch { e ->
                 _movieList.value=Resource.error(e.toString())
             }
             .collect {
-                currentMovieList = it.data?.take(MOVIE_PAGE_SIZE)
+                currentMovieList = it.data
                 _movieList.value= filterMoviesByGenre(it)
             }
     }
 
-    private suspend fun updateDatabase() {
+    /**
+     * do update movie database
+     */
+    private suspend fun doUpdateDatabase() {
         if (!currentMovieList.isNullOrEmpty()) {
             repository.updateDatabase(
                 currentMovieList?.toList() ?: throw IllegalArgumentException("currentMovieList")
             )
+
         }
     }
 
@@ -93,16 +119,18 @@ class MainFragmentViewModel @Inject constructor (
      * asynchronous request to take data about the list of movies
      * @param isSwipe: false, when need to init data, true, when need to update data
      */
-    fun getMovieList(isSwipe: Boolean){
+    fun doGetMovieList(isSwipe: Boolean){
         viewModelScope.launch {
             if (!isSwipe) {
-                initMovieList()
+                doInitMovieList()
             }
             if (currentMovieList.isNullOrEmpty() || isSwipe){
-                updateMovieList()
-                updateDatabase()
+                doGetRemoteGenre()
+                doUpdateMovieList()
+                doUpdateDatabase()
+                delay(waitAfterSubmit.toLong())
             }
-
+            _signal.value = !(_signal.value?: true)
         }
     }
 
@@ -118,9 +146,26 @@ class MainFragmentViewModel @Inject constructor (
      */
     fun filterMoviesByGenre(): List<MovieDto>? {
         return if (currentGenre != MainFragment.ALL_GENRE_ID.toLong()) {
-            currentMovieList?.filter { it.genre == currentGenre }
+            currentMovieList?.filter { it.genre.genreId == currentGenre }
         } else {
             currentMovieList?.toList()
+        }
+    }
+
+    /**
+     * do filter movie by query
+     * @param query is query with movie name, which need to find
+     */
+    fun doFilterMoviesByTitle(query:String){
+        viewModelScope.launch {
+            repository.getSearchMovies(query)
+                .catch { e ->
+                    _movieList.value = Resource.error(e.toString())
+                }
+                .collect {
+                    currentMovieList = it.data
+                    _movieList.value = filterMoviesByGenre(it)
+                }
         }
     }
 }

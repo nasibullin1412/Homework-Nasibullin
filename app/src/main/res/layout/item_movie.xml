@@ -13,7 +13,6 @@
         android:id="@+id/imgListMoviePoster"
         android:layout_width="@dimen/img_movie_poster_width"
         android:layout_height="@dimen/img_movie_poster_height"
-
         app:shapeAppearanceOverlay="@style/round_image_style"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

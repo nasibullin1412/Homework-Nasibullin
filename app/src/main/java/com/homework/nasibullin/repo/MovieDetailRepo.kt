@@ -19,7 +19,7 @@ class MovieDetailRepo @Inject constructor(): BaseDataSource() {
      * Loading movie cast from the backend
      * @param backId id of movie which cast needs to be downloaded
      */
-    suspend fun getRemoteCast(backId: Long): Flow<Resource<List<ActorDto>>> {
+    fun getRemoteCast(backId: Long): Flow<Resource<List<ActorDto>>> {
         return flow {
             val result = safeApiCall{ App.instance.apiService.getMovieCast(backId)}
             val resultDto = Converters.fromListCastResponseToActorDto(result)
@@ -29,12 +29,13 @@ class MovieDetailRepo @Inject constructor(): BaseDataSource() {
 
     /**
      * get movie details from database
+     * @param id is id of movie, which detail need load from database
      */
-    suspend fun getLocalMovie(id:Long): Flow<Resource<MovieDto>> {
+    fun getLocalMovie(id:Long): Flow<Resource<MovieDto>> {
         return flow {
-            val db = AppDatabase.instance
-            val result = getSafeLocalMovieDetail { db.movieDao().getMovieDetail(id) }
-            emit(result)
+            val result = getSafeLocalData { AppDatabase.instance.movieDao().getMovieDetail(id) }
+            val resultDto = Converters.fromMovieWithActorsToMovieDto(result)
+            emit(resultDto)
         }.flowOn(Dispatchers.IO)
     }
 
@@ -43,18 +44,21 @@ class MovieDetailRepo @Inject constructor(): BaseDataSource() {
      * @param movieDto movie details, which set to database
      */
     suspend fun addMovieWithActors(movieDto: MovieDto){
-        val db = AppDatabase.instance
         val movieId = movieDto.id
-        val actors = movieDto.actors.map{
+        val actors = movieDto.actors.map {
             Actor(
                 id = it.id,
                 name = it.name,
                 avatarUrl = it.avatarUrl
-        )
+            )
         }
-        db.actorDao().insertAll(actors)
+        AppDatabase.instance.actorDao().insertAll(actors)
         val movieToActorCrossRefList = ArrayList<MovieToActorCrossRef>()
         actors.forEach{movieToActorCrossRefList.add(MovieToActorCrossRef(null, movieId, it.id))}
-        movieToActorCrossRefList.forEach{updateDatabase { db.movieDao().insertMovieToActorCrossRef(it) }}
+        movieToActorCrossRefList.forEach {
+            updateDatabase {
+                AppDatabase.instance.movieDao().insertMovieToActorCrossRef(it)
+            }
+        }
     }
 }

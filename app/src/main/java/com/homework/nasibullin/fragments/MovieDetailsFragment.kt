@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -14,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.homework.nasibullin.R
 import com.homework.nasibullin.adapters.ActorAdapter
 import com.homework.nasibullin.dataclasses.MovieDto
@@ -42,7 +42,11 @@ class MovieDetailsFragment: Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        val movieDetailsView = inflater.inflate(R.layout.activity_movie_details, container, false)
+        val movieDetailsView = inflater.inflate(
+            R.layout.movie_details_fragment,
+            container,
+            false
+        )
         id = arguments?.getLong(KEY_ARGUMENT) ?: throw IllegalArgumentException("Title required")
         return movieDetailsView
     }
@@ -55,17 +59,15 @@ class MovieDetailsFragment: Fragment() {
     private fun init() {
         setCorrectShapeToCardView()
         setupObserver()
+        viewModel.doGetMovie(id)
     }
 
     /**
      * observer, which async wait of movie details loaded
      */
     private fun setupObserver(){
-        viewModel.getMovie(id)
         viewModel.movieDetail.observe(viewLifecycleOwner, {
-
             when (it.status) {
-
                 Resource.Status.SUCCESS -> {
                     if (it.data != null){
                         setupView(it.data)
@@ -74,41 +76,22 @@ class MovieDetailsFragment: Fragment() {
                         Utility.showToast("Null data", context)
                     }
                 }
-
-                Resource.Status.ERROR -> {
-                    Utility.showToast(it.message, context)
-                }
-
-                Resource.Status.LOADING -> {
-                    Utility.showToast(it.message, context)
-                }
-
-                Resource.Status.FAILURE -> {
-                    Utility.showToast(it.message, context)
-                }
+                else -> Utility.showToast(it.message, context)
             }
-
-
         })
-
+        viewModel.signal.observe(viewLifecycleOwner, {
+            disableShimmer()
+        })
     }
 
     /**
      * Filling in the fields of movie details
      */
     private fun setupView(movie: MovieDto){
-        view?.findViewById<ProgressBar>(R.id.pbMovieDetail)?.apply {
-            visibility = View.GONE
-        }
-        view?.findViewById<ImageView>(R.id.imgMoviePoster)?.load(IMAGE_BASE_URL + movie.posterUrl)
-        view?.findViewById<ImageView>(R.id.imgMoviePoster)?.apply {
-            visibility = View.VISIBLE
-        }
-        view?.findViewById<CardView>(R.id.cvMovieCard)?.apply {
-            visibility = View.VISIBLE
-        }
+        view?.findViewById<ImageView>(R.id.imgMoviePoster)
+            ?.load(IMAGE_BASE_URL + movie.posterUrl)
         view?.findViewById<TextView>(R.id.tvGenre)?.apply {
-            text = viewModel.getGenreNameById(movie.genre)
+            text = movie.genre.title
         }
         view?.findViewById<RatingBar>(R.id.rbMovieDetailStar)?.apply{
             rating = movie.rateScore.toFloat()
@@ -132,10 +115,27 @@ class MovieDetailsFragment: Fragment() {
     }
 
     /**
+     * disable shimmer after data loading end
+     */
+    private fun disableShimmer(){
+        view?.findViewById<ShimmerFrameLayout>(R.id.sflMovieDetail)?.apply {
+            stopShimmer()
+            visibility = View.GONE
+        }
+        view?.findViewById<ImageView>(R.id.imgMoviePoster)?.apply {
+            visibility = View.VISIBLE
+        }
+        view?.findViewById<CardView>(R.id.cvMovieCard)?.apply {
+            visibility = View.VISIBLE
+        }
+    }
+
+    /**
     * This function gives the correct shape (with top-right and top-left radius) to card view
     * */
     private fun setCorrectShapeToCardView() {
-        cardView = view?.findViewById(R.id.cvMovieCard) ?: throw IllegalArgumentException("CardView required")
+        cardView = view?.findViewById(R.id.cvMovieCard)
+            ?: throw IllegalArgumentException("CardView required")
         cardView.setBackgroundResource(R.drawable.sh_card_view_back)
     }
 
@@ -144,12 +144,17 @@ class MovieDetailsFragment: Fragment() {
      * @param movie is movie of which actors need to set in recycle view
      * */
     private fun prepareRecycleView(movie: MovieDto) {
-        actorRecycler = view?.findViewById(R.id.rvActorsList) ?: throw IllegalArgumentException("CrvActorList required")
+        actorRecycler = view?.findViewById(R.id.rvActorsList)
+            ?: throw IllegalArgumentException("CrvActorList required")
         actorAdapter = ActorAdapter()
         actorAdapter.submitList(movie.actors)
         val itemDecorator = ActorItemDecoration(leftRight = 12)
         actorRecycler.addItemDecoration(itemDecorator)
         actorRecycler.adapter = actorAdapter
-        actorRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        actorRecycler.layoutManager = LinearLayoutManager(
+            context,
+            RecyclerView.HORIZONTAL,
+            false
+        )
     }
 }

@@ -15,6 +15,10 @@ interface ActorDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(actor: Actor): Long
 
+    /**
+     * insert list of actors in actors table
+     * @param actorList is list of actors, which will be insert
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(actorList: List<Actor>)
 

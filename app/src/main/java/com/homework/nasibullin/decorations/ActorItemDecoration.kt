@@ -7,10 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * Item decoration for Genre Recycle View
  * */
-
-class ActorItemDecoration(private val topBottom: Int = 0, private val leftRight: Int): RecyclerView.ItemDecoration() {
-
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+class ActorItemDecoration(private val leftRight: Int)
+    : RecyclerView.ItemDecoration() {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
         super.getItemOffsets(outRect, view, parent, state)
         outRect.bottom = 0
         outRect.top = 0

@@ -8,12 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 /**
 * Item decoration for Movie Recycle View
 * */
-
 class MovieItemDecoration(private val topBottom: Int = 0,
                           private val right: Int = 0,
-                          private val spanNumber: Int = 0, ): RecyclerView.ItemDecoration() {
+                          private val spanNumber: Int = 0, )
+    : RecyclerView.ItemDecoration() {
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
         super.getItemOffsets(outRect, view, parent, state)
         val params = view.layoutParams as GridLayoutManager.LayoutParams
 

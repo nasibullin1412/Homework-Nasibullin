@@ -1,41 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/clActivityMovieDetails"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/custom_background"
-    >
-
-    <ProgressBar
-        android:id="@+id/pbMovieDetail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:indeterminateTint= "@color/black"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+    android:layout_height="match_parent">
 
     <!-- Image of movie poster with rounded corners-->
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/imgMoviePoster"
+        android:id="@+id/view8"
         android:layout_width="match_parent"
+        android:visibility="invisible"
         android:layout_height="wrap_content"
         tools:src="@drawable/wrath_of_man"
         android:scaleType="centerCrop"
-        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/round_image_style" />
 
-    <!--
-     Nested Scroll View is used since the exact content and amount of information in the movie
-     card is not constant and can change. Also, this view helps to place data on the screen of any device
-     -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,62 +27,45 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical"
-        android:nextFocusUp="@id/cvMovieCard">
+        android:nextFocusUp="@id/view10">
 
-        <!--
-        Card view was used because a large number of views can be conveniently placed on it, and also,
-         unlike FrameLayout, it allows you to round corners and make a shadow
-        -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/cvMovieCard"
+            android:id="@+id/view10"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/card_view_margin_top"
             android:minHeight="@dimen/card_view_min_height"
-            android:visibility="invisible"
-            app:layout_constrainedWidth="@id/imgMoviePoster"
+            app:layout_constrainedWidth="@id/view1"
             tools:cardCornerRadius="@dimen/card_view_corner_rad"
             tools:cardElevation="@dimen/card_view_corner_el"
             app:cardBackgroundColor="@color/custom_movie_card"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imgMoviePoster"
+            app:layout_constraintTop_toTopOf="@+id/view1"
 
             >
-            <!--
-                Used to enable relative positioning of views relative to each other.
-                The layout contains such views as the content of the text or the title of the film,
-                the content of which can vary from film to film, therefore, it is necessary that there
-                is no such case when some views overlap others
-            -->
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:minHeight="@dimen/card_view_min_height">
-                <!--
-                    A view in the form of a rounded rectangle that contains information about the genre
-                     of the movie
-                -->
+
                 <TextView
                     style="@style/film_genre_style"
-                    android:id="@+id/tvGenre"
+                    android:id="@+id/view2"
                     android:layout_marginStart="@dimen/sh_genre_margin_left"
                     android:layout_marginTop="@dimen/sh_genre_margin_top"
                     android:textSize="@dimen/sh_genre_text_size"
-
                     tools:text="@string/str_movie_genre"
-
+                    android:background="@color/color_shimmer"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     />
 
-
-                <!--
-                The view that contains the release date of the movie
-                -->
                 <TextView
-                    android:id="@+id/tvDate"
+                    android:id="@+id/view3"
+                    android:background="@color/color_shimmer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/release_date_margin_left"
@@ -108,16 +74,13 @@
                     android:textSize="@dimen/release_date_text_size"
                     android:textColor="@color/custom_text"
                     android:fontFamily="@font/release_date_font"
-                    app:layout_constraintStart_toEndOf="@id/tvGenre"
+                    app:layout_constraintStart_toEndOf="@id/view2"
                     app:layout_constraintTop_toTopOf="parent"
                     />
 
-
-                <!--
-                    The field that contains the release name of the movie
-                -->
                 <TextView
-                    android:id="@+id/tvMovieName"
+                    android:id="@+id/view4"
+                    android:background="@color/color_shimmer"
                     android:layout_width="@dimen/movie_name_width"
                     android:layout_height="wrap_content"
                     android:minHeight="@dimen/movie_name_height"
@@ -132,9 +95,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     />
 
-                <!--
-                    A view in the form of a oval that contains information about movie age rating
-                -->
                 <TextView
                     android:id="@+id/tvAgeCategory"
                     android:layout_width="@dimen/sh_age_category_oval_width"
@@ -151,32 +111,28 @@
                     app:layout_constraintTop_toTopOf="parent"
                     />
 
-                <!--
-                    Rating of the film.
-                    The task said not to do it through the Progress bar,
-                    so it was done simply through the icons in the linear layout
-                -->
-                    <RatingBar
-                        android:id="@+id/rbMovieDetailStar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="13dp"
-                        android:stepSize="@dimen/rb_movie_star_step_size"
-                        tools:rating="2"
-                        android:numStars="5"
-                        android:layout_marginStart="@dimen/star_layout_margin_left"
-                        android:layout_marginTop="@dimen/star_layout_margin_top"
-                        android:layout_marginBottom="@dimen/rb_movie_star_l_margin_b"
-                        style="@style/ImageRatingBar"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvMovieName"
-                        />
+                <RatingBar
+                    android:id="@+id/rbMovieDetailStar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="13dp"
+                    android:stepSize="@dimen/rb_movie_star_step_size"
+                    tools:rating="2"
+                    android:numStars="5"
+                    android:layout_marginStart="@dimen/star_layout_margin_left"
+                    android:layout_marginTop="@dimen/star_layout_margin_top"
+                    android:layout_marginBottom="@dimen/rb_movie_star_l_margin_b"
+                    style="@style/ImageRatingBar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view4"
+                    />
 
                 <!--
                     The view that contains the description of the movie. The size of the content can
                      be any (well, almost any)
                 -->
                 <TextView
-                    android:id="@+id/tvMovieDescription"
+                    android:id="@+id/view5"
+                    android:background="@color/color_shimmer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/movie_description_margin_left"
@@ -194,7 +150,7 @@
                     The view that contains the actors list name
                 -->
                 <TextView
-                    android:id="@+id/tvActorListName"
+                    android:id="@+id/view6"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/actor_list_name_height"
                     android:layout_marginStart="@dimen/actor_list_name_margin_left"
@@ -205,13 +161,14 @@
                     android:textColor="@color/custom_text"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvMovieDescription"/>
+                    app:layout_constraintTop_toBottomOf="@+id/view5"/>
 
                 <!--
                     Recycling view to display a list of movie actors
                 -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvActorsList"
+                <View
+                    android:background="@color/color_shimmer"
+                    android:id="@+id/view7"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/actor_list_layout_height"
                     tools:orientation="horizontal"
@@ -221,11 +178,12 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvActorListName"
+                    app:layout_constraintTop_toBottomOf="@id/view6"
                     tools:ignore="RtlSymmetry" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
     </androidx.core.widget.NestedScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,14 +12,12 @@ import com.homework.nasibullin.utils.NetworkConstants.IMAGE_BASE_URL
 import java.lang.StringBuilder
 
 class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    // Do once
     private var imgMoviePoster: ImageView = view.findViewById(R.id.imgListMoviePoster)
     private var tvMovieName: TextView = view.findViewById(R.id.tvListMovieName)
     private var tvMovieDescription: TextView = view.findViewById(R.id.tvListMovieDescription)
     private var tvMovieRating: RatingBar = view.findViewById(R.id.rbMovieStar)
     private var tvAgeCategory: TextView = view.findViewById(R.id.tvListAgeCategory)
 
-    // Do every time
     fun bind(movie: MovieDto) {
         imgMoviePoster.load(IMAGE_BASE_URL + movie.imageUrl)
         tvMovieName.text = movie.title

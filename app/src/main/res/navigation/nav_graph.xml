@@ -10,28 +10,29 @@
         android:name="com.homework.nasibullin.fragments.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/login_fragment">
-        <action android:id="@+id/action_loginFragment_to_mainFragment"
+        <action
+            android:id="@+id/action_loginFragment_to_mainFragment"
             app:destination="@id/mainFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popUpTo="@+id/nav_graph"
-            app:popUpToInclusive="true"
-            />
+            app:enterAnim="@animator/enter_anim"
+            app:exitAnim="@animator/exit_anim"
+            app:popEnterAnim="@animator/enter_anim"
+            app:popExitAnim="@animator/exit_anim"
+            app:popUpTo="@+id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <!-- MainFragment -->
     <fragment android:id="@+id/mainFragment"
         android:name="com.homework.nasibullin.fragments.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/list_of_movies">
+        tools:layout="@layout/movie_list_fragment">
         <action android:id="@+id/action_mainFragment_to_viewMovieDetails"
             app:destination="@id/viewMovieDetails"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
+            app:enterAnim="@animator/enter_anim"
+            app:exitAnim="@animator/exit_anim"
+            app:popEnterAnim="@animator/enter_anim"
+            app:popUpTo="@+id/viewMovieDetails"
+            app:popUpToInclusive="true"
             />
     </fragment>
 
@@ -39,28 +40,22 @@
     <fragment android:id="@+id/viewMovieDetails"
         android:name="com.homework.nasibullin.fragments.MovieDetailsFragment"
         android:label="fragment_view_transaction"
-        tools:layout="@layout/activity_movie_details">
+        tools:layout="@layout/movie_details_fragment">
     </fragment>
 
     <!-- ViewUserProfile -->
     <fragment android:id="@+id/viewUserProfile"
         android:name="com.homework.nasibullin.fragments.ProfileFragment"
         android:label="fragment_view_user_profile"
-        tools:layout="@layout/user_profile">
-        <action android:id="@+id/action_logout"
+        tools:layout="@layout/user_profile_fragment">
+        <action
+            android:id="@+id/action_viewUserProfile_to_loginFragment"
             app:destination="@id/loginFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popUpTo="@+id/nav_graph"
-            app:popUpToInclusive="true"
-            />
+            app:enterAnim="@animator/enter_anim"
+            app:exitAnim="@animator/exit_anim"
+            app:popEnterAnim="@animator/enter_anim"
+            app:popExitAnim="@animator/exit_anim"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
-
-
-
-
-
-
 </navigation>

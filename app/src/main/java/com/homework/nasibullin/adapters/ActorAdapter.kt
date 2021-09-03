@@ -12,12 +12,11 @@ import com.homework.nasibullin.holders.ActorViewHolder
 /**
 * Class Adapter to Actor list
 */
-class ActorAdapter(
-) : ListAdapter<ActorDto, RecyclerView.ViewHolder>(ActorCallback()) {
+class ActorAdapter: ListAdapter<ActorDto, RecyclerView.ViewHolder>(ActorCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater: LayoutInflater = LayoutInflater.from(parent.context)
-        return ActorViewHolder(inflater.inflate(R.layout.item_actor, parent, false))
+        return ActorViewHolder(inflater.inflate(R.layout.actor_item, parent, false))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
