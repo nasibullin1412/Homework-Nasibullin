@@ -7,10 +7,26 @@
         <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/bg_spinner.xml" value="0.2263888888888889" />
         <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/border_bottom.xml" value="0.2263888888888889" />
         <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/bottom_nav_tab_background.xml" value="0.2263888888888889" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/bottom_nav_view_color.xml" value="0.19398148148148148" />
         <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/btn_selector.xml" value="0.2263888888888889" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/btn_shape.xml" value="0.19398148148148148" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/ic__color.xml" value="0.19398148148148148" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/ic__color_w.xml" value="0.19398148148148148" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/ic_active_indicator.xml" value="0.19398148148148148" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/ic_avatar.xml" value="0.19398148148148148" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/ic_launcher_background.xml" value="0.19398148148148148" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/ic_search.xml" value="0.19398148148148148" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/ic_settings.xml" value="0.19398148148148148" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/ic_spinner_arrow.xml" value="0.19398148148148148" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/ic_user.xml" value="0.19398148148148148" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/ic_vector.xml" value="0.19398148148148148" />
         <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/logout_button_selector.xml" value="0.2263888888888889" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/logout_button_shape.xml" value="0.3402777777777778" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/rb_custom_icons.xml" value="0.19398148148148148" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/sh_age_category.xml" value="0.3402777777777778" />
         <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/sh_age_category_sm.xml" value="0.2263888888888889" />
         <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/sh_card_view_back.xml" value="0.2263888888888889" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/sh_genre_rectangle.xml" value="0.19398148148148148" />
         <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/drawable/sh_selected_genre_rectangle.xml" value="0.18009259259259258" />
         <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/activity_main.xml" value="0.12635869565217392" />
         <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/actor_item.xml" value="0.21203703703703702" />
@@ -19,7 +35,7 @@
         <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/genre_item.xml" value="0.21203703703703702" />
         <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/item_movie.xml" value="0.2" />
         <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/list_of_movies.xml" value="0.136" />
-        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/login_fragment.xml" value="0.13903985507246377" />
+        <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/login_fragment.xml" value="0.536" />
         <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/movie_details_fragment.xml" value="0.21203703703703702" />
         <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/movie_list_fragment.xml" value="0.1" />
         <entry key="..\:/Users/nasib/mtsteta/app/src/main/res/layout/shimmer_item.xml" value="0.20972222222222223" />
@@ -30,7 +46,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
